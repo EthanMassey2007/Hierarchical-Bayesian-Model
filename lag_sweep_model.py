@@ -290,7 +290,6 @@ def build_base_dataframe() -> pd.DataFrame:
        .merge(idhm_df, on=["municipio", "year", "week"], how="left", validate="one_to_one")
    )
 
-
    print("Merged weekly row count:", len(df))
 
 
