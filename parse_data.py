@@ -57,7 +57,7 @@ def iso_week_to_month(year_series, week_series):
 # =========================================================
 # Config
 # =========================================================
-USE_FULL_COVARIATE_SET = True
+USE_FULL_COVARIATE_SET = False
 MAKE_PLOTS = True
 
 # Start with smaller covariate set for better convergence
@@ -65,10 +65,6 @@ BASE_COVARIATES = [
     "rainfall",
     "humidity",
     "temperature",
-    "idhm",
-    "air_pass_in",
-    "road_conec_in",
-    "fluv_conec_in",
 ]
 
 FULL_COVARIATES = [
