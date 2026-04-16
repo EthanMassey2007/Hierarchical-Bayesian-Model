@@ -597,8 +597,8 @@ with pm.Model(coords=coords) as model:
     )
 
     trace = pm.sample(
-        draws=400,
-        tune=600,
+        draws=1000,
+        tune=1500,
         chains=4,
         cores=4,
         target_accept=0.98,
