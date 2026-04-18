@@ -91,7 +91,7 @@ MAKE_PLOTS = True
 APPLY_LOG1P_TO_SKEWED_FEATURES = True
 
 # Change this one variable to control lag duration
-CASE_LAG_WEEKS = 2
+CASE_LAG_WEEKS = 8
 LAG_CASES_COL = f"cases_lag{CASE_LAG_WEEKS}"
 LAG_LOG_COL = f"log_cases_lag{CASE_LAG_WEEKS}"
 
@@ -626,7 +626,7 @@ with pm.Model(coords=coords) as model:
     )
 
     trace = pm.sample(
-        draws=1000,
+        draws=900,
         tune=1500,
         chains=4,
         cores=4,
