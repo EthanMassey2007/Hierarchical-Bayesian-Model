@@ -2,18 +2,12 @@ import os
 import re
 import unicodedata
 import warnings
-
-
 import numpy as np
 import pandas as pd
 import pymc as pm
 import arviz as az
 import matplotlib.pyplot as plt
-
-
 from sklearn.preprocessing import StandardScaler
-
-
 warnings.filterwarnings("ignore", category=FutureWarning)
 
 
@@ -142,8 +136,8 @@ START_YEAR = 2017
 END_YEAR = 2022
 
 
-START_LAG = 1
-END_LAG = 10
+START_LAG = 2
+END_LAG = 2
 LAG_VALUES = list(range(START_LAG, END_LAG + 1))
 
 
