@@ -130,7 +130,6 @@ RANDOM_SEED = 42
 
 SKEWED_FEATURES = [
    "air_pass_in",
-   "road_conec_in",
    "fluv_conec_in",
 ]
 
@@ -147,8 +146,7 @@ FULL_COVARIATES_NO_LAG = [
    "humidity",
    "temperature",
    "idhm",
-   "air_pass_in",
-   "road_conec_in",
+   "air_pass_in",,
    "fluv_conec_in",
 ]
 
