@@ -21,6 +21,12 @@ DATA_END_YEAR = 2023
 
 MAKE_PLOTS = True
 SAVE_OUTPUTS = True
+RUN_TRAIN_TEST_EVALUATION = True
+
+TRAIN_START_YEAR = 2017
+TRAIN_END_YEAR = 2022
+TEST_START_YEAR = 2023
+TEST_END_YEAR = 2023
 
 DRAWS = 1000
 TUNE = 2000
@@ -173,20 +179,58 @@ def build_model_dataframe() -> pd.DataFrame:
 # =========================================================
 # Model
 # =========================================================
-def prepare_arrays(df: pd.DataFrame):
+def prepare_arrays(
+    df: pd.DataFrame,
+    *,
+    municipio_levels=None,
+    week_levels=None,
+    year_levels=None,
+    scaler=None,
+    allow_unseen_years=False,
+):
     df = df.copy()
-    df["municipio_idx"], municipios = pd.factorize(df["municipio"], sort=True)
 
-    week_levels = sorted(df["week"].unique().tolist())
+    if municipio_levels is None:
+        municipio_levels = sorted(df["municipio"].unique().tolist())
+    if week_levels is None:
+        week_levels = sorted(df["week"].unique().tolist())
+    if year_levels is None:
+        year_levels = sorted(df["year"].unique().tolist())
+
+    municipio_to_idx = {municipio: idx for idx, municipio in enumerate(municipio_levels)}
+    df["municipio_idx"] = df["municipio"].map(municipio_to_idx)
+
     week_to_idx = {week: idx for idx, week in enumerate(week_levels)}
-    df["week_idx"] = df["week"].map(week_to_idx).astype(int)
+    df["week_idx"] = df["week"].map(week_to_idx)
 
-    year_levels = sorted(df["year"].unique().tolist())
     year_to_idx = {year: idx for idx, year in enumerate(year_levels)}
-    df["year_idx"] = df["year"].map(year_to_idx).astype(int)
+    df["year_idx"] = df["year"].map(year_to_idx)
 
-    scaler = StandardScaler()
-    X = scaler.fit_transform(df[BASE_COVARIATES].to_numpy(dtype=float))
+    missing_municipios = sorted(df.loc[df["municipio_idx"].isna(), "municipio"].unique())
+    missing_weeks = sorted(df.loc[df["week_idx"].isna(), "week"].unique())
+    missing_years = sorted(df.loc[df["year_idx"].isna(), "year"].unique())
+
+    if missing_municipios:
+        raise ValueError(f"Unseen municipalities in evaluation data: {missing_municipios}")
+    if missing_weeks:
+        raise ValueError(f"Unseen weeks in evaluation data: {missing_weeks}")
+    if missing_years and not allow_unseen_years:
+        raise ValueError(f"Unseen years in evaluation data: {missing_years}")
+
+    # Future/unseen years are encoded as -1 and handled as a zero year effect at
+    # prediction time. This avoids learning or sampling a test-year random effect.
+    if allow_unseen_years:
+        df["year_idx"] = df["year_idx"].fillna(-1)
+
+    df[["municipio_idx", "week_idx", "year_idx"]] = df[
+        ["municipio_idx", "week_idx", "year_idx"]
+    ].astype(int)
+
+    if scaler is None:
+        scaler = StandardScaler()
+        X = scaler.fit_transform(df[BASE_COVARIATES].to_numpy(dtype=float))
+    else:
+        X = scaler.transform(df[BASE_COVARIATES].to_numpy(dtype=float))
 
     return {
         "df": df,
@@ -195,7 +239,7 @@ def prepare_arrays(df: pd.DataFrame):
         "municipio_idx": df["municipio_idx"].to_numpy(dtype=int),
         "week_idx": df["week_idx"].to_numpy(dtype=int),
         "year_idx": df["year_idx"].to_numpy(dtype=int),
-        "municipios": municipios,
+        "municipios": municipio_levels,
         "week_levels": week_levels,
         "year_levels": year_levels,
         "scaler": scaler,
@@ -276,6 +320,109 @@ def fit_model(inputs):
     return model, trace, posterior_predictive
 
 
+def posterior_expected_cases(trace, inputs):
+    posterior = trace.posterior.stack(sample=("chain", "draw"))
+
+    intercept = posterior["intercept"].transpose("sample").values
+    beta = posterior["beta"].transpose("covariate", "sample").values
+    alpha_municipio = posterior["alpha_municipio"].transpose("municipio", "sample").values
+    week_effect = posterior["week_effect"].transpose("week", "sample").values
+    year_effect = posterior["year_effect"].transpose("year", "sample").values
+
+    year_contribution = np.zeros((len(inputs["year_idx"]), len(intercept)))
+    seen_year_mask = inputs["year_idx"] >= 0
+    if seen_year_mask.any():
+        year_contribution[seen_year_mask, :] = year_effect[
+            inputs["year_idx"][seen_year_mask],
+            :,
+        ]
+
+    eta = (
+        intercept[None, :]
+        + alpha_municipio[inputs["municipio_idx"], :]
+        + week_effect[inputs["week_idx"], :]
+        + year_contribution
+        + inputs["X"] @ beta
+    )
+    return np.exp(eta).mean(axis=1)
+
+
+def run_train_test_evaluation(df: pd.DataFrame):
+    train_df = df[
+        (df["year"] >= TRAIN_START_YEAR) & (df["year"] <= TRAIN_END_YEAR)
+    ].copy()
+    test_df = df[
+        (df["year"] >= TEST_START_YEAR) & (df["year"] <= TEST_END_YEAR)
+    ].copy()
+
+    if train_df.empty:
+        raise ValueError("Training split is empty. Check TRAIN_START_YEAR/TRAIN_END_YEAR.")
+    if test_df.empty:
+        raise ValueError("Testing split is empty. Check TEST_START_YEAR/TEST_END_YEAR.")
+
+    municipio_levels = sorted(train_df["municipio"].unique().tolist())
+    week_levels = sorted(train_df["week"].unique().tolist())
+    year_levels = sorted(train_df["year"].unique().tolist())
+
+    print("\nTrain/test evaluation split:")
+    print(f"Train years: {TRAIN_START_YEAR}-{TRAIN_END_YEAR}, rows: {len(train_df)}")
+    print(f"Test years: {TEST_START_YEAR}-{TEST_END_YEAR}, rows: {len(test_df)}")
+    print("No-leakage policy: encoders and scaler are fit on training data only.")
+    print("Unseen test years use a zero year effect, not a learned test-year effect.")
+
+    train_inputs = prepare_arrays(
+        train_df,
+        municipio_levels=municipio_levels,
+        week_levels=week_levels,
+        year_levels=year_levels,
+    )
+    test_inputs = prepare_arrays(
+        test_df,
+        municipio_levels=municipio_levels,
+        week_levels=week_levels,
+        year_levels=year_levels,
+        scaler=train_inputs["scaler"],
+        allow_unseen_years=True,
+    )
+
+    _, train_trace, train_posterior_predictive = fit_model(train_inputs)
+
+    train_pred_mean = train_posterior_predictive["cases"].mean(axis=(0, 1))
+    test_pred_mean = posterior_expected_cases(train_trace, test_inputs)
+
+    train_metrics = compute_metrics(train_inputs["y"], train_pred_mean)
+    test_metrics = compute_metrics(test_inputs["y"], test_pred_mean)
+
+    print("\nTrain metrics:")
+    for key, value in train_metrics.items():
+        print(f"{key}: {value:.4f}")
+
+    print("\nTest metrics:")
+    for key, value in test_metrics.items():
+        print(f"{key}: {value:.4f}")
+
+    if SAVE_OUTPUTS:
+        metrics_path = os.path.join(BASE_DIR, "base_model_train_test_metrics.csv")
+        predictions_path = os.path.join(BASE_DIR, "base_model_test_predictions.csv")
+
+        metrics_df = pd.DataFrame(
+            [
+                {"split": "train", **train_metrics},
+                {"split": "test", **test_metrics},
+            ]
+        )
+        metrics_df.to_csv(metrics_path, index=False)
+
+        test_output_df = test_inputs["df"][
+            ["municipio", "year", "week", "date", "cases"]
+        ].copy()
+        test_output_df["predicted_cases"] = test_pred_mean
+        test_output_df.to_csv(predictions_path, index=False)
+
+        print(f"\nSaved train/test metrics to: {metrics_path}")
+        print(f"Saved test predictions to: {predictions_path}")
+
+
 def main():
     df = build_model_dataframe()
     inputs = prepare_arrays(df)
@@ -332,6 +479,9 @@ def main():
         plt.title("Base hierarchical model: actual vs predicted")
         plt.tight_layout()
         plt.show()
+
+    if RUN_TRAIN_TEST_EVALUATION:
+        run_train_test_evaluation(df)
 
 
 if __name__ == "__main__":
