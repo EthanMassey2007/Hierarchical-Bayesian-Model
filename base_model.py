@@ -16,11 +16,9 @@ warnings.filterwarnings("ignore", category=FutureWarning)
 # =========================================================
 # Configuration
 # =========================================================
-TARGET_STATE = "RJ"
 DATA_START_YEAR = 2017
 DATA_END_YEAR = 2023
 
-CASE_LAG_WEEKS = 2
 MAKE_PLOTS = True
 SAVE_OUTPUTS = True
 
@@ -36,30 +34,6 @@ BASE_COVARIATES = [
     "humidity",
     "temperature",
     "idhm",
-    "log_population",
-    "log_density_2022",
-    "hub_degree",
-    "hub_proximity_pct",
-    "air_pass_in",
-    "air_pass_out",
-    "air_conec_in",
-    "air_conec_out",
-    "road_conec_in",
-    "road_conec_out",
-    "fluv_conec_in",
-    "fluv_conec_out",
-    "log_cases_lag",
-]
-
-SKEWED_FEATURES = [
-    "air_pass_in",
-    "air_pass_out",
-    "air_conec_in",
-    "air_conec_out",
-    "road_conec_in",
-    "road_conec_out",
-    "fluv_conec_in",
-    "fluv_conec_out",
 ]
 
 
@@ -68,12 +42,7 @@ SKEWED_FEATURES = [
 # =========================================================
 BASE_DIR = os.path.dirname(__file__)
 DATA_DIR = os.path.join(BASE_DIR, "data")
-
 COMBINED_FILE = os.path.join(DATA_DIR, "complete_combined_datasets.csv")
-MUNICIPIOS_FILE = os.path.join(DATA_DIR, "municipios.csv")
-AERO_FILE = os.path.join(DATA_DIR, "aero_anac_2017_2023.parquet")
-FLUVI_FILE = os.path.join(DATA_DIR, "fluvi_road_ibge.parquet")
-HUB_FILE = os.path.join(DATA_DIR, "hub_pop_density.csv")
 
 
 # =========================================================
@@ -148,316 +117,51 @@ def summarize_diagnostics(trace):
 
 
 # =========================================================
-# Feature engineering
+# Data preparation
 # =========================================================
-def build_municipio_lookup() -> pd.DataFrame:
-    municipios = clean_columns(pd.read_csv(MUNICIPIOS_FILE))
-    municipios["state_code"] = municipios["city"].astype(str).str.extract(
-        r"/([A-Z]{2})$",
-        expand=False,
-    )
-    municipios = municipios[municipios["state_code"] == TARGET_STATE].copy()
-    municipios["municipio"] = municipios["city"].apply(normalize_name)
-    municipios["ibge_code"] = pd.to_numeric(municipios["ibgeid"], errors="coerce")
-
-    municipios_lookup = (
-        municipios[["municipio", "ibge_code"]]
-        .dropna()
-        .drop_duplicates()
-        .assign(ibge_code=lambda d: d["ibge_code"].astype(int))
-    )
-
-    hub = clean_columns(pd.read_csv(HUB_FILE))
-    hub = hub[hub["uf"].astype(str).str.upper() == TARGET_STATE].copy()
-    hub["municipio"] = hub["nm_municipio"].apply(normalize_name)
-    hub["ibge_code"] = pd.to_numeric(hub["co_ibge"], errors="coerce")
-    hub_lookup = (
-        hub[["municipio", "ibge_code"]]
-        .dropna()
-        .drop_duplicates()
-        .assign(ibge_code=lambda d: d["ibge_code"].astype(int))
-    )
-
-    lookup = pd.concat([municipios_lookup, hub_lookup], ignore_index=True)
-    duplicate_codes = lookup.groupby("municipio")["ibge_code"].nunique()
-    ambiguous = duplicate_codes[duplicate_codes > 1]
-    if not ambiguous.empty:
-        raise ValueError(f"Ambiguous IBGE lookup entries: {ambiguous.to_dict()}")
-
-    return lookup.drop_duplicates(subset=["municipio"], keep="first").reset_index(drop=True)
-
-
-def build_hub_features() -> pd.DataFrame:
-    hub = clean_columns(pd.read_csv(HUB_FILE))
-    hub = hub[hub["uf"].astype(str).str.upper() == TARGET_STATE].copy()
-
-    hub["municipio"] = hub["nm_municipio"].apply(normalize_name)
-    hub["ibge_code"] = pd.to_numeric(hub["co_ibge"], errors="coerce")
-    hub["hub_degree"] = pd.to_numeric(hub["grau"], errors="coerce")
-    hub["hub_proximity_pct"] = pd.to_numeric(hub["ind_proxi_per"], errors="coerce")
-    hub["density_2022"] = pd.to_numeric(hub["densidade_2022"], errors="coerce")
-    hub["population_2022"] = pd.to_numeric(hub["populacao_2022"], errors="coerce")
-
-    return (
-        hub[
-            [
-                "municipio",
-                "ibge_code",
-                "hub_degree",
-                "hub_proximity_pct",
-                "density_2022",
-                "population_2022",
-            ]
-        ]
-        .dropna(subset=["municipio", "ibge_code"])
-        .drop_duplicates(subset=["ibge_code"])
-        .assign(ibge_code=lambda d: d["ibge_code"].astype(int))
-    )
-
-
-def build_aero_features(valid_ibge) -> pd.DataFrame:
-    aero = clean_columns(pd.read_parquet(AERO_FILE))
-    aero = aero.rename(columns={"ano": "year", "mes": "month"})
-
-    numeric_cols = [
-        "year",
-        "month",
-        "co_muni_ori",
-        "co_muni_des",
-        "aero_pass",
-        "aero_pass_week",
-        "aero_conec",
-    ]
-    for col in numeric_cols:
-        aero[col] = pd.to_numeric(aero[col], errors="coerce")
-
-    aero = aero.dropna(subset=["year", "month", "co_muni_ori", "co_muni_des"]).copy()
-    for col in ["year", "month", "co_muni_ori", "co_muni_des"]:
-        aero[col] = aero[col].astype(int)
-
-    aero = aero[
-        (aero["year"] >= DATA_START_YEAR)
-        & (aero["year"] <= DATA_END_YEAR)
-        & (
-            aero["co_muni_ori"].isin(valid_ibge)
-            | aero["co_muni_des"].isin(valid_ibge)
-        )
-    ].copy()
-
-    aero_out = (
-        aero.groupby(["co_muni_ori", "year", "month"], as_index=False)
-        .agg(
-            {
-                "aero_pass": "sum",
-                "aero_pass_week": "sum",
-                "aero_conec": "sum",
-                "co_muni_des": "nunique",
-            }
-        )
-        .rename(
-            columns={
-                "co_muni_ori": "ibge_code",
-                "aero_pass": "air_pass_out",
-                "aero_pass_week": "air_pass_week_out",
-                "aero_conec": "air_conec_out",
-                "co_muni_des": "air_destinations_n",
-            }
-        )
-    )
-
-    aero_in = (
-        aero.groupby(["co_muni_des", "year", "month"], as_index=False)
-        .agg(
-            {
-                "aero_pass": "sum",
-                "aero_pass_week": "sum",
-                "aero_conec": "sum",
-                "co_muni_ori": "nunique",
-            }
-        )
-        .rename(
-            columns={
-                "co_muni_des": "ibge_code",
-                "aero_pass": "air_pass_in",
-                "aero_pass_week": "air_pass_week_in",
-                "aero_conec": "air_conec_in",
-                "co_muni_ori": "air_origins_n",
-            }
-        )
-    )
-
-    return aero_out.merge(
-        aero_in,
-        on=["ibge_code", "year", "month"],
-        how="outer",
-    ).fillna(0)
-
-
-def build_fluvi_road_features(valid_ibge) -> pd.DataFrame:
-    fluvi = clean_columns(pd.read_parquet(FLUVI_FILE))
-    numeric_cols = [
-        "co_muni_ori",
-        "co_muni_des",
-        "fluv_conec",
-        "road_conec",
-        "tot_conec",
-        "irregular_conec",
-    ]
-    for col in numeric_cols:
-        fluvi[col] = pd.to_numeric(fluvi[col], errors="coerce")
-
-    fluvi = fluvi.dropna(subset=["co_muni_ori", "co_muni_des"]).copy()
-    fluvi["co_muni_ori"] = fluvi["co_muni_ori"].astype(int)
-    fluvi["co_muni_des"] = fluvi["co_muni_des"].astype(int)
-    fluvi = fluvi[
-        fluvi["co_muni_ori"].isin(valid_ibge) | fluvi["co_muni_des"].isin(valid_ibge)
-    ].copy()
-
-    fluvi_out = (
-        fluvi.groupby("co_muni_ori", as_index=False)
-        .agg(
-            {
-                "fluv_conec": "sum",
-                "road_conec": "sum",
-                "tot_conec": "sum",
-                "irregular_conec": "sum",
-                "co_muni_des": "nunique",
-            }
-        )
-        .rename(
-            columns={
-                "co_muni_ori": "ibge_code",
-                "fluv_conec": "fluv_conec_out",
-                "road_conec": "road_conec_out",
-                "tot_conec": "tot_conec_out",
-                "irregular_conec": "irregular_conec_out",
-                "co_muni_des": "network_destinations_n",
-            }
-        )
-    )
-
-    fluvi_in = (
-        fluvi.groupby("co_muni_des", as_index=False)
-        .agg(
-            {
-                "fluv_conec": "sum",
-                "road_conec": "sum",
-                "tot_conec": "sum",
-                "irregular_conec": "sum",
-                "co_muni_ori": "nunique",
-            }
-        )
-        .rename(
-            columns={
-                "co_muni_des": "ibge_code",
-                "fluv_conec": "fluv_conec_in",
-                "road_conec": "road_conec_in",
-                "tot_conec": "tot_conec_in",
-                "irregular_conec": "irregular_conec_in",
-                "co_muni_ori": "network_origins_n",
-            }
-        )
-    )
-
-    return fluvi_out.merge(fluvi_in, on="ibge_code", how="outer").fillna(0)
-
-
 def build_model_dataframe() -> pd.DataFrame:
     df = clean_columns(pd.read_csv(COMBINED_FILE))
+    original_rows = len(df)
+
     df["municipio"] = df["municipio"].apply(normalize_name)
 
-    for col in ["year", "week", "cases"]:
+    numeric_cols = ["year", "week", "cases", *BASE_COVARIATES]
+    if "population" in df.columns:
+        numeric_cols.append("population")
+
+    for col in numeric_cols:
         df[col] = pd.to_numeric(df[col], errors="coerce")
 
-    covariate_cols = ["humidity", "idhm", "population", "rainfall", "temperature"]
-    for col in covariate_cols:
-        df[col] = pd.to_numeric(df[col], errors="coerce")
+    core_required = ["municipio", "year", "week", "cases"]
+    rows_before_core_drop = len(df)
+    df = df.dropna(subset=core_required).copy()
+    core_drop_count = rows_before_core_drop - len(df)
 
-    df = df.dropna(subset=["municipio", "year", "week", "cases"]).copy()
     df["year"] = df["year"].astype(int)
     df["week"] = df["week"].astype(int)
+
+    rows_before_year_filter = len(df)
     df = df[(df["year"] >= DATA_START_YEAR) & (df["year"] <= DATA_END_YEAR)].copy()
-
-    lookup = build_municipio_lookup()
-    hub = build_hub_features()
-
-    df = df.merge(lookup, on="municipio", how="left", validate="many_to_one")
-    missing_lookup = sorted(df[df["ibge_code"].isna()]["municipio"].unique().tolist())
-    if missing_lookup:
-        print("Municipios missing IBGE lookup:", missing_lookup[:20])
-
-    df = df.dropna(subset=["ibge_code"]).copy()
-    df["ibge_code"] = df["ibge_code"].astype(int)
-    valid_ibge = set(df["ibge_code"].unique())
+    year_filter_drop_count = rows_before_year_filter - len(df)
 
     df["date"] = iso_week_to_date(df["year"], df["week"])
+    rows_before_date_drop = len(df)
     df = df.dropna(subset=["date"]).copy()
-    df["month"] = df["date"].dt.month.astype(int)
+    date_drop_count = rows_before_date_drop - len(df)
 
-    df = df.merge(
-        hub.drop(columns=["municipio"]),
-        on="ibge_code",
-        how="left",
-        validate="many_to_one",
-    )
+    rows_before_covariate_drop = len(df)
+    df = df.dropna(subset=BASE_COVARIATES).copy()
+    covariate_drop_count = rows_before_covariate_drop - len(df)
 
-    aero = build_aero_features(valid_ibge)
-    fluvi = build_fluvi_road_features(valid_ibge)
-
-    df = df.merge(
-        aero,
-        on=["ibge_code", "year", "month"],
-        how="left",
-        validate="many_to_one",
-    ).merge(
-        fluvi,
-        on="ibge_code",
-        how="left",
-        validate="many_to_one",
-    )
-
-    fill_zero_cols = [
-        "air_pass_in",
-        "air_pass_out",
-        "air_pass_week_in",
-        "air_pass_week_out",
-        "air_conec_in",
-        "air_conec_out",
-        "air_origins_n",
-        "air_destinations_n",
-        "road_conec_in",
-        "road_conec_out",
-        "fluv_conec_in",
-        "fluv_conec_out",
-        "tot_conec_in",
-        "tot_conec_out",
-        "irregular_conec_in",
-        "irregular_conec_out",
-        "network_origins_n",
-        "network_destinations_n",
-    ]
-    for col in fill_zero_cols:
-        if col in df.columns:
-            df[col] = df[col].fillna(0)
-
-    df["population"] = df["population"].fillna(df["population_2022"])
-    df["density_2022"] = df["density_2022"].fillna(0)
-    df["hub_degree"] = df["hub_degree"].fillna(0)
-    df["hub_proximity_pct"] = df["hub_proximity_pct"].fillna(0)
-
-    df = df.sort_values(["municipio", "date"]).reset_index(drop=True)
-    df["cases_lag"] = df.groupby("municipio")["cases"].shift(CASE_LAG_WEEKS)
-    df["log_cases_lag"] = np.log1p(df["cases_lag"])
-    df["log_population"] = np.log1p(df["population"])
-    df["log_density_2022"] = np.log1p(df["density_2022"])
-
-    for col in SKEWED_FEATURES:
-        df[col] = np.log1p(df[col].clip(lower=0))
-
-    required = ["cases", *BASE_COVARIATES]
-    df = df.dropna(subset=required).copy()
     df["cases"] = df["cases"].clip(lower=0).astype(int)
+    df = df.sort_values(["municipio", "date"]).reset_index(drop=True)
 
+    print("Missing-data handling: rows with NaN in required fields are dropped.")
+    print(f"Original rows: {original_rows}")
+    print(f"Dropped missing municipio/year/week/cases: {core_drop_count}")
+    print(f"Dropped outside {DATA_START_YEAR}-{DATA_END_YEAR}: {year_filter_drop_count}")
+    print(f"Dropped invalid ISO week dates: {date_drop_count}")
+    print(f"Dropped missing covariates {BASE_COVARIATES}: {covariate_drop_count}")
     print("Model rows:", len(df))
     print("Municipios:", df["municipio"].nunique())
     print("Years:", sorted(df["year"].unique().tolist()))
@@ -545,7 +249,13 @@ def fit_model(inputs):
         mu = pm.Deterministic("mu", pm.math.exp(eta), dims="obs_id")
 
         alpha_nb = pm.Exponential("alpha_nb", 1.0)
-        pm.NegativeBinomial("cases", mu=mu, alpha=alpha_nb, observed=inputs["y"], dims="obs_id")
+        pm.NegativeBinomial(
+            "cases",
+            mu=mu,
+            alpha=alpha_nb,
+            observed=inputs["y"],
+            dims="obs_id",
+        )
 
         trace = pm.sample(
             draws=DRAWS,
@@ -569,7 +279,7 @@ def fit_model(inputs):
 def main():
     df = build_model_dataframe()
     inputs = prepare_arrays(df)
-    model, trace, posterior_predictive = fit_model(inputs)
+    _, trace, posterior_predictive = fit_model(inputs)
 
     pred_mean = posterior_predictive["cases"].mean(axis=(0, 1))
     metrics = compute_metrics(inputs["y"], pred_mean)
@@ -584,7 +294,19 @@ def main():
         print(f"{key}: {value:.4f}")
 
     print("\nPosterior summary:")
-    print(az.summary(trace, var_names=["intercept", "beta", "sigma_municipio", "sigma_week", "sigma_year", "alpha_nb"]))
+    print(
+        az.summary(
+            trace,
+            var_names=[
+                "intercept",
+                "beta",
+                "sigma_municipio",
+                "sigma_week",
+                "sigma_year",
+                "alpha_nb",
+            ],
+        )
+    )
 
     if SAVE_OUTPUTS:
         metrics_path = os.path.join(BASE_DIR, "base_model_metrics.csv")
@@ -592,9 +314,7 @@ def main():
 
         pd.DataFrame([{**metrics, **diagnostics}]).to_csv(metrics_path, index=False)
 
-        output_df = inputs["df"][
-            ["municipio", "ibge_code", "year", "week", "date", "cases"]
-        ].copy()
+        output_df = inputs["df"][["municipio", "year", "week", "date", "cases"]].copy()
         output_df["predicted_cases"] = pred_mean
         output_df.to_csv(predictions_path, index=False)
 
