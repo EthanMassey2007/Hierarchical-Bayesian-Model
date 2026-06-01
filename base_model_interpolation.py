@@ -27,7 +27,6 @@ TRAIN_START_YEAR = 2017
 TRAIN_END_YEAR = 2022
 TEST_START_YEAR = 2023
 TEST_END_YEAR = 2023
-LAG_WEEKS = 6
 
 DRAWS = 300
 TUNE = 600
@@ -37,17 +36,17 @@ TARGET_ACCEPT = 0.98
 RANDOM_SEED = 42
 
 BASE_COVARIATES = [
-    "rainfall_lag",
-    "humidity_lag",
-    "temperature_lag",
-    "idhm",
-]
-
-LAGGED_COVARIATES = [
     "rainfall",
     "humidity",
     "temperature",
+    "idhm",
 ]
+
+INTERPOLATED_COVARIATES = [
+    "humidity",
+    "temperature",
+]
+INTERPOLATION_LIMIT_WEEKS = 8
 
 
 # =========================================================
@@ -129,16 +128,52 @@ def summarize_diagnostics(trace):
     }
 
 
+def interpolate_weather_covariates(df: pd.DataFrame, label: str):
+    df = df.sort_values(["municipio", "date"]).copy()
+    missing_before = df[INTERPOLATED_COVARIATES].isna().sum()
+
+    interpolated_groups = []
+    for _, group in df.groupby("municipio", sort=False):
+        group = group.sort_values("date").copy()
+        for col in INTERPOLATED_COVARIATES:
+            time_series = group.set_index("date")[col]
+            group[col] = time_series.interpolate(
+                method="time",
+                limit=INTERPOLATION_LIMIT_WEEKS,
+                limit_area="inside",
+            ).to_numpy()
+        interpolated_groups.append(group)
+
+    df = pd.concat(interpolated_groups, ignore_index=True)
+
+    df["humidity"] = df["humidity"].clip(lower=0, upper=100)
+    df["temperature"] = df["temperature"].clip(lower=0, upper=45)
+
+    missing_after = df[INTERPOLATED_COVARIATES].isna().sum()
+    filled = missing_before - missing_after
+    print(f"{label} interpolation filled values:")
+    for col in INTERPOLATED_COVARIATES:
+        print(
+            f"  {col}: filled {int(filled[col])}, "
+            f"remaining missing {int(missing_after[col])}"
+        )
+
+    return df, {
+        f"{label}_{col}_filled": int(filled[col])
+        for col in INTERPOLATED_COVARIATES
+    }
+
+
 # =========================================================
 # Data preparation
 # =========================================================
-def build_model_dataframe() -> pd.DataFrame:
+def build_model_dataframe(*, apply_interpolation=True) -> pd.DataFrame:
     df = clean_columns(pd.read_csv(COMBINED_FILE))
     original_rows = len(df)
 
     df["municipio"] = df["municipio"].apply(normalize_name)
 
-    numeric_cols = ["year", "week", "cases", "idhm", *LAGGED_COVARIATES]
+    numeric_cols = ["year", "week", "cases", *BASE_COVARIATES]
     if "population" in df.columns:
         numeric_cols.append("population")
 
@@ -162,13 +197,15 @@ def build_model_dataframe() -> pd.DataFrame:
     df = df.dropna(subset=["date"]).copy()
     date_drop_count = rows_before_date_drop - len(df)
 
-    df = df.sort_values(["municipio", "date"]).reset_index(drop=True)
-    for col in LAGGED_COVARIATES:
-        df[f"{col}_lag"] = df.groupby("municipio")[col].shift(LAG_WEEKS)
+    if apply_interpolation:
+        df, _ = interpolate_weather_covariates(df, "full-data")
 
     rows_before_covariate_drop = len(df)
-    df = df.dropna(subset=BASE_COVARIATES).copy()
-    covariate_drop_count = rows_before_covariate_drop - len(df)
+    if apply_interpolation:
+        df = df.dropna(subset=BASE_COVARIATES).copy()
+        covariate_drop_count = rows_before_covariate_drop - len(df)
+    else:
+        covariate_drop_count = 0
 
     df["cases"] = df["cases"].clip(lower=0).astype(int)
     df = df.sort_values(["municipio", "date"]).reset_index(drop=True)
@@ -178,8 +215,15 @@ def build_model_dataframe() -> pd.DataFrame:
     print(f"Dropped missing municipio/year/week/cases: {core_drop_count}")
     print(f"Dropped outside {DATA_START_YEAR}-{DATA_END_YEAR}: {year_filter_drop_count}")
     print(f"Dropped invalid ISO week dates: {date_drop_count}")
-    print(f"Lagged covariates {LAGGED_COVARIATES} by {LAG_WEEKS} week(s).")
-    print(f"Dropped missing covariates {BASE_COVARIATES}: {covariate_drop_count}")
+    if apply_interpolation:
+        print(
+            "Interpolated humidity and temperature with municipality-level linear "
+            f"temporal interpolation, limit={INTERPOLATION_LIMIT_WEEKS} week(s), "
+            "internal gaps only."
+        )
+        print(f"Dropped missing covariates {BASE_COVARIATES}: {covariate_drop_count}")
+    else:
+        print("Interpolation deferred; missing covariates retained for split-specific handling.")
     print("Model rows:", len(df))
     print("Municipios:", df["municipio"].nunique())
     print("Years:", sorted(df["year"].unique().tolist()))
@@ -380,7 +424,13 @@ def run_train_test_evaluation(df: pd.DataFrame):
     print(f"Train years: {TRAIN_START_YEAR}-{TRAIN_END_YEAR}, rows: {len(train_df)}")
     print(f"Test years: {TEST_START_YEAR}-{TEST_END_YEAR}, rows: {len(test_df)}")
     print("No-leakage policy: encoders and scaler are fit on training data only.")
+    print("No-leakage policy: interpolation is applied separately to train and test.")
     print("Unseen test years use a zero year effect, not a learned test-year effect.")
+
+    train_df, _ = interpolate_weather_covariates(train_df, "train")
+    test_df, _ = interpolate_weather_covariates(test_df, "test")
+    train_df = train_df.dropna(subset=BASE_COVARIATES).copy()
+    test_df = test_df.dropna(subset=BASE_COVARIATES).copy()
 
     train_inputs = prepare_arrays(
         train_df,
@@ -414,8 +464,8 @@ def run_train_test_evaluation(df: pd.DataFrame):
         print(f"{key}: {value:.4f}")
 
     if SAVE_OUTPUTS:
-        metrics_path = os.path.join(BASE_DIR, "base_model_lag_train_test_metrics.csv")
-        predictions_path = os.path.join(BASE_DIR, "base_model_lag_test_predictions.csv")
+        metrics_path = os.path.join(BASE_DIR, "base_model_train_test_metrics.csv")
+        predictions_path = os.path.join(BASE_DIR, "base_model_test_predictions.csv")
 
         metrics_df = pd.DataFrame(
             [
@@ -436,7 +486,7 @@ def run_train_test_evaluation(df: pd.DataFrame):
 
 
 def main():
-    df = build_model_dataframe()
+    df = build_model_dataframe(apply_interpolation=True)
     inputs = prepare_arrays(df)
     _, trace, posterior_predictive = fit_model(inputs)
 
@@ -468,8 +518,8 @@ def main():
     )
 
     if SAVE_OUTPUTS:
-        metrics_path = os.path.join(BASE_DIR, "base_model_lag_metrics.csv")
-        predictions_path = os.path.join(BASE_DIR, "base_model_lag_predictions.csv")
+        metrics_path = os.path.join(BASE_DIR, "base_model_metrics.csv")
+        predictions_path = os.path.join(BASE_DIR, "base_model_predictions.csv")
 
         pd.DataFrame([{**metrics, **diagnostics}]).to_csv(metrics_path, index=False)
 
@@ -488,12 +538,13 @@ def main():
         plt.plot([line_min, line_max], [line_min, line_max], "r--")
         plt.xlabel("Actual cases")
         plt.ylabel("Posterior predictive mean cases")
-        plt.title("Lagged base hierarchical model: actual vs predicted")
+        plt.title("Base hierarchical model: actual vs predicted")
         plt.tight_layout()
         plt.show()
 
     if RUN_TRAIN_TEST_EVALUATION:
-        run_train_test_evaluation(df)
+        evaluation_df = build_model_dataframe(apply_interpolation=False)
+        run_train_test_evaluation(evaluation_df)
 
 
 if __name__ == "__main__":
