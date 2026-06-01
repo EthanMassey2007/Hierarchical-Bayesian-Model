@@ -169,15 +169,12 @@ FULL_COVARIATES_NO_LAG = [
 base_dir = os.path.dirname(__file__)
 data_dir = os.path.join(base_dir, "data")
 
-cases_file = os.path.join(data_dir, "cases.csv")
-temperature_file = os.path.join(data_dir, "temperature.csv")
-humidity_file = os.path.join(data_dir, "humidity.csv")
-rainfall_file = os.path.join(data_dir, "rainfall.csv")
-idhm_file = os.path.join(data_dir, "idhm.csv")
+combined_file = os.path.join(data_dir, "complete_combined_datasets.csv")
 
 municipios_file = os.path.join(data_dir, "municipios.csv")
 aero_file = os.path.join(data_dir, "aero_anac_2017_2023.parquet")
 fluvi_file = os.path.join(data_dir, "fluvi_road_ibge.parquet")
+hub_file = os.path.join(data_dir, "hub_pop_density.csv")
 
 
 # =========================================================
@@ -190,20 +187,16 @@ def restrict_years(d: pd.DataFrame) -> pd.DataFrame:
 
 
 def build_base_dataframe() -> pd.DataFrame:
-    cases_df = clean_columns(pd.read_csv(cases_file))
-    temp_df = clean_columns(pd.read_csv(temperature_file))
-    hum_df = clean_columns(pd.read_csv(humidity_file))
-    rain_df = clean_columns(pd.read_csv(rainfall_file))
-    idhm_df = clean_columns(pd.read_csv(idhm_file))
+    combined_df = clean_columns(pd.read_csv(combined_file))
     municipios_df = clean_columns(pd.read_csv(municipios_file))
+    hub_df = clean_columns(pd.read_csv(hub_file))
     fluvi_df = clean_columns(pd.read_parquet(fluvi_file))
 
     aero_df = None
     if USE_AIR_FEATURES:
         aero_df = clean_columns(pd.read_parquet(aero_file))
 
-    for d in [cases_df, temp_df, hum_df, rain_df, idhm_df]:
-        d["municipio"] = d["municipio"].apply(normalize_municipio_name)
+    combined_df["municipio"] = combined_df["municipio"].apply(normalize_municipio_name)
 
     municipios_df["state_code"] = municipios_df["city"].astype(str).str.extract(
         r"/([A-Z]{2})$",
@@ -222,76 +215,43 @@ def build_base_dataframe() -> pd.DataFrame:
         .rename(columns={"city_clean": "municipio", "ibgeid": "ibge_code"})
     )
 
+    hub_df = hub_df[hub_df["uf"].astype(str).str.upper() == TARGET_STATE].copy()
+    hub_df["municipio"] = hub_df["nm_municipio"].apply(normalize_municipio_name)
+    hub_df["ibge_code"] = pd.to_numeric(hub_df["co_ibge"], errors="coerce")
+    hub_lookup_df = (
+        hub_df[["municipio", "ibge_code"]]
+        .dropna()
+        .drop_duplicates()
+        .assign(ibge_code=lambda d: d["ibge_code"].astype(int))
+    )
+    lookup_df = (
+        pd.concat([lookup_df, hub_lookup_df], ignore_index=True)
+        .drop_duplicates(subset=["municipio"], keep="first")
+        .reset_index(drop=True)
+    )
+
     dup_counts = lookup_df.groupby("municipio")["ibge_code"].nunique()
     ambiguous_after_filter = dup_counts[dup_counts > 1]
     print("RJ municipios in lookup:", len(lookup_df))
     print("Ambiguous names after state filter:")
     print(ambiguous_after_filter)
 
-    for d in [cases_df, temp_df, hum_df, rain_df, idhm_df]:
-        d["year"] = pd.to_numeric(d["year"], errors="coerce").astype("Int64")
-        d["week"] = pd.to_numeric(d["week"], errors="coerce").astype("Int64")
+    for col in ["year", "week", "cases", "temperature", "humidity", "rainfall", "idhm"]:
+        combined_df[col] = pd.to_numeric(combined_df[col], errors="coerce")
 
-    cases_df["cases"] = pd.to_numeric(cases_df["cases"], errors="coerce")
-    temp_df["temperature"] = pd.to_numeric(temp_df["temperature"], errors="coerce")
-    hum_df["humidity"] = pd.to_numeric(hum_df["humidity"], errors="coerce")
-    rain_df["rainfall"] = pd.to_numeric(rain_df["rainfall"], errors="coerce")
-    idhm_df["idhm"] = pd.to_numeric(idhm_df["idhm"], errors="coerce")
-
-    cases_df = restrict_years(cases_df)
-    temp_df = restrict_years(temp_df)
-    hum_df = restrict_years(hum_df)
-    rain_df = restrict_years(rain_df)
-    idhm_df = restrict_years(idhm_df)
+    combined_df = restrict_years(combined_df)
 
     print("Core years after restriction:")
-    print("cases:", sorted(cases_df["year"].dropna().astype(int).unique().tolist()))
-    print("temp:", sorted(temp_df["year"].dropna().astype(int).unique().tolist()))
-    print("humidity:", sorted(hum_df["year"].dropna().astype(int).unique().tolist()))
-    print("rain:", sorted(rain_df["year"].dropna().astype(int).unique().tolist()))
-    print("idhm:", sorted(idhm_df["year"].dropna().astype(int).unique().tolist()))
+    print(sorted(combined_df["year"].dropna().astype(int).unique().tolist()))
 
-    cases_df = cases_df.groupby(["municipio", "year", "week"], as_index=False).agg(
-        {"cases": "sum"}
-    )
-    temp_df = temp_df.groupby(["municipio", "year", "week"], as_index=False).agg(
-        {"temperature": "mean"}
-    )
-    hum_df = hum_df.groupby(["municipio", "year", "week"], as_index=False).agg(
-        {"humidity": "mean"}
-    )
-    rain_df = rain_df.groupby(["municipio", "year", "week"], as_index=False).agg(
-        {"rainfall": "mean"}
-    )
-    idhm_df = idhm_df.groupby(["municipio", "year", "week"], as_index=False).agg(
-        {"idhm": "mean"}
-    )
-
-    df = (
-        cases_df.merge(
-            temp_df,
-            on=["municipio", "year", "week"],
-            how="left",
-            validate="one_to_one",
-        )
-        .merge(
-            hum_df,
-            on=["municipio", "year", "week"],
-            how="left",
-            validate="one_to_one",
-        )
-        .merge(
-            rain_df,
-            on=["municipio", "year", "week"],
-            how="left",
-            validate="one_to_one",
-        )
-        .merge(
-            idhm_df,
-            on=["municipio", "year", "week"],
-            how="left",
-            validate="one_to_one",
-        )
+    df = combined_df.groupby(["municipio", "year", "week"], as_index=False).agg(
+        {
+            "cases": "sum",
+            "temperature": "mean",
+            "humidity": "mean",
+            "rainfall": "mean",
+            "idhm": "mean",
+        }
     )
 
     print("Merged weekly row count:", len(df))
