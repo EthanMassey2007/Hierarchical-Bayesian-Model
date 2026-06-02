@@ -1,114 +1,224 @@
-# Hierarchical Bayesian Dengue Model
+# Hierarchical Bayesian Dengue Models
 
-This repository contains a research workflow for modeling weekly dengue case counts across municipalities in Rio de Janeiro, Brazil. The core model is a hierarchical Bayesian negative-binomial regression built with PyMC. It combines epidemiological, weather, socioeconomic, and transportation-connectivity covariates to estimate dengue case dynamics and compare different lag assumptions for prior case counts.
+This repository contains a model-comparison workflow for weekly dengue case counts across municipalities in Rio de Janeiro, Brazil. The models are hierarchical Bayesian negative-binomial regressions built with PyMC and evaluated with a held-out year split.
 
-The project is intended for exploratory modeling, lag sensitivity analysis, and train/test evaluation of municipal dengue risk signals.
+The current workflow uses a combined dataset:
 
-## Project Overview
+```text
+data/complete_combined_datasets.csv
+```
 
-The modeling pipeline:
+The model family is organized from a true baseline model through covariate, lagged-weather, interpolation, and lagged-case extensions.
 
-1. Loads weekly municipality-level dengue, weather, and socioeconomic data.
-2. Normalizes municipality names and joins them to IBGE municipality codes.
-3. Adds transportation/connectivity features from air, road, and fluvial datasets.
-4. Creates lagged case-count features by municipality.
-5. Standardizes covariates.
-6. Fits a hierarchical Bayesian count model with municipality, week, and year effects.
-7. Reports posterior diagnostics and predictive metrics.
-8. Optionally plots lag comparisons and actual-vs-predicted results.
+## Research Goal
 
-The main target is weekly `cases` for municipalities in Rio de Janeiro (`TARGET_STATE = "RJ"`).
+The main goal is to evaluate whether environmental and socioeconomic covariates, especially rainfall, improve dengue case modeling after accounting for municipality-level differences, seasonality, annual effects, and recent outbreak momentum.
+
+The models are designed to answer questions such as:
+
+- How much predictive signal comes from municipality, week, and year effects alone?
+- Do same-week weather and IDHM covariates improve the model?
+- Do lagged weather covariates improve the model?
+- Does interpolation of missing humidity and temperature values change results?
+- How much predictive power is added by lagged dengue cases?
+- Does lagged rainfall remain important after lagged cases are included?
+
+## Model Lineup
+
+| Model | Script | Description | Covariates |
+| --- | --- | --- | --- |
+| M0 | `base_model.py` | Base/null hierarchical model | None |
+| M1 | `base_model_covariates.py` | Base + same-week covariates | `rainfall`, `humidity`, `temperature`, `idhm` |
+| M2 | `base_model_lag_weather.py` | Base + lagged covariates | `rainfall_lag`, `humidity_lag`, `temperature_lag`, `idhm` |
+| M3 | `base_model_interpolation.py` | Base + covariates + interpolation | `rainfall`, interpolated `humidity`, interpolated `temperature`, `idhm` |
+| M4 | `base_model_lag_cases.py` | Base + covariates + lagged log cases | `rainfall`, `humidity`, `temperature`, `idhm`, `log_cases_lag` |
+| M5 | `base_model_lag_cases_weather.py` | Base + lagged covariates + lagged log cases | `rainfall_lag`, `humidity_lag`, `temperature_lag`, `idhm`, `log_cases_lag` |
+| M6 | `base_model_lag_cases_weather_interpolation.py` | Base + lagged covariates + lagged log cases + interpolation | `rainfall_lag`, interpolated `humidity_lag`, interpolated `temperature_lag`, `idhm`, `log_cases_lag` |
+
+## Model Structure
+
+All M0-M6 models use a negative-binomial likelihood for weekly dengue counts:
+
+```text
+cases_it ~ NegativeBinomial(mu_it, alpha)
+```
+
+with a log link:
+
+```text
+log(mu_it) = intercept
+             + municipality effect
+             + week-of-year effect
+             + year effect
+             + covariate effects
+```
+
+M0 excludes the covariate effects and functions as the true null baseline. M1-M6 add covariates or feature-engineering steps to test whether those additions improve prediction or change posterior covariate effects.
+
+The hierarchical terms are:
+
+- Municipality effects: persistent differences between municipalities.
+- Week effects: recurring seasonal patterns.
+- Year effects: annual outbreak intensity or reporting differences.
+
+Covariates are standardized before model fitting, so beta coefficients are interpreted per one-standard-deviation increase in the covariate.
+
+## Data Inputs
+
+Primary input:
+
+| File | Role |
+| --- | --- |
+| `data/complete_combined_datasets.csv` | Main weekly municipality-level modeling dataset. |
+
+Expected core columns:
+
+| Column | Role |
+| --- | --- |
+| `municipio` | Municipality name. |
+| `year` | ISO year. |
+| `week` | ISO week number. |
+| `cases` | Weekly dengue case count. |
+| `rainfall` | Weekly rainfall. |
+| `humidity` | Weekly humidity. |
+| `temperature` | Weekly temperature. |
+| `idhm` | Municipal Human Development Index covariate. |
+
+Additional data files used by support scripts:
+
+| File | Role |
+| --- | --- |
+| `data/hub_pop_density.csv` | Municipality lookup and population-density support data. |
+| `data/aero_anac_2017_2023.parquet` | Air transportation data for expanded/support workflows. |
+| `data/fluvi_road_ibge.parquet` | Road and fluvial connectivity data for expanded/support workflows. |
+| `data/adjacency_matrix_correct.parquet` | Spatial adjacency data for future spatial modeling. |
+| `data/municipios.csv` | Municipality metadata. |
+
+## Missing-Data Handling
+
+All models drop rows missing required core fields:
+
+```text
+municipio, year, week, cases
+```
+
+Models without interpolation drop rows missing their required covariates.
+
+Interpolation models fill missing `humidity` and `temperature` values using municipality-level linear temporal interpolation:
+
+```text
+x(t) = x(t0) + ((t - t0) / (t1 - t0)) * (x(t1) - x(t0))
+```
+
+where `t0` and `t1` are observed dates surrounding the missing value. Interpolation is limited to internal gaps of at most 8 weeks:
+
+```text
+INTERPOLATION_LIMIT_WEEKS = 8
+```
+
+Rainfall is not interpolated because it is assumed to be complete in the current dataset.
+
+For train/test evaluation, interpolation is applied separately to the training and testing periods to avoid using held-out data during training preprocessing.
+
+## Lag Definitions
+
+The lagged-case models use:
+
+```text
+CASE_LAG_WEEKS = 4
+log_cases_lag = log1p(cases from exactly 4 calendar weeks earlier)
+```
+
+The lagged-weather models use:
+
+```text
+WEATHER_LAG_WEEKS = 6
+rainfall_lag     = rainfall from exactly 6 calendar weeks earlier
+humidity_lag     = humidity from exactly 6 calendar weeks earlier
+temperature_lag  = temperature from exactly 6 calendar weeks earlier
+```
+
+Lag construction is municipality-specific and calendar-date based. The scripts validate that lagged values come from strictly earlier dates.
+
+For held-out test evaluation, rows are removed if their lagged case value would come from inside the held-out test period. This prevents leakage from future test outcomes into test predictions.
+
+## Train/Test Evaluation
+
+The main model scripts use:
+
+```text
+TRAIN_START_YEAR = 2017
+TRAIN_END_YEAR   = 2022
+TEST_START_YEAR  = 2023
+TEST_END_YEAR    = 2023
+```
+
+The training scaler and categorical encoders are fit only on the training data. The held-out test year is not assigned a learned year effect; unseen test years use a zero year-effect contribution during prediction.
+
+Metrics reported by the scripts include:
+
+- MAE
+- RMSE
+- WAPE
+- WAPE-based accuracy
+- R-squared
+- R-hat
+- Bulk ESS
+- Tail ESS
+
+The WAPE-based accuracy is:
+
+```text
+accuracy_pct = 100 * (1 - sum(abs(actual - predicted)) / sum(actual))
+```
+
+This is not classification accuracy. It is a normalized aggregate count-error metric where higher is better.
 
 ## Repository Structure
 
 ```text
 .
 |-- README.md
+|-- base_model.py
+|-- base_model_covariates.py
+|-- base_model_lag_weather.py
+|-- base_model_interpolation.py
+|-- base_model_lag_cases.py
+|-- base_model_lag_cases_weather.py
+|-- base_model_lag_cases_weather_interpolation.py
 |-- lag_sweep_model_fixed.py
 |-- year_split_model.py
 |-- parse_data.py
 |-- check_zeros.py
 |-- lag_sweep_results.csv
 `-- data/
-    |-- cases.csv
-    |-- temperature.csv
-    |-- humidity.csv
-    |-- rainfall.csv
-    |-- idhm.csv
-    |-- municipios.csv
+    |-- complete_combined_datasets.csv
+    |-- hub_pop_density.csv
     |-- aero_anac_2017_2023.parquet
     |-- fluvi_road_ibge.parquet
     |-- adjacency_matrix_correct.parquet
-    |-- complete_combined_datasets.csv
-    `-- hub_pop_density.csv
+    `-- municipios.csv
 ```
 
-## Main Scripts
+## Script Guide
 
 | Script | Purpose |
 | --- | --- |
-| `lag_sweep_model_fixed.py` | Fits the hierarchical Bayesian model across one or more lag values on the full configured time period. Saves lag metrics to `lag_sweep_results.csv`. |
-| `year_split_model.py` | Fits on a training period and evaluates on a held-out test period. Saves metrics to `lag_sweep_train_test_results.csv` when enabled. |
-| `parse_data.py` | Earlier end-to-end model/preprocessing script for building the merged modeling dataset and fitting a single model configuration. |
-| `check_zeros.py` | Small utility for checking zero-case rows for Rio de Janeiro in a local case dataset. |
+| `base_model.py` | M0 true baseline with no covariates. |
+| `base_model_covariates.py` | M1 same-week weather and IDHM covariate model. |
+| `base_model_lag_weather.py` | M2 lagged-weather covariate model. |
+| `base_model_interpolation.py` | M3 same-week covariate model with humidity/temperature interpolation. |
+| `base_model_lag_cases.py` | M4 same-week covariates plus lagged log cases. |
+| `base_model_lag_cases_weather.py` | M5 lagged weather plus lagged log cases. |
+| `base_model_lag_cases_weather_interpolation.py` | M6 lagged weather plus lagged log cases with humidity/temperature interpolation. |
+| `lag_sweep_model_fixed.py` | Lag-sweep support script using the combined dataset. |
+| `year_split_model.py` | Support script for train/test year-split modeling. |
+| `parse_data.py` | Support preprocessing/modeling script using the combined dataset. |
+| `check_zeros.py` | Utility for inspecting zero-case rows. |
 
-## Data Inputs
+## Quick Start
 
-The modeling scripts expect the following files under `data/`:
-
-| File | Expected role |
-| --- | --- |
-| `cases.csv` | Weekly dengue case counts with `municipio`, `year`, `week`, and `cases`. |
-| `temperature.csv` | Weekly temperature by municipality. |
-| `humidity.csv` | Weekly humidity by municipality. |
-| `rainfall.csv` | Weekly rainfall by municipality. |
-| `idhm.csv` | Weekly or repeated socioeconomic IDHM values by municipality. |
-| `municipios.csv` | Municipality metadata used to map names to IBGE codes and filter Rio de Janeiro. |
-| `aero_anac_2017_2023.parquet` | Air passenger/connectivity data. Used by `lag_sweep_model_fixed.py` and optionally by `year_split_model.py`. |
-| `fluvi_road_ibge.parquet` | Road and fluvial connectivity data keyed by IBGE municipality codes. |
-
-CSV column names are normalized to lowercase in the scripts. Municipality names are also lowercased, accent-stripped, and cleaned before joins.
-
-## Model Summary
-
-The main PyMC model estimates dengue counts with a negative-binomial likelihood:
-
-```text
-cases ~ NegativeBinomial(mu, alpha)
-log(mu) = intercept
-          + municipality random intercept
-          + week-of-year effect
-          + year effect
-          + standardized covariates
-```
-
-Typical covariates include:
-
-- Rainfall
-- Humidity
-- Temperature
-- IDHM
-- Lagged log case counts
-- Air passenger/connectivity features
-- Road connectivity features
-- Fluvial connectivity features
-- Optional time index in the train/test model
-
-The scripts report MAE, RMSE, WAPE, WAPE-based accuracy, R-squared, Rhat, bulk ESS, and tail ESS.
-
-## Requirements
-
-Use Python 3.10 or newer. The project depends on:
-
-- `numpy`
-- `pandas`
-- `pyarrow`
-- `pymc`
-- `arviz`
-- `matplotlib`
-- `scikit-learn`
-
-Install the dependencies with:
+Create and activate a virtual environment:
 
 ```bash
 python3 -m venv .venv
@@ -117,114 +227,89 @@ python -m pip install --upgrade pip
 python -m pip install numpy pandas pyarrow pymc arviz matplotlib scikit-learn
 ```
 
-For reproducible project use, consider saving the environment after installation:
+Run the true baseline:
 
 ```bash
-python -m pip freeze > requirements.txt
+python base_model.py
 ```
 
-## Quick Start
-
-From the repository root:
+Run the full lagged-cases, lagged-weather, interpolation model:
 
 ```bash
-source .venv/bin/activate
+python base_model_lag_cases_weather_interpolation.py
+```
+
+Run the lag-sweep support workflow:
+
+```bash
 python lag_sweep_model_fixed.py
 ```
 
-This will:
-
-- Build the merged modeling dataframe from `data/`.
-- Fit the configured lag values.
-- Print model diagnostics and predictive metrics.
-- Save `lag_sweep_results.csv` when `SAVE_RESULTS_CSV = True`.
-- Display plots when `MAKE_PLOTS = True`.
-
-To run the train/test year split workflow:
-
-```bash
-python year_split_model.py
-```
-
-By default, `year_split_model.py` trains on 2017-2022 and tests on 2023-2025.
-
 ## Configuration
 
-The main settings live near the top of each model script.
+The main settings are defined near the top of each model script.
 
-Common options:
+Common settings:
 
 | Setting | Description |
 | --- | --- |
-| `TARGET_STATE` | State filter for municipalities. Currently `RJ`. |
-| `START_YEAR`, `END_YEAR` | Year range for the full-data lag sweep. |
-| `TRAIN_START_YEAR`, `TRAIN_END_YEAR` | Training years in `year_split_model.py`. |
-| `TEST_START_YEAR`, `TEST_END_YEAR` | Held-out test years in `year_split_model.py`. |
-| `START_LAG`, `END_LAG` | Inclusive lag range to test. |
-| `MAKE_PLOTS` | Whether to show Matplotlib figures. |
-| `USE_FULL_COVARIATE_SET` | Whether to include the expanded transport/connectivity covariates. |
-| `APPLY_LOG1P_TO_SKEWED_FEATURES` | Whether to log-transform skewed connectivity features. |
-| `DRAWS`, `TUNE`, `CHAINS`, `CORES` | PyMC sampling controls. |
+| `DATA_START_YEAR`, `DATA_END_YEAR` | Full modeling year range. |
+| `TRAIN_START_YEAR`, `TRAIN_END_YEAR` | Training years for held-out evaluation. |
+| `TEST_START_YEAR`, `TEST_END_YEAR` | Test years for held-out evaluation. |
+| `CASE_LAG_WEEKS` | Number of weeks used for lagged cases. |
+| `WEATHER_LAG_WEEKS` | Number of weeks used for lagged weather. |
+| `INTERPOLATION_LIMIT_WEEKS` | Maximum internal gap length for interpolation models. |
+| `DRAWS`, `TUNE`, `CHAINS`, `CORES` | PyMC sampling settings. |
 | `TARGET_ACCEPT` | NUTS target acceptance rate. |
-| `RANDOM_SEED` | Sampling seed for repeatability. |
+| `MAKE_PLOTS` | Whether to show actual-vs-predicted plots. |
+| `SAVE_OUTPUTS` | Whether to save metrics and predictions as CSV files. |
+| `RUN_TRAIN_TEST_EVALUATION` | Whether to run the held-out train/test evaluation after the full-data fit. |
 
-For faster smoke tests, reduce the sampling settings, for example:
+PyMC sampling can take a long time. For a fast smoke test, reduce:
 
 ```python
-DRAWS = 200
-TUNE = 500
+DRAWS = 100
+TUNE = 200
 CHAINS = 2
 CORES = 2
 MAKE_PLOTS = False
 ```
 
-## Outputs
+For final research results, use larger sampling settings and report convergence diagnostics.
 
-`lag_sweep_model_fixed.py` writes:
+## Interpreting Betas
 
-- `lag_sweep_results.csv`
+Because covariates are standardized and the model uses a log link, beta coefficients are interpreted on the log expected-count scale.
 
-The current tracked result file contains one configured lag:
-
-| lag | accuracy_pct | mae | rmse | wape | r2 |
-| --- | ---: | ---: | ---: | ---: | ---: |
-| 2 | 55.90 | 3.11 | 10.95 | 0.441 | 0.933 |
-
-`year_split_model.py` writes:
-
-- `lag_sweep_train_test_results.csv`
-
-when `SAVE_RESULTS_CSV = True`.
-
-Both main workflows print posterior summaries and diagnostics to the console.
-
-## Metric Notes
-
-The reported `accuracy_pct` is based on WAPE:
+For example:
 
 ```text
-accuracy_pct = 100 * (1 - sum(abs(actual - predicted)) / sum(actual))
+beta[rainfall_lag] = 0.204
+exp(0.204) = 1.226
 ```
 
-This is not classification accuracy. It is a normalized aggregate error score where higher is better and 100% would be a perfect prediction under this metric.
+This corresponds to about a 22.6% increase in expected weekly cases for a one-standard-deviation increase in lagged rainfall, holding the other model terms constant.
+
+Posterior uncertainty should be assessed with the HDI, R-hat, and ESS. A covariate mean alone is not enough to determine whether an effect is reliable.
 
 ## Reproducibility Notes
 
-- PyMC sampling can take a long time with the default settings: `DRAWS = 1000`, `TUNE = 2000`, `CHAINS = 4`.
-- The models use `RANDOM_SEED = 42`, but exact results can still vary across operating systems, dependency versions, BLAS backends, and sampler behavior.
-- Some plots are displayed interactively with `plt.show()` and are not automatically saved as image files.
-- Large data files are stored directly in `data/`. If publishing this repository publicly, confirm that the datasets can be redistributed.
+- The scripts use `RANDOM_SEED = 42`.
+- Exact Bayesian sampling results may vary across machines and package versions.
+- Rows included in each model may differ if interpolation fills values that another model drops.
+- When comparing predictive metrics, confirm whether models are being evaluated on the same held-out rows.
+- Generated CSV outputs are disabled by default in most model scripts with `SAVE_OUTPUTS = False`.
 
-## Suggested GitHub Additions
+## Future Work
 
-For a more production-ready public repository, consider adding:
+Possible extensions include:
 
-- `requirements.txt` or `environment.yml`
-- `.gitignore` for virtual environments, Python caches, and generated outputs
-- A data license or citation section
-- A project license such as MIT, Apache-2.0, or GPL
-- Saved example plots under a `figures/` directory
+- Spatial random effects using municipality adjacency.
+- BYM2/CAR spatial models, potentially fit with R-INLA.
+- Rainfall nonlinearities, such as quadratic rainfall terms.
+- Rainfall interactions with IDHM or municipality vulnerability groups.
+- Posterior predictive interval coverage comparisons across M0-M6.
 
 ## License
 
-No license file is currently included. Add a license before distributing or reusing the project publicly.
+No license file is currently included. Add a license before distributing or reusing this project publicly.
