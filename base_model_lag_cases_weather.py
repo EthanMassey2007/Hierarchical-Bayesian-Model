@@ -27,7 +27,8 @@ TRAIN_START_YEAR = 2017
 TRAIN_END_YEAR = 2022
 TEST_START_YEAR = 2023
 TEST_END_YEAR = 2023
-LAG_WEEKS = 6
+CASE_LAG_WEEKS = 4
+WEATHER_LAG_WEEKS = 6
 
 DRAWS = 300
 TUNE = 600
@@ -41,9 +42,10 @@ BASE_COVARIATES = [
     "humidity_lag",
     "temperature_lag",
     "idhm",
+    "log_cases_lag",
 ]
 
-LAGGED_COVARIATES = [
+LAGGED_WEATHER_COVARIATES = [
     "rainfall",
     "humidity",
     "temperature",
@@ -138,7 +140,7 @@ def build_model_dataframe() -> pd.DataFrame:
 
     df["municipio"] = df["municipio"].apply(normalize_name)
 
-    numeric_cols = ["year", "week", "cases", "idhm", *LAGGED_COVARIATES]
+    numeric_cols = ["year", "week", "cases", "idhm", *LAGGED_WEATHER_COVARIATES]
     if "population" in df.columns:
         numeric_cols.append("population")
 
@@ -163,12 +165,51 @@ def build_model_dataframe() -> pd.DataFrame:
     date_drop_count = rows_before_date_drop - len(df)
 
     df = df.sort_values(["municipio", "date"]).reset_index(drop=True)
-    lag_lookup = df[["municipio", "date", *LAGGED_COVARIATES]].rename(
-        columns={col: f"{col}_lag" for col in LAGGED_COVARIATES}
+    weather_lookup = df[["municipio", "date", *LAGGED_WEATHER_COVARIATES]].rename(
+        columns={col: f"{col}_lag" for col in LAGGED_WEATHER_COVARIATES}
     )
-    lag_lookup["date"] = lag_lookup["date"] + pd.to_timedelta(LAG_WEEKS, unit="W")
-    lag_lookup["lag_source_date"] = lag_lookup["date"] - pd.to_timedelta(
-        LAG_WEEKS,
+    weather_lookup["date"] = weather_lookup["date"] + pd.to_timedelta(
+        WEATHER_LAG_WEEKS,
+        unit="W",
+    )
+    weather_lookup["weather_lag_source_date"] = weather_lookup[
+        "date"
+    ] - pd.to_timedelta(WEATHER_LAG_WEEKS, unit="W")
+    df = df.merge(
+        weather_lookup,
+        on=["municipio", "date"],
+        how="left",
+        validate="one_to_one",
+    )
+
+    expected_weather_source_date = df["date"] - pd.to_timedelta(
+        WEATHER_LAG_WEEKS,
+        unit="W",
+    )
+    rows_with_weather_lag = df["weather_lag_source_date"].notna()
+    invalid_weather_lag_rows = df[
+        rows_with_weather_lag
+        & (
+            (df["weather_lag_source_date"] != expected_weather_source_date)
+            | (df["weather_lag_source_date"] >= df["date"])
+        )
+    ]
+    if not invalid_weather_lag_rows.empty:
+        raise ValueError(
+            "Weather lag leakage check failed: at least one lagged weather value "
+            "does not come from the same municipality at a strictly earlier "
+            "expected date."
+        )
+
+    lag_lookup = df[["municipio", "date", "cases"]].rename(
+        columns={"cases": "cases_lag"}
+    )
+    lag_lookup["date"] = lag_lookup["date"] + pd.to_timedelta(
+        CASE_LAG_WEEKS,
+        unit="W",
+    )
+    lag_lookup["cases_lag_source_date"] = lag_lookup["date"] - pd.to_timedelta(
+        CASE_LAG_WEEKS,
         unit="W",
     )
     df = df.merge(
@@ -178,21 +219,22 @@ def build_model_dataframe() -> pd.DataFrame:
         validate="one_to_one",
     )
 
-    expected_source_date = df["date"] - pd.to_timedelta(LAG_WEEKS, unit="W")
-    rows_with_lag = df["lag_source_date"].notna()
+    expected_source_date = df["date"] - pd.to_timedelta(CASE_LAG_WEEKS, unit="W")
+    rows_with_lag = df["cases_lag"].notna()
     invalid_lag_rows = df[
         rows_with_lag
         & (
-            (df["lag_source_date"] != expected_source_date)
-            | (df["lag_source_date"] >= df["date"])
+            (df["cases_lag_source_date"] != expected_source_date)
+            | (df["cases_lag_source_date"] >= df["date"])
         )
     ]
     if not invalid_lag_rows.empty:
         raise ValueError(
-            "Weather lag leakage check failed: at least one lagged covariate "
-            "does not come from the same municipality at a strictly earlier "
-            "expected date."
+            "Lag leakage check failed: at least one lagged case value does not "
+            "come from the same municipality at a strictly earlier expected date."
         )
+
+    df["log_cases_lag"] = np.log1p(df["cases_lag"])
 
     rows_before_covariate_drop = len(df)
     df = df.dropna(subset=BASE_COVARIATES).copy()
@@ -207,8 +249,12 @@ def build_model_dataframe() -> pd.DataFrame:
     print(f"Dropped outside {DATA_START_YEAR}-{DATA_END_YEAR}: {year_filter_drop_count}")
     print(f"Dropped invalid ISO week dates: {date_drop_count}")
     print(
-        f"Lagged covariates {LAGGED_COVARIATES} by exactly "
-        f"{LAG_WEEKS} calendar week(s) within each municipality."
+        f"Lagged cases by exactly {CASE_LAG_WEEKS} calendar week(s) "
+        "within each municipality, using only strictly earlier dates."
+    )
+    print(
+        f"Lagged weather covariates {LAGGED_WEATHER_COVARIATES} by exactly "
+        f"{WEATHER_LAG_WEEKS} calendar week(s) within each municipality."
     )
     print(f"Dropped missing covariates {BASE_COVARIATES}: {covariate_drop_count}")
     print("Model rows:", len(df))
@@ -398,10 +444,18 @@ def run_train_test_evaluation(df: pd.DataFrame):
         (df["year"] >= TEST_START_YEAR) & (df["year"] <= TEST_END_YEAR)
     ].copy()
 
+    test_start_date = test_df["date"].min()
+    test_rows_before_lag_leak_filter = len(test_df)
+    test_df = test_df[test_df["cases_lag_source_date"] < test_start_date].copy()
+    dropped_test_lag_rows = test_rows_before_lag_leak_filter - len(test_df)
+
     if train_df.empty:
         raise ValueError("Training split is empty. Check TRAIN_START_YEAR/TRAIN_END_YEAR.")
     if test_df.empty:
-        raise ValueError("Testing split is empty. Check TEST_START_YEAR/TEST_END_YEAR.")
+        raise ValueError(
+            "Testing split is empty after removing rows whose lagged cases come "
+            "from inside the held-out test period."
+        )
 
     municipio_levels = sorted(train_df["municipio"].unique().tolist())
     week_levels = sorted(train_df["week"].unique().tolist())
@@ -411,6 +465,10 @@ def run_train_test_evaluation(df: pd.DataFrame):
     print(f"Train years: {TRAIN_START_YEAR}-{TRAIN_END_YEAR}, rows: {len(train_df)}")
     print(f"Test years: {TEST_START_YEAR}-{TEST_END_YEAR}, rows: {len(test_df)}")
     print("No-leakage policy: encoders and scaler are fit on training data only.")
+    print(
+        "No-leakage policy: test rows whose lagged cases come from inside the "
+        f"test period were dropped ({dropped_test_lag_rows} rows)."
+    )
     print("Unseen test years use a zero year effect, not a learned test-year effect.")
 
     train_inputs = prepare_arrays(
@@ -445,8 +503,14 @@ def run_train_test_evaluation(df: pd.DataFrame):
         print(f"{key}: {value:.4f}")
 
     if SAVE_OUTPUTS:
-        metrics_path = os.path.join(BASE_DIR, "base_model_lag_train_test_metrics.csv")
-        predictions_path = os.path.join(BASE_DIR, "base_model_lag_test_predictions.csv")
+        metrics_path = os.path.join(
+            BASE_DIR,
+            "base_model_lag_cases_weather_train_test_metrics.csv",
+        )
+        predictions_path = os.path.join(
+            BASE_DIR,
+            "base_model_lag_cases_weather_test_predictions.csv",
+        )
 
         metrics_df = pd.DataFrame(
             [
@@ -499,8 +563,11 @@ def main():
     )
 
     if SAVE_OUTPUTS:
-        metrics_path = os.path.join(BASE_DIR, "base_model_lag_metrics.csv")
-        predictions_path = os.path.join(BASE_DIR, "base_model_lag_predictions.csv")
+        metrics_path = os.path.join(BASE_DIR, "base_model_lag_cases_weather_metrics.csv")
+        predictions_path = os.path.join(
+            BASE_DIR,
+            "base_model_lag_cases_weather_predictions.csv",
+        )
 
         pd.DataFrame([{**metrics, **diagnostics}]).to_csv(metrics_path, index=False)
 
@@ -519,7 +586,7 @@ def main():
         plt.plot([line_min, line_max], [line_min, line_max], "r--")
         plt.xlabel("Actual cases")
         plt.ylabel("Posterior predictive mean cases")
-        plt.title("Lagged base hierarchical model: actual vs predicted")
+        plt.title("Lagged-cases + lagged-weather hierarchical model: actual vs predicted")
         plt.tight_layout()
         plt.show()
 

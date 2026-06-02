@@ -27,7 +27,8 @@ TRAIN_START_YEAR = 2017
 TRAIN_END_YEAR = 2022
 TEST_START_YEAR = 2023
 TEST_END_YEAR = 2023
-LAG_WEEKS = 6
+CASE_LAG_WEEKS = 4
+WEATHER_LAG_WEEKS = 6
 
 DRAWS = 300
 TUNE = 600
@@ -41,13 +42,20 @@ BASE_COVARIATES = [
     "humidity_lag",
     "temperature_lag",
     "idhm",
+    "log_cases_lag",
 ]
 
-LAGGED_COVARIATES = [
+LAGGED_WEATHER_COVARIATES = [
     "rainfall",
     "humidity",
     "temperature",
 ]
+
+INTERPOLATED_COVARIATES = [
+    "humidity",
+    "temperature",
+]
+INTERPOLATION_LIMIT_WEEKS = 8
 
 
 # =========================================================
@@ -129,16 +137,129 @@ def summarize_diagnostics(trace):
     }
 
 
+def interpolate_weather_covariates(df: pd.DataFrame, label: str):
+    df = df.sort_values(["municipio", "date"]).copy()
+    missing_before = df[INTERPOLATED_COVARIATES].isna().sum()
+
+    interpolated_groups = []
+    for _, group in df.groupby("municipio", sort=False):
+        group = group.sort_values("date").copy()
+        for col in INTERPOLATED_COVARIATES:
+            time_series = group.set_index("date")[col]
+            group[col] = time_series.interpolate(
+                method="time",
+                limit=INTERPOLATION_LIMIT_WEEKS,
+                limit_area="inside",
+            ).to_numpy()
+        interpolated_groups.append(group)
+
+    df = pd.concat(interpolated_groups, ignore_index=True)
+
+    df["humidity"] = df["humidity"].clip(lower=0, upper=100)
+    df["temperature"] = df["temperature"].clip(lower=0, upper=45)
+
+    missing_after = df[INTERPOLATED_COVARIATES].isna().sum()
+    filled = missing_before - missing_after
+    print(f"{label} interpolation filled values:")
+    for col in INTERPOLATED_COVARIATES:
+        print(
+            f"  {col}: filled {int(filled[col])}, "
+            f"remaining missing {int(missing_after[col])}"
+        )
+
+    return df, {
+        f"{label}_{col}_filled": int(filled[col])
+        for col in INTERPOLATED_COVARIATES
+    }
+
+
+def add_lag_features(df: pd.DataFrame) -> pd.DataFrame:
+    df = df.sort_values(["municipio", "date"]).reset_index(drop=True)
+
+    weather_lookup = df[["municipio", "date", *LAGGED_WEATHER_COVARIATES]].rename(
+        columns={col: f"{col}_lag" for col in LAGGED_WEATHER_COVARIATES}
+    )
+    weather_lookup["date"] = weather_lookup["date"] + pd.to_timedelta(
+        WEATHER_LAG_WEEKS,
+        unit="W",
+    )
+    weather_lookup["weather_lag_source_date"] = weather_lookup[
+        "date"
+    ] - pd.to_timedelta(WEATHER_LAG_WEEKS, unit="W")
+    df = df.merge(
+        weather_lookup,
+        on=["municipio", "date"],
+        how="left",
+        validate="one_to_one",
+    )
+
+    expected_weather_source_date = df["date"] - pd.to_timedelta(
+        WEATHER_LAG_WEEKS,
+        unit="W",
+    )
+    rows_with_weather_lag = df["weather_lag_source_date"].notna()
+    invalid_weather_lag_rows = df[
+        rows_with_weather_lag
+        & (
+            (df["weather_lag_source_date"] != expected_weather_source_date)
+            | (df["weather_lag_source_date"] >= df["date"])
+        )
+    ]
+    if not invalid_weather_lag_rows.empty:
+        raise ValueError(
+            "Weather lag leakage check failed: at least one lagged weather value "
+            "does not come from the same municipality at a strictly earlier "
+            "expected date."
+        )
+
+    case_lookup = df[["municipio", "date", "cases"]].rename(
+        columns={"cases": "cases_lag"}
+    )
+    case_lookup["date"] = case_lookup["date"] + pd.to_timedelta(
+        CASE_LAG_WEEKS,
+        unit="W",
+    )
+    case_lookup["cases_lag_source_date"] = case_lookup["date"] - pd.to_timedelta(
+        CASE_LAG_WEEKS,
+        unit="W",
+    )
+    df = df.merge(
+        case_lookup,
+        on=["municipio", "date"],
+        how="left",
+        validate="one_to_one",
+    )
+
+    expected_case_source_date = df["date"] - pd.to_timedelta(CASE_LAG_WEEKS, unit="W")
+    rows_with_case_lag = df["cases_lag"].notna()
+    invalid_case_lag_rows = df[
+        rows_with_case_lag
+        & (
+            (df["cases_lag_source_date"] != expected_case_source_date)
+            | (df["cases_lag_source_date"] >= df["date"])
+        )
+    ]
+    if not invalid_case_lag_rows.empty:
+        raise ValueError(
+            "Case lag leakage check failed: at least one lagged case value does "
+            "not come from the same municipality at a strictly earlier expected "
+            "date."
+        )
+
+    df["log_cases_lag"] = np.log1p(df["cases_lag"])
+    return df
+
+
 # =========================================================
 # Data preparation
 # =========================================================
-def build_model_dataframe() -> pd.DataFrame:
+def build_model_dataframe(*, apply_interpolation=True, apply_lags=True) -> pd.DataFrame:
     df = clean_columns(pd.read_csv(COMBINED_FILE))
     original_rows = len(df)
 
     df["municipio"] = df["municipio"].apply(normalize_name)
 
-    numeric_cols = ["year", "week", "cases", "idhm", *LAGGED_COVARIATES]
+    numeric_cols = ["year", "week", "cases", "idhm", *LAGGED_WEATHER_COVARIATES]
     if "population" in df.columns:
         numeric_cols.append("population")
 
@@ -163,40 +284,17 @@ def build_model_dataframe() -> pd.DataFrame:
     date_drop_count = rows_before_date_drop - len(df)
 
     df = df.sort_values(["municipio", "date"]).reset_index(drop=True)
-    lag_lookup = df[["municipio", "date", *LAGGED_COVARIATES]].rename(
-        columns={col: f"{col}_lag" for col in LAGGED_COVARIATES}
-    )
-    lag_lookup["date"] = lag_lookup["date"] + pd.to_timedelta(LAG_WEEKS, unit="W")
-    lag_lookup["lag_source_date"] = lag_lookup["date"] - pd.to_timedelta(
-        LAG_WEEKS,
-        unit="W",
-    )
-    df = df.merge(
-        lag_lookup,
-        on=["municipio", "date"],
-        how="left",
-        validate="one_to_one",
-    )
-
-    expected_source_date = df["date"] - pd.to_timedelta(LAG_WEEKS, unit="W")
-    rows_with_lag = df["lag_source_date"].notna()
-    invalid_lag_rows = df[
-        rows_with_lag
-        & (
-            (df["lag_source_date"] != expected_source_date)
-            | (df["lag_source_date"] >= df["date"])
-        )
-    ]
-    if not invalid_lag_rows.empty:
-        raise ValueError(
-            "Weather lag leakage check failed: at least one lagged covariate "
-            "does not come from the same municipality at a strictly earlier "
-            "expected date."
-        )
+    if apply_interpolation:
+        df, _ = interpolate_weather_covariates(df, "full-data")
+    if apply_lags:
+        df = add_lag_features(df)
 
     rows_before_covariate_drop = len(df)
-    df = df.dropna(subset=BASE_COVARIATES).copy()
-    covariate_drop_count = rows_before_covariate_drop - len(df)
+    if apply_lags:
+        df = df.dropna(subset=BASE_COVARIATES).copy()
+        covariate_drop_count = rows_before_covariate_drop - len(df)
+    else:
+        covariate_drop_count = 0
 
     df["cases"] = df["cases"].clip(lower=0).astype(int)
     df = df.sort_values(["municipio", "date"]).reset_index(drop=True)
@@ -206,11 +304,26 @@ def build_model_dataframe() -> pd.DataFrame:
     print(f"Dropped missing municipio/year/week/cases: {core_drop_count}")
     print(f"Dropped outside {DATA_START_YEAR}-{DATA_END_YEAR}: {year_filter_drop_count}")
     print(f"Dropped invalid ISO week dates: {date_drop_count}")
-    print(
-        f"Lagged covariates {LAGGED_COVARIATES} by exactly "
-        f"{LAG_WEEKS} calendar week(s) within each municipality."
-    )
-    print(f"Dropped missing covariates {BASE_COVARIATES}: {covariate_drop_count}")
+    if apply_interpolation:
+        print(
+            "Interpolated humidity and temperature with municipality-level linear "
+            f"temporal interpolation, limit={INTERPOLATION_LIMIT_WEEKS} week(s), "
+            "internal gaps only."
+        )
+    else:
+        print("Interpolation deferred; missing covariates retained for split-specific handling.")
+    if apply_lags:
+        print(
+            f"Lagged cases by exactly {CASE_LAG_WEEKS} calendar week(s) "
+            "within each municipality, using only strictly earlier dates."
+        )
+        print(
+            f"Lagged weather covariates {LAGGED_WEATHER_COVARIATES} by exactly "
+            f"{WEATHER_LAG_WEEKS} calendar week(s) within each municipality."
+        )
+        print(f"Dropped missing covariates {BASE_COVARIATES}: {covariate_drop_count}")
+    else:
+        print("Lag construction deferred for split-specific handling.")
     print("Model rows:", len(df))
     print("Municipios:", df["municipio"].nunique())
     print("Years:", sorted(df["year"].unique().tolist()))
@@ -391,17 +504,49 @@ def posterior_expected_cases(trace, inputs):
 
 
 def run_train_test_evaluation(df: pd.DataFrame):
-    train_df = df[
+    raw_train_df = df[
         (df["year"] >= TRAIN_START_YEAR) & (df["year"] <= TRAIN_END_YEAR)
     ].copy()
-    test_df = df[
+    raw_test_df = df[
         (df["year"] >= TEST_START_YEAR) & (df["year"] <= TEST_END_YEAR)
     ].copy()
+
+    if raw_train_df.empty:
+        raise ValueError("Training split is empty. Check TRAIN_START_YEAR/TRAIN_END_YEAR.")
+    if raw_test_df.empty:
+        raise ValueError("Testing split is empty. Check TEST_START_YEAR/TEST_END_YEAR.")
+
+    train_df, _ = interpolate_weather_covariates(raw_train_df, "train")
+    test_df, _ = interpolate_weather_covariates(raw_test_df, "test")
+
+    featured_df = add_lag_features(
+        pd.concat([train_df, test_df], ignore_index=True)
+    )
+    rows_before_covariate_drop = len(featured_df)
+    featured_df = featured_df.dropna(subset=BASE_COVARIATES).copy()
+    dropped_missing_covariates = rows_before_covariate_drop - len(featured_df)
+
+    train_df = featured_df[
+        (featured_df["year"] >= TRAIN_START_YEAR)
+        & (featured_df["year"] <= TRAIN_END_YEAR)
+    ].copy()
+    test_df = featured_df[
+        (featured_df["year"] >= TEST_START_YEAR)
+        & (featured_df["year"] <= TEST_END_YEAR)
+    ].copy()
+
+    test_start_date = test_df["date"].min()
+    test_rows_before_lag_leak_filter = len(test_df)
+    test_df = test_df[test_df["cases_lag_source_date"] < test_start_date].copy()
+    dropped_test_lag_rows = test_rows_before_lag_leak_filter - len(test_df)
 
     if train_df.empty:
         raise ValueError("Training split is empty. Check TRAIN_START_YEAR/TRAIN_END_YEAR.")
     if test_df.empty:
-        raise ValueError("Testing split is empty. Check TEST_START_YEAR/TEST_END_YEAR.")
+        raise ValueError(
+            "Testing split is empty after removing rows whose lagged cases come "
+            "from inside the held-out test period."
+        )
 
     municipio_levels = sorted(train_df["municipio"].unique().tolist())
     week_levels = sorted(train_df["week"].unique().tolist())
@@ -411,7 +556,13 @@ def run_train_test_evaluation(df: pd.DataFrame):
     print(f"Train years: {TRAIN_START_YEAR}-{TRAIN_END_YEAR}, rows: {len(train_df)}")
     print(f"Test years: {TEST_START_YEAR}-{TEST_END_YEAR}, rows: {len(test_df)}")
     print("No-leakage policy: encoders and scaler are fit on training data only.")
+    print("No-leakage policy: interpolation is applied separately to train and test.")
+    print(
+        "No-leakage policy: test rows whose lagged cases come from inside the "
+        f"test period were dropped ({dropped_test_lag_rows} rows)."
+    )
     print("Unseen test years use a zero year effect, not a learned test-year effect.")
+    print(f"Dropped missing covariates after lag construction: {dropped_missing_covariates}")
 
     train_inputs = prepare_arrays(
         train_df,
@@ -445,8 +596,14 @@ def run_train_test_evaluation(df: pd.DataFrame):
         print(f"{key}: {value:.4f}")
 
     if SAVE_OUTPUTS:
-        metrics_path = os.path.join(BASE_DIR, "base_model_lag_train_test_metrics.csv")
-        predictions_path = os.path.join(BASE_DIR, "base_model_lag_test_predictions.csv")
+        metrics_path = os.path.join(
+            BASE_DIR,
+            "base_model_lag_cases_weather_interpolation_train_test_metrics.csv",
+        )
+        predictions_path = os.path.join(
+            BASE_DIR,
+            "base_model_lag_cases_weather_interpolation_test_predictions.csv",
+        )
 
         metrics_df = pd.DataFrame(
             [
@@ -467,7 +624,7 @@ def run_train_test_evaluation(df: pd.DataFrame):
 
 
 def main():
-    df = build_model_dataframe()
+    df = build_model_dataframe(apply_interpolation=True, apply_lags=True)
     inputs = prepare_arrays(df)
     _, trace, posterior_predictive = fit_model(inputs)
 
@@ -499,8 +656,14 @@ def main():
     )
 
     if SAVE_OUTPUTS:
-        metrics_path = os.path.join(BASE_DIR, "base_model_lag_metrics.csv")
-        predictions_path = os.path.join(BASE_DIR, "base_model_lag_predictions.csv")
+        metrics_path = os.path.join(
+            BASE_DIR,
+            "base_model_lag_cases_weather_interpolation_metrics.csv",
+        )
+        predictions_path = os.path.join(
+            BASE_DIR,
+            "base_model_lag_cases_weather_interpolation_predictions.csv",
+        )
 
         pd.DataFrame([{**metrics, **diagnostics}]).to_csv(metrics_path, index=False)
 
@@ -519,12 +682,15 @@ def main():
         plt.plot([line_min, line_max], [line_min, line_max], "r--")
         plt.xlabel("Actual cases")
         plt.ylabel("Posterior predictive mean cases")
-        plt.title("Lagged base hierarchical model: actual vs predicted")
+        plt.title(
+            "Lagged-cases + lagged-weather + interpolation model: actual vs predicted"
+        )
         plt.tight_layout()
         plt.show()
 
     if RUN_TRAIN_TEST_EVALUATION:
-        run_train_test_evaluation(df)
+        evaluation_df = build_model_dataframe(apply_interpolation=False, apply_lags=False)
+        run_train_test_evaluation(evaluation_df)
 
 
 if __name__ == "__main__":
