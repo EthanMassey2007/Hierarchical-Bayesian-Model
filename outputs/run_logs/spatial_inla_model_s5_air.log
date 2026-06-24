@@ -1,0 +1,78 @@
+M5/S5-air dataframe built
+Original rows: 76544 
+Model rows: 30945 
+Dropped missing S5-air covariates: 2543 
+Municipios: 92 
+Years: 2017, 2018, 2019, 2020, 2021, 2022, 2023 
+Rows with at least one neighbor lag value: 29243 
+Rows with zero previous-month air mobility: 29914 
+INLA graph written: /var/folders/hf/rt97wjy964g2q1trd19ksx0r0000gn/T//RtmpBM84fj/rj_municipality_inla.graph 
+Connected graph nodes: 87 
+Connected graph edges: 511 
+Isolated municipalities: 5 
+ *** WARNING *** GMRFLib_2order_approx: rescue NAN/INF values in logl for idx=3029
+ *** WARNING *** GMRFLib_2order_approx: reset counter for 4 NAN/INF values in logl
+
+S5-air full-data fixed effects:
+                                    mean         sd  0.025quant    0.5quant
+(Intercept)                  -0.25030194 0.14502053 -0.53675333 -0.25079766
+rainfall_lag_z                0.21000131 0.02304638  0.16419887  0.21024217
+humidity_lag_z               -0.02207174 0.01415240 -0.04985429 -0.02206019
+temperature_lag_z             0.08286701 0.02021353  0.04308709  0.08292520
+idhm_z                        0.51370344 0.08520457  0.34528242  0.51400092
+log_cases_lag_z               0.93712919 0.01042803  0.91668056  0.93712920
+neighbor_log_cases_lag_z      0.27722877 0.01983737  0.23833873  0.27722547
+air_passenger_week_lag_log_z  0.03635316 0.01552943  0.00588187  0.03635981
+                              0.975quant        mode          kld
+(Intercept)                  0.039024352 -0.25082712 1.013995e-07
+rainfall_lag_z               0.254499806  0.21026116 2.683762e-08
+humidity_lag_z               0.005645874 -0.02205992 2.583523e-10
+temperature_lag_z            0.122326593  0.08292841 2.562600e-09
+idhm_z                       0.680490874  0.51401766 1.933366e-08
+log_cases_lag_z              0.957577829  0.93712920 4.501218e-11
+neighbor_log_cases_lag_z     0.316137477  0.27722542 5.728881e-11
+air_passenger_week_lag_log_z 0.066786760  0.03635988 8.433193e-11
+
+S5-air full-data model criteria:
+        dic     waic
+      <num>    <num>
+1: 93818.31 93980.68
+ *** WARNING *** GMRFLib_2order_approx: rescue NAN/INF values in logl for idx=18395
+ *** WARNING *** GMRFLib_2order_approx: rescue NAN/INF values in logl for idx=4962
+ *** WARNING *** GMRFLib_2order_approx: reset counter for 3 NAN/INF values in logl
+ *** WARNING *** GMRFLib_2order_approx: reset counter for 3 NAN/INF values in logl
+ *** WARNING *** GMRFLib_2order_approx: reset counter for 3 NAN/INF values in logl
+ *** WARNING *** GMRFLib_2order_approx: reset counter for 3 NAN/INF values in logl
+
+Train/test evaluation split:
+Train rows: 26282 
+Test rows: 364 
+Dropped test rows with own/neighbor lagged cases inside test period: 4299 
+No-leakage policy: scaler fit on training data only.
+No-leakage policy: test own-case and neighbor-case lags must come from before test start.
+
+S5-air train/test metrics:
+    split      mae     rmse      wape accuracy_pct        r2
+   <char>    <num>    <num>     <num>        <num>     <num>
+1:  train 3.184875 22.01936 0.6875257     31.24743 0.5861141
+2:   test 4.031433 10.54332 0.4655588     53.44412 0.8705933
+
+S5-air train-fit fixed effects:
+                                    mean         sd   0.025quant    0.5quant
+(Intercept)                  -0.59997638 0.13073375 -0.857482016 -0.60077362
+rainfall_lag_z                0.21756825 0.02532435  0.167203370  0.21781643
+humidity_lag_z               -0.03046011 0.01737679 -0.064581398 -0.03044360
+temperature_lag_z             0.08819882 0.02384711  0.041235354  0.08827105
+idhm_z                        0.55850924 0.08963157  0.382976753  0.55817667
+log_cases_lag_z               0.86606749 0.01152399  0.843473785  0.86606603
+neighbor_log_cases_lag_z      0.25383629 0.02102025  0.212627137  0.25383271
+air_passenger_week_lag_log_z  0.05138950 0.02709129 -0.001964695  0.05147066
+                               0.975quant        mode          kld
+(Intercept)                  -0.338123508 -0.60081212 7.994785e-07
+rainfall_lag_z                0.266535482  0.21782141 2.360497e-08
+humidity_lag_z                0.003567465 -0.03044344 2.797135e-10
+temperature_lag_z             0.134754695  0.08827234 2.385979e-09
+idhm_z                        0.735913467  0.55817504 2.870443e-08
+log_cases_lag_z               0.888669488  0.86606602 4.524624e-11
+neighbor_log_cases_lag_z      0.295065493  0.25383260 5.340950e-11
+air_passenger_week_lag_log_z  0.104286675  0.05147244 2.230654e-09

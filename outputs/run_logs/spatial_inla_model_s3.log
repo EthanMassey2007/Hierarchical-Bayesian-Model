@@ -1,0 +1,76 @@
+M5/S3 dataframe built
+Original rows: 76544 
+Model rows: 30945 
+Dropped missing S3 covariates: 2543 
+Municipios: 92 
+Years: 2017, 2018, 2019, 2020, 2021, 2022, 2023 
+Distance decay km: 50 
+Distance cutoff km: 150 
+Rows with at least one distance-weighted lag value: 30945 
+Manual coordinate fallbacks used: 5 
+INLA graph written: /var/folders/hf/rt97wjy964g2q1trd19ksx0r0000gn/T//Rtmp6HDI0r/rj_municipality_inla.graph 
+Connected graph nodes: 87 
+Connected graph edges: 511 
+Isolated municipalities: 5 
+ *** WARNING *** GMRFLib_2order_approx: rescue NAN/INF values in logl for idx=5043
+ *** WARNING *** GMRFLib_2order_approx: reset counter for 6 NAN/INF values in logl
+ *** WARNING *** GMRFLib_2order_approx: reset counter for 6 NAN/INF values in logl
+ *** WARNING *** GMRFLib_2order_approx: reset counter for 6 NAN/INF values in logl
+ *** WARNING *** GMRFLib_2order_approx: reset counter for 6 NAN/INF values in logl
+
+S3 full-data fixed effects:
+                                mean         sd  0.025quant    0.5quant
+(Intercept)              -0.19878685 0.14066675 -0.47746234 -0.19885808
+rainfall_lag_z            0.21234772 0.02340381  0.16591986  0.21257375
+humidity_lag_z           -0.03086926 0.01422118 -0.05878293 -0.03085900
+temperature_lag_z         0.05443173 0.02034369  0.01442903  0.05447894
+idhm_z                    0.48481101 0.08182307  0.32343236  0.48495571
+log_cases_lag_z           0.91914698 0.01070670  0.89815018  0.91914760
+distance_log_cases_lag_z  0.25235635 0.01843223  0.21622150  0.25235311
+                           0.975quant        mode          kld
+(Intercept)               0.080731926 -0.19883448 1.166825e-08
+rainfall_lag_z            0.257563208  0.21259527 2.543313e-08
+humidity_lag_z           -0.003013303 -0.03085877 2.270335e-10
+temperature_lag_z         0.094173737  0.05448137 2.030521e-09
+idhm_z                    0.645420160  0.48497179 1.952184e-08
+log_cases_lag_z           0.940140302  0.91914761 4.624275e-11
+distance_log_cases_lag_z  0.288509933  0.25235317 5.441238e-11
+
+S3 full-data model criteria:
+        dic     waic
+      <num>    <num>
+1: 93835.93 94015.49
+ *** WARNING *** GMRFLib_2order_approx: rescue NAN/INF values in logl for idx=5391
+ *** WARNING *** GMRFLib_2order_approx: reset counter for 4 NAN/INF values in logl
+ *** WARNING *** GMRFLib_2order_approx: rescue NAN/INF values in logl for idx=14762
+
+Train/test evaluation split:
+Train rows: 26282 
+Test rows: 364 
+Dropped test rows with own/distance-weighted lagged cases inside test period: 4299 
+No-leakage policy: scaler fit on training data only.
+No-leakage policy: test own-case and distance-weighted case lags must come from before test start.
+
+S3 train/test metrics:
+    split      mae     rmse      wape accuracy_pct        r2
+   <char>    <num>    <num>     <num>        <num>     <num>
+1:  train 3.298527 22.20878 0.7120599     28.79401 0.5789626
+2:   test 4.193876 11.33044 0.4843182     51.56818 0.8505502
+
+S3 train-fit fixed effects:
+                                mean         sd  0.025quant    0.5quant
+(Intercept)              -0.54827033 0.12846223 -0.80130717 -0.54900574
+rainfall_lag_z            0.21800837 0.02549906  0.16731503  0.21825443
+humidity_lag_z           -0.03349130 0.01741124 -0.06767690 -0.03347590
+temperature_lag_z         0.06715508 0.02393424  0.02004435  0.06721888
+idhm_z                    0.53011684 0.08800966  0.35782601  0.52979107
+log_cases_lag_z           0.84548779 0.01189263  0.82216994  0.84548677
+distance_log_cases_lag_z  0.21912577 0.01851122  0.18282612  0.21912576
+                            0.975quant        mode          kld
+(Intercept)              -0.2915350714 -0.54906219 1.049970e-06
+rainfall_lag_z            0.2673163781  0.21825956 2.311730e-08
+humidity_lag_z            0.0006068135 -0.03347577 2.516426e-10
+temperature_lag_z         0.1139049503  0.06721981 1.885193e-09
+idhm_z                    0.7042597841  0.52979408 2.406554e-08
+log_cases_lag_z           0.8688114072  0.84548676 4.297199e-11
+distance_log_cases_lag_z  0.2554254450  0.21912576 3.703475e-11

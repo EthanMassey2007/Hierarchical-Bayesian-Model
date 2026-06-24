@@ -53,7 +53,11 @@ LAGGED_COVARIATES = [
 # =========================================================
 # Paths
 # =========================================================
-BASE_DIR = os.path.dirname(__file__)
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+if os.path.isdir(os.path.join(SCRIPT_DIR, "data")):
+    BASE_DIR = SCRIPT_DIR
+else:
+    BASE_DIR = os.path.abspath(os.path.join(SCRIPT_DIR, ".."))
 DATA_DIR = os.path.join(BASE_DIR, "data")
 COMBINED_FILE = os.path.join(DATA_DIR, "complete_combined_datasets.csv")
 

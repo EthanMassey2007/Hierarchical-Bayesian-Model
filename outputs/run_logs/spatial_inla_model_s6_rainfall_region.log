@@ -1,0 +1,173 @@
+M5/S6 rainfall-region dataframe built
+Original rows: 76544 
+Model rows: 30945 
+Dropped missing S6 covariates: 2543 
+Municipios: 92 
+Regions: Baixadas, Centro Fluminense, Metropolitana do Rio de Janeiro, Noroeste Fluminense, Norte Fluminense, Sul Fluminense 
+Rainfall-region reference: Metropolitana do Rio de Janeiro 
+Rainfall-region interaction columns: rainfall_lag_region_Baixadas, rainfall_lag_region_Centro.Fluminense, rainfall_lag_region_Noroeste.Fluminense, rainfall_lag_region_Norte.Fluminense, rainfall_lag_region_Sul.Fluminense 
+Years: 2017, 2018, 2019, 2020, 2021, 2022, 2023 
+Rows with at least one neighbor lag value: 29243 
+INLA graph written: /var/folders/hf/rt97wjy964g2q1trd19ksx0r0000gn/T//Rtmpnf8kTd/rj_municipality_inla.graph 
+Connected graph nodes: 87 
+Connected graph edges: 511 
+Isolated municipalities: 5 
+ *** WARNING *** GMRFLib_2order_approx: rescue NAN/INF values in logl for idx=21706
+ *** WARNING *** GMRFLib_2order_approx: reset counter for 3 NAN/INF values in logl
+ *** WARNING *** GMRFLib_2order_approx: reset counter for 3 NAN/INF values in logl
+
+S6 full-data fixed effects:
+                                                mean         sd  0.025quant
+(Intercept)                             -0.248782906 0.14828923 -0.54172651
+rainfall_lag_z                           0.146097523 0.03197361  0.08269250
+humidity_lag_z                          -0.020530374 0.01426015 -0.04851687
+temperature_lag_z                        0.080727512 0.02069166  0.04004616
+idhm_z                                   0.532404795 0.08755070  0.35952808
+log_cases_lag_z                          0.930288467 0.01043833  0.90982173
+neighbor_log_cases_lag_z                 0.280628531 0.01994545  0.24152464
+rainfall_lag_region_Baixadas            -0.248759852 0.03857699 -0.32441494
+rainfall_lag_region_Centro.Fluminense    0.111986952 0.03096599  0.05128382
+rainfall_lag_region_Noroeste.Fluminense  0.138148707 0.03020480  0.07891580
+rainfall_lag_region_Norte.Fluminense     0.029796254 0.04337463 -0.05525530
+rainfall_lag_region_Sul.Fluminense       0.007762014 0.02540436 -0.04202865
+                                            0.5quant   0.975quant         mode
+(Intercept)                             -0.249123043  0.045753463 -0.249188480
+rainfall_lag_z                           0.146374132  0.207983583  0.146389829
+humidity_lag_z                          -0.020521858  0.007407927 -0.020521739
+temperature_lag_z                        0.080768893  0.121180045  0.080770795
+idhm_z                                   0.532683276  0.703789976  0.532702846
+log_cases_lag_z                          0.930287727  0.950759409  0.930287722
+neighbor_log_cases_lag_z                 0.280625844  0.319747605  0.280625796
+rainfall_lag_region_Baixadas            -0.248756879 -0.173121682 -0.248756862
+rainfall_lag_region_Centro.Fluminense    0.111980396  0.172727363  0.111980348
+rainfall_lag_region_Noroeste.Fluminense  0.138149970  0.197374417  0.138149976
+rainfall_lag_region_Norte.Fluminense     0.029795265  0.114853443  0.029795261
+rainfall_lag_region_Sul.Fluminense       0.007753184  0.057602737  0.007753081
+                                                 kld
+(Intercept)                             6.990711e-07
+rainfall_lag_z                          1.919750e-08
+humidity_lag_z                          1.534670e-10
+temperature_lag_z                       1.148932e-09
+idhm_z                                  1.358030e-08
+log_cases_lag_z                         4.534673e-11
+neighbor_log_cases_lag_z                5.282447e-11
+rainfall_lag_region_Baixadas            4.743925e-11
+rainfall_lag_region_Centro.Fluminense   6.027050e-11
+rainfall_lag_region_Noroeste.Fluminense 4.731934e-11
+rainfall_lag_region_Norte.Fluminense    4.669846e-11
+rainfall_lag_region_Sul.Fluminense      8.189078e-11
+
+S6 full-data model criteria:
+       dic     waic
+     <num>    <num>
+1: 93722.4 93880.28
+
+S6 full-data region-specific rainfall effects:
+                            region rainfall_effect_mean rainfall_effect_q025
+                            <char>                <num>                <num>
+1:                        Baixadas           -0.1026623          -0.24172245
+2:               Centro Fluminense            0.2580845           0.13397631
+3: Metropolitana do Rio de Janeiro            0.1460975           0.08269250
+4:             Noroeste Fluminense            0.2842462           0.16160830
+5:                Norte Fluminense            0.1758938           0.02743720
+6:                  Sul Fluminense            0.1538595           0.04066384
+   rainfall_effect_q975 rainfall_relative_risk rainfall_relative_risk_q025
+                  <num>                  <num>                       <num>
+1:            0.0348619              0.9024316                   0.7852741
+2:            0.3807109              1.2944482                   1.1433657
+3:            0.2079836              1.1573090                   1.0862077
+4:            0.4053580              1.3287601                   1.1753997
+5:            0.3228370              1.1923114                   1.0278171
+6:            0.2655863              1.1663270                   1.0415019
+   rainfall_relative_risk_q975
+                         <num>
+1:                    1.035477
+2:                    1.463325
+3:                    1.231193
+4:                    1.499839
+5:                    1.381040
+6:                    1.304195
+ *** WARNING *** GMRFLib_2order_approx: rescue NAN/INF values in logl for idx=10538
+ *** WARNING *** GMRFLib_2order_approx: rescue NAN/INF values in logl for idx=7653
+ *** WARNING *** GMRFLib_2order_approx: reset counter for 6 NAN/INF values in logl
+ *** WARNING *** GMRFLib_2order_approx: reset counter for 6 NAN/INF values in logl
+
+Train/test evaluation split:
+Train rows: 26282 
+Test rows: 364 
+Dropped test rows with own/neighbor lagged cases inside test period: 4299 
+No-leakage policy: scaler fit on training data only.
+No-leakage policy: test own-case and neighbor-case lags must come from before test start.
+
+S6 train/test metrics:
+    split      mae     rmse      wape accuracy_pct        r2
+   <char>    <num>    <num>     <num>        <num>     <num>
+1:  train 3.165499 21.20879 0.6833431     31.66569 0.6160250
+2:   test 4.019778 10.58086 0.4642129     53.57871 0.8696702
+
+S6 train-fit fixed effects:
+                                                mean         sd  0.025quant
+(Intercept)                             -0.595684997 0.13213974 -0.85581062
+rainfall_lag_z                           0.163970480 0.03506304  0.09499103
+humidity_lag_z                          -0.025764984 0.01753483 -0.06015185
+temperature_lag_z                        0.089934139 0.02443827  0.04204439
+idhm_z                                   0.587787970 0.09413639  0.40313983
+log_cases_lag_z                          0.862594920 0.01153092  0.83998570
+neighbor_log_cases_lag_z                 0.256874857 0.02118062  0.21531024
+rainfall_lag_region_Baixadas            -0.217374608 0.04582485 -0.30725101
+rainfall_lag_region_Centro.Fluminense    0.145640893 0.03798423  0.07118123
+rainfall_lag_region_Noroeste.Fluminense  0.089905825 0.03680864  0.01772042
+rainfall_lag_region_Norte.Fluminense     0.024114670 0.05011359 -0.07415079
+rainfall_lag_region_Sul.Fluminense       0.006202208 0.02929866 -0.05123186
+                                            0.5quant   0.975quant         mode
+(Intercept)                             -0.596148581 -0.333071571 -0.596115335
+rainfall_lag_z                           0.164078331  0.232290574  0.164068083
+humidity_lag_z                          -0.025762988  0.008609258 -0.025763318
+temperature_lag_z                        0.089929790  0.137831458  0.089925330
+idhm_z                                   0.587644946  0.773211201  0.587635399
+log_cases_lag_z                          0.862594095  0.885208864  0.862594098
+neighbor_log_cases_lag_z                 0.256886248  0.298375281  0.256886490
+rainfall_lag_region_Baixadas            -0.217368675 -0.127531850 -0.217368607
+rainfall_lag_region_Centro.Fluminense    0.145632391  0.220148974  0.145632350
+rainfall_lag_region_Noroeste.Fluminense  0.089908002  0.162078891  0.089908030
+rainfall_lag_region_Norte.Fluminense     0.024113261  0.122388096  0.024113238
+rainfall_lag_region_Sul.Fluminense       0.006196593  0.063668336  0.006196591
+                                                 kld
+(Intercept)                             4.604805e-09
+rainfall_lag_z                          7.183897e-09
+humidity_lag_z                          1.487617e-10
+temperature_lag_z                       9.768987e-10
+idhm_z                                  8.656877e-09
+log_cases_lag_z                         3.925671e-11
+neighbor_log_cases_lag_z                1.375722e-10
+rainfall_lag_region_Baixadas            4.713913e-11
+rainfall_lag_region_Centro.Fluminense   6.265967e-11
+rainfall_lag_region_Noroeste.Fluminense 4.497899e-11
+rainfall_lag_region_Norte.Fluminense    4.358719e-11
+rainfall_lag_region_Sul.Fluminense      8.547230e-11
+
+S6 train-fit region-specific rainfall effects:
+                            region rainfall_effect_mean rainfall_effect_q025
+                            <char>                <num>                <num>
+1:                        Baixadas          -0.05340413          -0.21225997
+2:               Centro Fluminense           0.30961137           0.16617226
+3: Metropolitana do Rio de Janeiro           0.16397048           0.09499103
+4:             Noroeste Fluminense           0.25387631           0.11271145
+5:                Norte Fluminense           0.18808515           0.02084024
+6:                  Sul Fluminense           0.17017269           0.04375917
+   rainfall_effect_q975 rainfall_relative_risk rainfall_relative_risk_q025
+                  <num>                  <num>                       <num>
+1:            0.1047587              0.9479968                   0.8087544
+2:            0.4524395              1.3628954                   1.1807765
+3:            0.2322906              1.1781795                   1.0996490
+4:            0.3943695              1.2890124                   1.1193089
+5:            0.3546787              1.2069363                   1.0210589
+6:            0.2959589              1.1855096                   1.0447307
+   rainfall_relative_risk_q975
+                         <num>
+1:                    1.110443
+2:                    1.572143
+3:                    1.261486
+4:                    1.483449
+5:                    1.425722
+6:                    1.344415

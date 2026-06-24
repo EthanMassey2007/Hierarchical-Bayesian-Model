@@ -67,9 +67,14 @@ LAGGED_WEATHER_COVARIATES <- c(
 script_arg <- commandArgs(trailingOnly = FALSE)
 script_file_arg <- script_arg[grepl("^--file=", script_arg)]
 if (length(script_file_arg) > 0) {
-  BASE_DIR <- dirname(normalizePath(sub("^--file=", "", script_file_arg[1])))
+  SCRIPT_DIR <- dirname(normalizePath(sub("^--file=", "", script_file_arg[1])))
 } else {
-  BASE_DIR <- getwd()
+  SCRIPT_DIR <- getwd()
+}
+if (dir.exists(file.path(SCRIPT_DIR, "data"))) {
+  BASE_DIR <- normalizePath(SCRIPT_DIR)
+} else {
+  BASE_DIR <- normalizePath(file.path(SCRIPT_DIR, ".."))
 }
 DATA_DIR <- file.path(BASE_DIR, "data")
 
