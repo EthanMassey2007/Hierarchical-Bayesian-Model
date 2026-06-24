@@ -1,3 +1,4 @@
 variable,morans_i,expected_random,permuted_sd,permutation_p_value,permutations,interpretation
-spatial_effect_mean,0.0257836511908243,-0.0114922752866925,0.0355786674130801,0.497,999,Primary diagnostic on the log-scale BYM2 spatial effect.
-residual_spatial_rr,-0.02164743590319,-0.0110629408573512,0.0339872796696626,0.548,999,"Secondary diagnostic on exp(BYM2 effect), the mapped relative-risk scale."
+municipality_aggregated_pearson_residual,0.109206343316548,-0.0103754209311735,0.0361128002692104,0.01,999,Primary diagnostic: Moran's I on municipality-aggregated Pearson residuals from the negative-binomial S2 model.
+municipality_mean_pearson_residual,0.168045519724205,-0.0122859575033424,0.0367693548977554,0.001,999,Sensitivity diagnostic: Moran's I on municipality mean Pearson residuals.
+municipality_mean_deviance_residual,0.0254033717393606,-0.00865133863562871,0.0362189555471109,0.5,999,Sensitivity diagnostic: Moran's I on municipality mean deviance residuals.

@@ -1,22 +1,22 @@
 # =========================================================
-# S2 Moran's I diagnostic for unexplained spatial effects
+# S2 Moran's I diagnostic on standardized NB residuals
 # =========================================================
-# Uses the S2 unexplained spatial effects CSV and the model adjacency matrix
-# to test whether residual spatial effects remain spatially autocorrelated.
+# Fits the S2 negative-binomial INLA model, computes municipality-aggregated
+# standardized Pearson and deviance residuals, and tests those residuals for
+# remaining spatial autocorrelation with Moran's I.
 #
 # Run from the project root:
 #   Rscript spatial_R/s2_morans_i_diagnostic.R
 #
-# Inputs:
-#   outputs/s2_unexplained_spatial_effects.csv
-#   data/adjacency_matrix_correct.parquet
-#
-# Output:
+# Outputs:
 #   outputs/s2_morans_i_diagnostic.csv
+#   outputs/s2_standardized_residuals_by_municipio.csv
 
 suppressPackageStartupMessages({
+  library(INLA)
   library(arrow)
   library(data.table)
+  library(Matrix)
 })
 
 
@@ -31,43 +31,47 @@ if (length(script_file_arg) > 0) {
   SCRIPT_DIR <- getwd()
 }
 
-PROJECT_DIR <- normalizePath(file.path(SCRIPT_DIR, ".."))
+if (dir.exists(file.path(SCRIPT_DIR, "data"))) {
+  PROJECT_DIR <- normalizePath(SCRIPT_DIR)
+} else {
+  PROJECT_DIR <- normalizePath(file.path(SCRIPT_DIR, ".."))
+}
+
 DATA_DIR <- file.path(PROJECT_DIR, "data")
 OUTPUT_DIR <- file.path(PROJECT_DIR, "outputs")
-
-EFFECTS_CSV <- file.path(OUTPUT_DIR, "s2_unexplained_spatial_effects.csv")
-ADJACENCY_FILE <- file.path(DATA_DIR, "adjacency_matrix_correct.parquet")
+S2_SCRIPT <- file.path(PROJECT_DIR, "spatial_R", "spatial_inla_model_s2.R")
+ADJACENCY_FILE_DIAG <- file.path(DATA_DIR, "adjacency_matrix_correct.parquet")
 MORANS_OUTPUT <- file.path(OUTPUT_DIR, "s2_morans_i_diagnostic.csv")
+RESIDUALS_OUTPUT <- file.path(OUTPUT_DIR, "s2_standardized_residuals_by_municipio.csv")
+GRAPH_FILE_DIAG <- file.path(tempdir(), "rj_municipality_inla_residual_diagnostic.graph")
 
 PERMUTATIONS <- 999L
 RANDOM_SEED <- 42L
+
+dir.create(OUTPUT_DIR, showWarnings = FALSE, recursive = TRUE)
+
+
+# =========================================================
+# Load S2 functions without running S2 main()
+# =========================================================
+Sys.setenv(INLA_RUN_MODEL = "0")
+source(S2_SCRIPT)
+
+# Keep sourced S2 globals pointed at the project root.
+BASE_DIR <- PROJECT_DIR
+DATA_DIR <- file.path(BASE_DIR, "data")
+COMBINED_FILE <- file.path(DATA_DIR, "complete_combined_datasets.csv")
+MUNICIPIOS_FILE <- file.path(DATA_DIR, "municipios.csv")
+HUB_FILE <- file.path(DATA_DIR, "hub_pop_density.csv")
+ADJACENCY_FILE <- file.path(DATA_DIR, "adjacency_matrix_correct.parquet")
+GRAPH_FILE <- GRAPH_FILE_DIAG
 
 
 # =========================================================
 # Helpers
 # =========================================================
-read_effects <- function() {
-  if (!file.exists(EFFECTS_CSV)) {
-    stop(sprintf(
-      "Missing %s. Run spatial_R/map_s2_unexplained_effects.R first.",
-      EFFECTS_CSV
-    ))
-  }
-
-  effects <- fread(EFFECTS_CSV)
-  required <- c("ibge_code", "spatial_effect_mean", "residual_spatial_rr")
-  missing <- setdiff(required, names(effects))
-  if (length(missing) > 0) {
-    stop(sprintf("Effects CSV is missing columns: %s", paste(missing, collapse = ", ")))
-  }
-
-  effects[, ibge_code := as.integer(ibge_code)]
-  effects <- effects[!is.na(ibge_code)]
-  effects
-}
-
-read_adjacency_for_effects <- function(ibge_codes) {
-  adj <- as.data.table(read_parquet(ADJACENCY_FILE))
+read_adjacency_for_codes <- function(ibge_codes) {
+  adj <- as.data.table(read_parquet(ADJACENCY_FILE_DIAG))
 
   if (!("co_muni_ori" %in% names(adj))) {
     stop("adjacency_matrix_correct.parquet must contain co_muni_ori.")
@@ -80,7 +84,7 @@ read_adjacency_for_effects <- function(ibge_codes) {
   missing_rows <- setdiff(ibge_codes, adj$co_muni_ori)
   missing_cols <- setdiff(code_cols, names(adj))
   if (length(missing_rows) > 0 || length(missing_cols) > 0) {
-    stop("Adjacency matrix is missing one or more S2 effect municipalities.")
+    stop("Adjacency matrix is missing one or more model municipalities.")
   }
 
   adj <- adj[match(ibge_codes, co_muni_ori)]
@@ -90,7 +94,7 @@ read_adjacency_for_effects <- function(ibge_codes) {
   w[w != 0] <- 1
   diag(w) <- 0
 
-  # Keep adjacency symmetric, matching the S2 BYM2 graph construction.
+  # Match the S2 BYM2 graph construction.
   w <- ((w + t(w)) > 0) * 1
   rownames(w) <- code_cols
   colnames(w) <- code_cols
@@ -124,7 +128,12 @@ morans_i <- function(x, w) {
 permutation_test <- function(x, w, permutations = PERMUTATIONS) {
   observed <- morans_i(x, w)
   if (is.na(observed)) {
-    return(list(observed = NA_real_, p_value = NA_real_))
+    return(list(
+      observed = NA_real_,
+      expected_random = NA_real_,
+      permuted_sd = NA_real_,
+      p_value = NA_real_
+    ))
   }
 
   permuted <- numeric(permutations)
@@ -143,47 +152,160 @@ permutation_test <- function(x, w, permutations = PERMUTATIONS) {
   )
 }
 
+extract_nb_size <- function(fit) {
+  hyper <- as.data.table(fit$summary.hyperpar, keep.rownames = "term")
+  size_rows <- hyper[grepl("size", term, ignore.case = TRUE)]
+
+  if (nrow(size_rows) == 0) {
+    stop(sprintf(
+      "Could not identify the negative-binomial size parameter. Hyperparameters found: %s",
+      paste(hyper$term, collapse = ", ")
+    ))
+  }
+
+  size <- as.numeric(size_rows$mean[1])
+  if (!is.finite(size) || size <= 0) {
+    stop(sprintf("Invalid negative-binomial size parameter: %s", size))
+  }
+
+  size
+}
+
+compute_standardized_residuals <- function(model_dt, fit) {
+  n <- nrow(model_dt)
+  mu <- as.numeric(fit$summary.fitted.values$mean[seq_len(n)])
+  y <- as.numeric(model_dt$cases)
+  size <- extract_nb_size(fit)
+
+  if (length(mu) != n || any(!is.finite(mu)) || any(mu <= 0)) {
+    stop("Invalid fitted means from S2 fit.")
+  }
+
+  variance <- mu + (mu^2 / size)
+  pearson <- (y - mu) / sqrt(variance)
+
+  # Negative-binomial deviance residual using Var(Y)=mu+mu^2/size.
+  y_log_term <- ifelse(y == 0, 0, y * log(y / mu))
+  deviance_component <- 2 * (
+    y_log_term - (y + size) * log((y + size) / (mu + size))
+  )
+  deviance_component <- pmax(deviance_component, 0)
+  deviance <- sign(y - mu) * sqrt(deviance_component)
+
+  residual_dt <- copy(model_dt[, .(municipio, ibge_code, year, week, date, cases)])
+  residual_dt[, fitted_mu := mu]
+  residual_dt[, nb_size := size]
+  residual_dt[, nb_variance := variance]
+  residual_dt[, pearson_residual := pearson]
+  residual_dt[, deviance_residual := deviance]
+
+  residual_dt
+}
+
+aggregate_residuals_by_municipio <- function(residual_dt) {
+  residual_dt[, .(
+    n_observations = .N,
+    observed_cases = sum(cases),
+    fitted_cases = sum(fitted_mu),
+    pearson_residual = sum(cases - fitted_mu) / sqrt(sum(nb_variance)),
+    mean_pearson_residual = mean(pearson_residual),
+    mean_deviance_residual = mean(deviance_residual),
+    median_deviance_residual = median(deviance_residual)
+  ), by = .(municipio, ibge_code)]
+}
+
+build_s2_full_fit <- function() {
+  df <- build_model_dataframe()
+
+  week_levels <- sort(unique(df$week))
+  year_levels <- sort(unique(df$year))
+
+  df[, week_idx := match(week, week_levels)]
+  df[, year_idx := match(year, year_levels)]
+
+  spatial_lookup <- unique(df[, .(municipio, ibge_code)])
+  setorder(spatial_lookup, municipio)
+
+  graph_info <- write_inla_graph(spatial_lookup$ibge_code, GRAPH_FILE_DIAG)
+  spatial_lookup <- merge(
+    spatial_lookup,
+    graph_info$lookup,
+    by = "ibge_code",
+    all.x = TRUE,
+    sort = FALSE
+  )
+
+  spatial_lookup[, isolated_idx := NA_integer_]
+  isolated_rows <- which(spatial_lookup$is_isolated)
+  if (length(isolated_rows) > 0) {
+    spatial_lookup[isolated_rows, isolated_idx := seq_along(isolated_rows)]
+  }
+
+  df <- merge(df, spatial_lookup, by = c("municipio", "ibge_code"), all.x = TRUE)
+  setorder(df, municipio, date)
+
+  full_dt <- standardize_full(copy(df), BASE_COVARIATES)
+  full_fit <- fit_spatial_inla(full_dt, GRAPH_FILE_DIAG)
+
+  list(data = full_dt, fit = full_fit)
+}
+
 run_morans_diagnostics <- function() {
-  effects <- read_effects()
-  setorder(effects, ibge_code)
-  w <- read_adjacency_for_effects(effects$ibge_code)
+  fit_objects <- build_s2_full_fit()
+  residual_dt <- compute_standardized_residuals(fit_objects$data, fit_objects$fit)
+  residual_by_municipio <- aggregate_residuals_by_municipio(residual_dt)
+  setorder(residual_by_municipio, ibge_code)
+
+  w <- read_adjacency_for_codes(residual_by_municipio$ibge_code)
 
   set.seed(RANDOM_SEED)
 
-  spatial_effect_result <- permutation_test(effects$spatial_effect_mean, w)
-  rr_result <- permutation_test(effects$residual_spatial_rr, w)
+  pearson_result <- permutation_test(residual_by_municipio$pearson_residual, w)
+  mean_pearson_result <- permutation_test(residual_by_municipio$mean_pearson_residual, w)
+  deviance_result <- permutation_test(residual_by_municipio$mean_deviance_residual, w)
 
   diagnostics <- rbindlist(list(
     data.table(
-      variable = "spatial_effect_mean",
-      morans_i = spatial_effect_result$observed,
-      expected_random = spatial_effect_result$expected_random,
-      permuted_sd = spatial_effect_result$permuted_sd,
-      permutation_p_value = spatial_effect_result$p_value,
+      variable = "municipality_aggregated_pearson_residual",
+      morans_i = pearson_result$observed,
+      expected_random = pearson_result$expected_random,
+      permuted_sd = pearson_result$permuted_sd,
+      permutation_p_value = pearson_result$p_value,
       permutations = PERMUTATIONS,
-      interpretation = "Primary diagnostic on the log-scale BYM2 spatial effect."
+      interpretation = "Primary diagnostic: Moran's I on municipality-aggregated Pearson residuals from the negative-binomial S2 model."
     ),
     data.table(
-      variable = "residual_spatial_rr",
-      morans_i = rr_result$observed,
-      expected_random = rr_result$expected_random,
-      permuted_sd = rr_result$permuted_sd,
-      permutation_p_value = rr_result$p_value,
+      variable = "municipality_mean_pearson_residual",
+      morans_i = mean_pearson_result$observed,
+      expected_random = mean_pearson_result$expected_random,
+      permuted_sd = mean_pearson_result$permuted_sd,
+      permutation_p_value = mean_pearson_result$p_value,
       permutations = PERMUTATIONS,
-      interpretation = "Secondary diagnostic on exp(BYM2 effect), the mapped relative-risk scale."
+      interpretation = "Sensitivity diagnostic: Moran's I on municipality mean Pearson residuals."
+    ),
+    data.table(
+      variable = "municipality_mean_deviance_residual",
+      morans_i = deviance_result$observed,
+      expected_random = deviance_result$expected_random,
+      permuted_sd = deviance_result$permuted_sd,
+      permutation_p_value = deviance_result$p_value,
+      permutations = PERMUTATIONS,
+      interpretation = "Sensitivity diagnostic: Moran's I on municipality mean deviance residuals."
     )
   ), use.names = TRUE)
 
+  fwrite(residual_by_municipio, RESIDUALS_OUTPUT)
   fwrite(diagnostics, MORANS_OUTPUT)
 
-  cat("\nS2 Moran's I diagnostic written:\n")
-  cat("CSV:", MORANS_OUTPUT, "\n\n")
+  cat("\nS2 standardized-residual Moran's I diagnostic written:\n")
+  cat("Residuals CSV:", RESIDUALS_OUTPUT, "\n")
+  cat("Diagnostic CSV:", MORANS_OUTPUT, "\n\n")
   print(diagnostics)
 
   cat("\nHow to read this:\n")
-  cat("Moran's I > 0 means neighboring municipalities tend to have similar residual spatial effects.\n")
+  cat("Moran's I > 0 means neighboring municipalities tend to have similar standardized residuals.\n")
   cat("Moran's I near 0 means little residual spatial autocorrelation remains.\n")
-  cat("Small permutation p-values suggest the spatial pattern is unlikely under random reassignment.\n")
+  cat("Small permutation p-values suggest residual spatial autocorrelation remains after S2.\n")
 }
 
 

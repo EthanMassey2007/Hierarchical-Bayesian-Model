@@ -113,15 +113,12 @@ Project layout:
 | S6 | `spatial_R/spatial_inla_model_s6_rainfall_region.R` | S2 + rainfall-by-IBGE-mesoregion interaction. | Main rainfall heterogeneity model. |
 | S7 | `spatial_R/spatial_inla_model_s7_temperature_region.R` | S2 + temperature-by-IBGE-mesoregion interaction. | Climate sensitivity model for temperature. |
 
-## Current Results
-
-These are the latest recorded results from the current modeling work. Some early Python runs were not saved as CSV outputs, so those rows are marked as not recorded instead of being guessed. Re-run the relevant scripts before using final paper numbers.
 
 ### Model Comparison
 
 | Model | Test MAE | Test RMSE | Test WAPE | Accuracy % | Test R2 | DIC | WAIC | Current interpretation |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | --- |
-| M0 | not recorded | not recorded | not recorded | 12.47% | not recorded | N/A | N/A | True null baseline; very weak prediction by design. |
+| M0 | 18.8 | 96.95 | 0.88 | 12.47% | 0.19 | N/A | N/A | True null baseline; very weak prediction by design. |
 | M1 | 19.14 | 97.88 | 0.875 | 12.49% | 0.1864 | N/A | N/A | Same-week covariates barely improved over M0. |
 | M2 | 19.07 | 97.18 | 0.8692 | 13.07% | 0.2 | N/A | N/A | Lagged weather model; useful comparison but not yet saved in outputs. |
 | M3 | 18.95 | 96.78 | 0.869 | 13.03% | 0.199 | N/A | N/A | Interpolation sensitivity model; interpolation did not clearly help in later models. |
@@ -136,17 +133,15 @@ These are the latest recorded results from the current modeling work. Some early
 | S6 | 4.0198 | 10.5809 | 0.4642 | 53.5787% | 0.8697 | 93722.40 | 93880.28 | Rainfall effect varies by region; important for the research question. |
 | S7 | 4.1713 | 11.0831 | 0.4817 | 51.8289% | 0.8570 | 93729.90 | 93914.20 | Temperature effect varies in some regions, but this is a secondary sensitivity model. |
 
-WAPE-based accuracy is not classification accuracy. It is:
+WAPE-based accuracy:
 
 ```text
 accuracy_pct = 100 * (1 - sum(abs(actual - predicted)) / sum(actual))
 ```
 
-Higher is better. A value around 53% means the model reduces aggregate absolute count error substantially, but it is still a moderate predictive model rather than a pure forecasting machine.
-
 ### Main S2 Fixed Effects
 
-S2 is the clean main spatial model. Its full-data fixed effects show that lagged cases dominate prediction, but rainfall and neighboring cases remain meaningful after accounting for temporal and spatial structure.
+S2 is the clean main spatial model
 
 | Term | Posterior mean | Interpretation |
 | --- | ---: | --- |
@@ -159,7 +154,7 @@ S2 is the clean main spatial model. Its full-data fixed effects show that lagged
 
 ### S6 Rainfall-by-Region Effects
 
-S6 estimates one rainfall effect for each official IBGE mesoregion. The reference region is **Metropolitana do Rio de Janeiro**, and the other region effects are estimated as differences from that reference.
+S6 estimates one rainfall effect for each official IBGE mesoregion. 
 
 | Region | Rainfall effect | Rainfall relative risk | 95% RR interval | Interpretation |
 | --- | ---: | ---: | --- | --- |
@@ -170,11 +165,9 @@ S6 estimates one rainfall effect for each official IBGE mesoregion. The referenc
 | Norte Fluminense | 0.176 | 1.192 | 1.028 to 1.381 | Positive rainfall association. |
 | Sul Fluminense | 0.154 | 1.166 | 1.042 to 1.304 | Positive rainfall association. |
 
-This supports the paper-friendly claim that the rainfall-dengue association is not spatially uniform. It appears stronger in Centro and Noroeste Fluminense, while Baixadas is much closer to neutral.
-
 ### S7 Temperature-by-Region Effects
 
-S7 repeats the region-interaction logic for temperature. This is useful because it tests whether the rainfall pattern is unique or whether all climate effects vary spatially.
+S7 repeats the region-interaction logic for temperature. 
 
 | Region | Temperature effect | Temperature relative risk | 95% RR interval | Interpretation |
 | --- | ---: | ---: | --- | --- |
@@ -185,18 +178,19 @@ S7 repeats the region-interaction logic for temperature. This is useful because 
 | Norte Fluminense | 0.111 | 1.118 | 0.994 to 1.256 | Positive but interval nearly touches 1. |
 | Sul Fluminense | 0.107 | 1.113 | 1.011 to 1.225 | Positive temperature association. |
 
-S7 is not the central model unless the paper broadens from rainfall to climate sensitivity. It is best treated as a sensitivity model that asks whether temperature also varies spatially.
+S7 is not the central model; it is included as a sensitivity model.
 
 ### Spatial Diagnostic Results
 
-S2 unexplained spatial effects were mapped and then tested with Moran's I. The current diagnostic output is:
+S2 residual spatial autocorrelation was evaluated with Moran's I on municipality-level standardized residuals from the negative-binomial model
 
 | Variable | Moran's I | Permutation p-value | Interpretation |
 | --- | ---: | ---: | --- |
-| `spatial_effect_mean` | 0.0258 | 0.497 | No significant residual spatial autocorrelation detected. |
-| `residual_spatial_rr` | -0.0216 | 0.548 | No significant residual spatial autocorrelation on the mapped relative-risk scale. |
+| `municipality_aggregated_pearson_residual` | 0.1092 | 0.010 | Primary diagnostic; suggests modest remaining positive residual spatial autocorrelation. |
+| `municipality_mean_pearson_residual` | 0.1680 | 0.001 | Sensitivity check; also suggests remaining positive residual spatial autocorrelation. |
+| `municipality_mean_deviance_residual` | 0.0254 | 0.500 | Sensitivity check; no significant residual spatial autocorrelation detected. |
 
-This does not prove every possible spatial process is gone. It means the S2 spatial structure has accounted for the measurable residual autocorrelation under this diagnostic.
+The Pearson-residual diagnostics suggest that S2 improves the spatial structure but does not remove every spatial pattern in the residuals. The deviance-residual sensitivity check is not significant, so the evidence is not one-dimensional. 
 
 ## Methodology
 
@@ -224,40 +218,6 @@ This keeps predicted case counts positive. It also makes coefficients interpreta
 exp(0.20) = 1.22
 ```
 
-That means a one-unit increase in the predictor is associated with about a 22% increase in expected cases, holding other model terms constant. Because continuous covariates are standardized, a "one-unit increase" usually means a one-standard-deviation increase.
-
-### Did We Log All Covariates?
-
-No. This is an important distinction.
-
-The model uses a **log link** for expected dengue cases, but not every covariate is log-transformed. The core climate and socioeconomic covariates are standardized:
-
-```text
-rainfall_lag_z
-humidity_lag_z
-temperature_lag_z
-idhm_z
-```
-
-These are z-scores:
-
-```text
-x_z = (x - mean(x)) / sd(x)
-```
-
-We use `log1p()` for covariates that are counts, flows, or strongly right-skewed quantities:
-
-```text
-log_cases_lag = log(1 + lagged cases)
-neighbor_log_cases_lag = log(1 + lagged neighboring cases)
-road_connectivity_log = log(1 + road connectivity)
-air_passenger_week_lag_log = log(1 + previous-month air passengers)
-```
-
-The reason is practical and statistical: counts and mobility flows can have a few very large values. Logging them compresses extreme values while preserving zeros, since `log1p(0) = 0`. This reduces the chance that a few huge municipalities dominate the coefficient.
-
-Weather variables were not automatically logged because rainfall, humidity, and temperature have different scientific meanings and units. For these, the current baseline approach is lagging and standardization. If a future model tests nonlinear rainfall effects, splines or thresholds would be more interpretable than simply logging every weather variable.
-
 ### Hierarchical Structure
 
 The non-spatial models include repeated observations for each municipality and week. The basic structure is:
@@ -270,17 +230,11 @@ log(mu_it) = intercept
              + covariate effects
 ```
 
-This lets the model account for stable municipality differences, seasonality, yearly shifts, and covariate associations at the same time.
-
 ### Spatial Structure
-
-The spatial models use R-INLA because full MCMC spatial models are much slower. S1 and later use BYM2:
 
 ```text
 spatial risk = structured adjacency effect + unstructured municipality effect
 ```
-
-The structured component lets adjacent municipalities share unexplained spatial risk. The unstructured component allows municipality-specific noise that does not need to be spatially smooth.
 
 S2 also includes an adjacency-based lagged neighboring case term:
 
@@ -292,11 +246,7 @@ neighbor_log_cases_lag[i,t] =
   log1p(neighbor_cases_lag[i,t])
 ```
 
-This is different from BYM2. BYM2 captures residual spatial structure; the neighboring lag term captures observed recent dengue pressure in nearby municipalities.
-
 ### Lags
-
-The core lag settings are defined near the top of the scripts:
 
 ```text
 CASE_LAG_WEEKS = 4
@@ -317,8 +267,6 @@ humidity_lag    = humidity exactly WEATHER_LAG_WEEKS earlier
 temperature_lag = temperature exactly WEATHER_LAG_WEEKS earlier
 ```
 
-The biological reason for lags is that weather does not affect reported dengue cases instantly. Rainfall and temperature can affect mosquito breeding, survival, viral development, and reporting only after a delay.
-
 ### Interpolation
 
 Rainfall and IDHM were treated as complete in the current dataset. Missing humidity and temperature values were handled only in the interpolation models.
@@ -329,7 +277,7 @@ Interpolation models use municipality-level linear temporal interpolation for in
 x(t) = x(t0) + ((t - t0) / (t1 - t0)) * (x(t1) - x(t0))
 ```
 
-where `t0` and `t1` are observed dates around the missing value. The scripts limit interpolation to reasonably short internal gaps. Interpolation is treated as a sensitivity analysis because it can add smoothness and reduce noise, but it can also weaken predictive performance if the filled values do not preserve outbreak-relevant variation.
+where `t0` and `t1` are observed dates around the missing value. The scripts limit interpolation to reasonably short internal gaps.
 
 ### Leakage Prevention
 
@@ -350,7 +298,8 @@ Key checks:
 | --- | --- | --- |
 | `outputs/s2_unexplained_spatial_effects.csv` | `spatial_R/map_s2_unexplained_effects.R` | Municipality-level BYM2 residual spatial effects and relative risks. |
 | `outputs/s2_unexplained_spatial_relative_risk_map.png` | `spatial_R/map_s2_unexplained_effects.R` | Map of unexplained residual spatial relative risk. |
-| `outputs/s2_morans_i_diagnostic.csv` | `spatial_R/s2_morans_i_diagnostic.R` | Moran's I diagnostic for residual spatial autocorrelation. |
+| `outputs/s2_morans_i_diagnostic.csv` | `spatial_R/s2_morans_i_diagnostic.R` | Moran's I diagnostic using standardized negative-binomial residuals. |
+| `outputs/s2_standardized_residuals_by_municipio.csv` | `spatial_R/s2_morans_i_diagnostic.R` | Municipality-level Pearson and deviance residual summaries used for Moran's I. |
 | `outputs/s6_rainfall_region_effects.csv` | `spatial_R/map_s6_rainfall_region_effect.R` | Region-specific rainfall effects and relative risks. |
 | `outputs/s6_rainfall_region_effect_map.png` | `spatial_R/map_s6_rainfall_region_effect.R` | Map of rainfall relative risk by IBGE mesoregion. |
 | `outputs/s7_temperature_region_effects.csv` | `spatial_R/map_s7_temperature_region_effect.R` | Region-specific temperature effects and relative risks. |
@@ -425,7 +374,7 @@ Common settings are near the top of the scripts.
 
 ## Recommended Paper Framing
 
-A clear paper structure would be:
+A good current paper structure for publication is:
 
 1. Start with **M0-M5** to show that lagged cases are essential and that weather-only covariates are not enough.
 2. Use **M5** as the main non-spatial benchmark.
@@ -453,6 +402,3 @@ Suggested tables and figures:
 - When comparing predictive performance, confirm whether the held-out test rows are identical.
 - Several scripts default to `SAVE_OUTPUTS = FALSE`, so not every run leaves a CSV behind.
 
-## License
-
-No license file is currently included. Add a license before distributing or reusing this project publicly.
