@@ -23,7 +23,7 @@ from pathlib import Path
 
 import matplotlib.pyplot as plt
 from matplotlib.collections import PatchCollection
-from matplotlib.colors import TwoSlopeNorm
+from matplotlib.colors import Normalize, TwoSlopeNorm
 from matplotlib.patches import Polygon
 
 
@@ -112,6 +112,20 @@ def build_map_patches(geojson: dict, effects: dict[int, dict[str, str]]):
     return patches, values, missing_features
 
 
+def relative_risk_norm(values: list[float]):
+    vmin = min(values)
+    vmax = max(values)
+
+    if vmin < 1.0 < vmax:
+        return TwoSlopeNorm(vmin=vmin, vcenter=1.0, vmax=vmax)
+
+    if vmin == vmax:
+        padding = max(abs(vmin) * 0.05, 0.05)
+        return Normalize(vmin=vmin - padding, vmax=vmax + padding)
+
+    return Normalize(vmin=vmin, vmax=vmax)
+
+
 def plot_unexplained_effects() -> None:
     effects = load_effects()
 
@@ -123,7 +137,7 @@ def plot_unexplained_effects() -> None:
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
     fig, ax = plt.subplots(figsize=(12, 8))
-    norm = TwoSlopeNorm(vmin=min(values), vcenter=1.0, vmax=max(values))
+    norm = relative_risk_norm(values)
     collection = PatchCollection(
         patches,
         cmap="coolwarm",

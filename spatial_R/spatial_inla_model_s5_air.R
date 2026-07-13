@@ -77,6 +77,7 @@ if (dir.exists(file.path(SCRIPT_DIR, "data"))) {
   BASE_DIR <- normalizePath(file.path(SCRIPT_DIR, ".."))
 }
 DATA_DIR <- file.path(BASE_DIR, "data")
+OUTPUT_DIR <- file.path(BASE_DIR, "outputs")
 
 COMBINED_FILE <- file.path(DATA_DIR, "complete_combined_datasets.csv")
 MUNICIPIOS_FILE <- file.path(DATA_DIR, "municipios.csv")
@@ -717,10 +718,11 @@ main <- function() {
     print(train_fit$summary.fixed)
 
     if (SAVE_OUTPUTS) {
-      fwrite(metrics, file.path(BASE_DIR, "spatial_inla_s5_air_train_test_metrics.csv"))
+      dir.create(OUTPUT_DIR, showWarnings = FALSE, recursive = TRUE)
+      fwrite(metrics, file.path(OUTPUT_DIR, "spatial_inla_s5_air_train_test_metrics.csv"))
       output <- copy(test_dt[, .(municipio, year, week, date, cases)])
       output[, predicted_cases := test_pred]
-      fwrite(output, file.path(BASE_DIR, "spatial_inla_s5_air_test_predictions.csv"))
+      fwrite(output, file.path(OUTPUT_DIR, "spatial_inla_s5_air_test_predictions.csv"))
     }
   }
 }

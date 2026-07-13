@@ -61,6 +61,7 @@ if os.path.isdir(os.path.join(SCRIPT_DIR, "data")):
 else:
     BASE_DIR = os.path.abspath(os.path.join(SCRIPT_DIR, ".."))
 DATA_DIR = os.path.join(BASE_DIR, "data")
+OUTPUT_DIR = os.path.join(BASE_DIR, "outputs")
 COMBINED_FILE = os.path.join(DATA_DIR, "complete_combined_datasets.csv")
 
 
@@ -507,12 +508,13 @@ def run_train_test_evaluation(df: pd.DataFrame):
         print(f"{key}: {value:.4f}")
 
     if SAVE_OUTPUTS:
+        os.makedirs(OUTPUT_DIR, exist_ok=True)
         metrics_path = os.path.join(
-            BASE_DIR,
+            OUTPUT_DIR,
             "base_model_lag_cases_weather_train_test_metrics.csv",
         )
         predictions_path = os.path.join(
-            BASE_DIR,
+            OUTPUT_DIR,
             "base_model_lag_cases_weather_test_predictions.csv",
         )
 
@@ -567,9 +569,10 @@ def main():
     )
 
     if SAVE_OUTPUTS:
-        metrics_path = os.path.join(BASE_DIR, "base_model_lag_cases_weather_metrics.csv")
+        os.makedirs(OUTPUT_DIR, exist_ok=True)
+        metrics_path = os.path.join(OUTPUT_DIR, "base_model_lag_cases_weather_metrics.csv")
         predictions_path = os.path.join(
-            BASE_DIR,
+            OUTPUT_DIR,
             "base_model_lag_cases_weather_predictions.csv",
         )
 
