@@ -1,6 +1,6 @@
 # Hierarchical Bayesian Dengue Modeling in Rio de Janeiro
 
-The main research question is whether rainfall and related climate conditions help explain dengue cases, and whether those effects vary across space. The current strongest non-spatial model is M5. The current main spatial model is S2, with S6 used to test the key rainfall-by-region research question.
+This project studies whether rainfall and related climate conditions help explain dengue cases in Rio de Janeiro, and whether those effects vary across space. M5 is the strongest current non-spatial model. S2 is the main spatial model, and S6 tests the key rainfall-by-region question.
 
 ## Project Status
 
@@ -14,7 +14,7 @@ Current interpretation:
 
 - **M5** strongest non-spatial model because lagged cases add a major predictive signal.
 - **S2** cleanest main spatial model because it adds BYM2 spatial structure and adjacency-based neighboring lagged cases.
-- **S6** most important model for our question because it tests whether rainfall effects differ by region
+- **S6** most important model for the research question because it tests whether rainfall effects differ by region.
 - **S7** useful sensitivity model that tests whether temperature also varies by region.
 - **S3-S5** are spatial or mobility sensitivity models. They are useful, but they have not replaced S2.
 
@@ -25,6 +25,14 @@ Primary modeling file:
 ```text
 data/complete_combined_datasets.csv
 ```
+
+Detailed data provenance and citation information is documented in
+[`DATA_AVAILABILITY.md`](DATA_AVAILABILITY.md), with BibTeX entries in
+[`references.bib`](references.bib).
+
+Reproducibility setup and check commands are documented in
+[`REPRODUCIBILITY.md`](REPRODUCIBILITY.md). A lightweight `Makefile` provides
+syntax checks and common model/map targets.
 
 Support files:
 
@@ -86,6 +94,180 @@ Project layout:
 |   `-- run_logs/
 `-- data/
 ```
+
+## Python and R Ecosystem
+
+The project has two modeling layers:
+
+```text
+data/complete_combined_datasets.csv
+        |
+        |-- Python/PyMC models
+        |       `-- M0-M6: non-spatial baseline and feature tests
+        |
+        `-- R-INLA models
+                `-- S1-S7: spatial models, mobility tests, region effects, maps, diagnostics
+```
+
+- **Python/PyMC:** used for the non-spatial model ladder.
+- **R-INLA:** used for spatial models because BYM2 spatial models are much faster in INLA than PyMC MCMC.
+- **Shared input:** both ecosystems read `data/complete_combined_datasets.csv`.
+- **No dependency on Python outputs:** the R scripts rebuild their own model data from the combined dataset.
+- **Main workflow:** M5 becomes the non-spatial benchmark, then S2/S6 become the main spatial models.
+
+### Shared Data Flow
+
+Most scripts follow the same basic workflow:
+
+```text
+read combined dataset
+clean names
+create dates
+create model features
+drop unusable rows
+split train/test
+standardize covariates
+fit negative-binomial model
+evaluate predictions
+```
+
+- **M0:** no covariates.
+- **M5:** lagged weather, IDHM, and lagged own cases.
+- **S2:** M5-style features plus lagged neighboring cases.
+- **S6:** S2 plus rainfall effects that vary by IBGE mesoregion.
+- **S7:** S2 plus temperature effects that vary by IBGE mesoregion.
+
+### Python/PyMC Layer
+
+The Python scripts live in `base_model/`. They build the non-spatial comparison ladder.
+
+| File | Model | What it does |
+| --- | --- | --- |
+| `base_model/base_model.py` | M0 | True baseline; no covariates. |
+| `base_model/base_model_covariates.py` | M1 | Adds same-week rainfall, humidity, temperature, and IDHM. |
+| `base_model/base_model_lag_weather.py` | M2 | Uses lagged weather instead of same-week weather. |
+| `base_model/base_model_interpolation.py` | M3 | Adds leakage-free interpolation for humidity and temperature. |
+| `base_model/base_model_lag_cases.py` | M4 | Adds lagged log cases. |
+| `base_model/base_model_lag_cases_weather.py` | M5 | Main non-spatial model. |
+| `base_model/base_model_lag_cases_weather_interpolation.py` | M6 | M5 plus interpolation. |
+
+Common Python script structure:
+
+| Code section | What it does |
+| --- | --- |
+| Settings | Years, lags, sampling settings, save options. |
+| Paths | Finds `data/` and `outputs/`. |
+| Cleaning | Cleans columns, municipality names, and dates. |
+| Feature building | Adds covariates, lags, or interpolation. |
+| `build_model_dataframe()` | Creates the final modeling dataframe. |
+| `prepare_arrays()` | Converts data into PyMC-ready arrays. |
+| `fit_model()` | Fits the negative-binomial Bayesian model. |
+| `posterior_expected_cases()` | Creates expected case predictions. |
+| `run_train_test_evaluation()` | Fits on train data and evaluates test data. |
+| `main()` | Runs the script. |
+
+Basic Python model shape:
+
+```text
+cases_it ~ NegativeBinomial(mu_it, alpha)
+
+log(mu_it) =
+  intercept
+  + municipality random effect
+  + week-of-year random effect
+  + year random effect
+  + model-specific covariates
+```
+
+- `municipality random effect`: stable differences between municipalities.
+- `week-of-year random effect`: seasonality.
+- `year random effect`: year-to-year shifts.
+- `model-specific covariates`: rainfall, temperature, IDHM, lags, or interpolation depending on the model.
+
+### R-INLA Spatial Layer
+
+The R scripts live in `spatial_R/`. They add spatial structure on top of the M5-style model.
+
+| File | Model | What it does |
+| --- | --- | --- |
+| `spatial_R/spatial_inla_model_s1.R` | S1 | Adds BYM2 spatial random effects. |
+| `spatial_R/spatial_inla_model_s2.R` | S2 | Main spatial model; adds adjacency-based lagged neighboring cases. |
+| `spatial_R/spatial_inla_model_s3.R` | S3 | Tests distance-weighted neighboring cases. |
+| `spatial_R/spatial_inla_model_s4_road.R` | S4 | Tests road/fluvial mobility. |
+| `spatial_R/spatial_inla_model_s5_air.R` | S5 | Tests lagged air passenger mobility. |
+| `spatial_R/spatial_inla_model_s6_rainfall_region.R` | S6 | Tests rainfall effects by region. |
+| `spatial_R/spatial_inla_model_s7_temperature_region.R` | S7 | Tests temperature effects by region. |
+
+Main S2 model terms:
+
+```text
+cases_it ~ NegativeBinomial(mu_it)
+
+log(mu_it) =
+  intercept
+  + rainfall_lag_z
+  + humidity_lag_z
+  + temperature_lag_z
+  + idhm_z
+  + log_cases_lag_z
+  + neighbor_log_cases_lag_z
+  + week random effect
+  + year random effect
+  + BYM2 spatial random effect
+```
+
+- **BYM2 structured effect:** uses `data/adjacency_matrix_correct.parquet`.
+- **BYM2 unstructured effect:** captures municipality-specific noise.
+- **Neighbor lag:** uses adjacent municipalities' dengue cases from the lag period.
+- **S6/S7 region effects:** use IBGE mesoregion information from `data/hub_pop_density.csv`.
+
+### R Diagnostics and Map Scripts
+
+These scripts turn fitted spatial models into maps and diagnostics.
+
+| File | Depends on | Output | Purpose |
+| --- | --- | --- | --- |
+| `spatial_R/map_s2_unexplained_effects.R` | S2 | `outputs/s2_unexplained_spatial_effects.csv`, `outputs/s2_unexplained_spatial_relative_risk_map.png` | Maps unexplained spatial relative risk. |
+| `spatial_R/s2_morans_i_diagnostic.R` | S2 | `outputs/s2_morans_i_diagnostic.csv`, `outputs/s2_standardized_residuals_by_municipio.csv` | Runs Moran's I on standardized negative-binomial residuals. |
+| `spatial_R/map_s6_rainfall_region_effect.R` | S6 | `outputs/s6_rainfall_region_effects.csv`, `outputs/s6_rainfall_region_effect_map.png` | Maps rainfall relative risk by region. |
+| `spatial_R/map_s7_temperature_region_effect.R` | S7 | `outputs/s7_temperature_region_effects.csv`, `outputs/s7_temperature_region_effect_map.png` | Maps temperature relative risk by region. |
+
+Some R helper scripts source S2 with:
+
+```text
+INLA_RUN_MODEL=0
+```
+
+That lets them reuse S2 functions without immediately running the full S2 model when the file is imported.
+
+### How the Files Work Together
+
+Model path:
+
+```text
+M0 -> M1 -> M2 -> M3 -> M4 -> M5 -> M6
+                         |
+                         `-- M5 becomes the non-spatial benchmark
+
+M5 logic -> S1 -> S2 -> S3/S4/S5
+                 |
+                 |-- S6: rainfall varies by region
+                 |-- S7: temperature varies by region
+                 |-- S2 unexplained-effect map
+                 `-- S2 Moran's I residual diagnostic
+```
+
+How to think about the models:
+
+- **M0-M6:** build the baseline story.
+- **M5:** best non-spatial benchmark.
+- **S1:** asks whether spatial random effects help.
+- **S2:** main spatial model.
+- **S3:** checks whether distance weighting beats adjacency.
+- **S4-S5:** check mobility.
+- **S6:** main rainfall heterogeneity model.
+- **S7:** temperature sensitivity model.
+- **Maps/diagnostics:** explain spatial effects after modeling.
 
 ## Model Lineup
 
@@ -401,4 +583,3 @@ Suggested tables and figures:
 - Models may use different row sets if interpolation fills rows that non-interpolation models drop.
 - When comparing predictive performance, confirm whether the held-out test rows are identical.
 - Several scripts default to `SAVE_OUTPUTS = FALSE`, so not every run leaves a CSV behind.
-
