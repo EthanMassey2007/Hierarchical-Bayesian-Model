@@ -8,7 +8,7 @@ The models are organized into 3 layers:
 
 1. **M0-M6:** non-spatial hierarchical Bayesian models fit in Python/PyMC.
 2. **S1-S5:** spatial and mobility extensions fit in R-INLA.
-3. **S6-S7:** region-varying climate-effect models fit in R-INLA.
+3. **S6-S9:** spatially varying climate-effect models fit in R-INLA.
 
 Current interpretation:
 
@@ -16,6 +16,7 @@ Current interpretation:
 - **S2** cleanest main spatial model because it adds BYM2 spatial structure and adjacency-based neighboring lagged cases.
 - **S6** most important model for the research question because it tests whether rainfall effects differ by region.
 - **S7** useful sensitivity model that tests whether temperature also varies by region.
+- **S8-S9** exploratory municipality-level rainfall and temperature random-slope maps.
 - **S3-S5** are spatial or mobility sensitivity models. They are useful, but they have not replaced S2.
 
 ## Data
@@ -79,7 +80,10 @@ Project layout:
 |   |-- spatial_inla_model_s5_air.R
 |   |-- spatial_inla_model_s6_rainfall_region.R
 |   |-- spatial_inla_model_s7_temperature_region.R
+|   |-- spatial_inla_model_s8_rainfall_municipality.R
+|   |-- spatial_inla_model_s9_temperature_municipality.R
 |   |-- map_s2_unexplained_effects.R
+|   |-- map_s2_spacetime_weather_residual_animations.R
 |   |-- map_s6_rainfall_region_effect.R
 |   |-- map_s7_temperature_region_effect.R
 |   `-- s2_morans_i_diagnostic.R
@@ -91,6 +95,13 @@ Project layout:
 |   |-- s6_rainfall_region_effect_map.png
 |   |-- s7_temperature_region_effects.csv
 |   |-- s7_temperature_region_effect_map.png
+|   |-- s8_rainfall_municipality_effects.csv
+|   |-- s8_rainfall_municipality_effect_map.png
+|   |-- s9_temperature_municipality_effects.csv
+|   |-- s9_temperature_municipality_effect_map.png
+|   |-- s2_spacetime_rainfall_lag_animation_2023.gif
+|   |-- s2_spacetime_temperature_lag_animation_2023.gif
+|   |-- s2_spacetime_residual_animation_2023.gif
 |   `-- run_logs/
 `-- data/
 ```
@@ -106,7 +117,7 @@ data/complete_combined_datasets.csv
         |       `-- M0-M6: non-spatial baseline and feature tests
         |
         `-- R-INLA models
-                `-- S1-S7: spatial models, mobility tests, region effects, maps, diagnostics
+                `-- S1-S9: spatial models, mobility tests, climate-effect maps, diagnostics
 ```
 
 - **Python/PyMC:** used for the non-spatial model ladder.
@@ -197,6 +208,8 @@ The R scripts live in `spatial_R/`. They add spatial structure on top of the M5-
 | `spatial_R/spatial_inla_model_s5_air.R` | S5 | Tests lagged air passenger mobility. |
 | `spatial_R/spatial_inla_model_s6_rainfall_region.R` | S6 | Tests rainfall effects by region. |
 | `spatial_R/spatial_inla_model_s7_temperature_region.R` | S7 | Tests temperature effects by region. |
+| `spatial_R/spatial_inla_model_s8_rainfall_municipality.R` | S8 | Exploratory municipality-level rainfall random slopes. |
+| `spatial_R/spatial_inla_model_s9_temperature_municipality.R` | S9 | Exploratory municipality-level temperature random slopes. |
 
 Main S2 model terms:
 
@@ -220,6 +233,7 @@ log(mu_it) =
 - **BYM2 unstructured effect:** captures municipality-specific noise.
 - **Neighbor lag:** uses adjacent municipalities' dengue cases from the lag period.
 - **S6/S7 region effects:** use IBGE mesoregion information from `data/hub_pop_density.csv`.
+- **S8/S9 municipality effects:** use partially pooled municipality-level random slopes. These are useful for supplemental maps, but the region-level S6/S7 effects are more stable for main-text inference.
 
 ### R Diagnostics and Map Scripts
 
@@ -231,6 +245,7 @@ These scripts turn fitted spatial models into maps and diagnostics.
 | `spatial_R/s2_morans_i_diagnostic.R` | S2 | `outputs/s2_morans_i_diagnostic.csv`, `outputs/s2_standardized_residuals_by_municipio.csv` | Runs Moran's I on standardized negative-binomial residuals. |
 | `spatial_R/map_s6_rainfall_region_effect.R` | S6 | `outputs/s6_rainfall_region_effects.csv`, `outputs/s6_rainfall_region_effect_map.png` | Maps rainfall relative risk by region. |
 | `spatial_R/map_s7_temperature_region_effect.R` | S7 | `outputs/s7_temperature_region_effects.csv`, `outputs/s7_temperature_region_effect_map.png` | Maps temperature relative risk by region. |
+| `spatial_R/map_s2_spacetime_weather_residual_animations.R` | S2 | `outputs/s2_spacetime_*_animation_2023.gif`, `outputs/s2_spacetime_weather_residuals_by_municipio_week.csv` | Animates 2023 lagged rainfall, lagged temperature, and S2 residuals. |
 
 Some R helper scripts source S2 with:
 
@@ -253,6 +268,9 @@ M5 logic -> S1 -> S2 -> S3/S4/S5
                  |
                  |-- S6: rainfall varies by region
                  |-- S7: temperature varies by region
+                 |-- S8: rainfall varies by municipality
+                 |-- S9: temperature varies by municipality
+                 |-- S2 weekly rainfall/temperature/residual GIFs
                  |-- S2 unexplained-effect map
                  `-- S2 Moran's I residual diagnostic
 ```
@@ -267,6 +285,7 @@ How to think about the models:
 - **S4-S5:** check mobility.
 - **S6:** main rainfall heterogeneity model.
 - **S7:** temperature sensitivity model.
+- **S8-S9:** exploratory municipality-level climate-effect maps.
 - **Maps/diagnostics:** explain spatial effects after modeling.
 
 ## Model Lineup
@@ -294,6 +313,8 @@ How to think about the models:
 | S5 | `spatial_R/spatial_inla_model_s5_air.R` | S2 + previous-month air passenger mobility. | Tests air mobility without future leakage. |
 | S6 | `spatial_R/spatial_inla_model_s6_rainfall_region.R` | S2 + rainfall-by-IBGE-mesoregion interaction. | Main rainfall heterogeneity model. |
 | S7 | `spatial_R/spatial_inla_model_s7_temperature_region.R` | S2 + temperature-by-IBGE-mesoregion interaction. | Climate sensitivity model for temperature. |
+| S8 | `spatial_R/spatial_inla_model_s8_rainfall_municipality.R` | S2 + municipality-level rainfall random slope. | Exploratory fine-scale rainfall heterogeneity map. |
+| S9 | `spatial_R/spatial_inla_model_s9_temperature_municipality.R` | S2 + municipality-level temperature random slope. | Exploratory fine-scale temperature heterogeneity map. |
 
 
 ### Model Comparison
@@ -337,28 +358,30 @@ S2 is the clean main spatial model
 ### S6 Rainfall-by-Region Effects
 
 S6 estimates one rainfall effect for each official IBGE mesoregion. 
+Region-specific intervals use an approximate normal interval for the main climate effect plus the region interaction. This avoids adding marginal quantiles directly.
 
 | Region | Rainfall effect | Rainfall relative risk | 95% RR interval | Interpretation |
 | --- | ---: | ---: | --- | --- |
-| Baixadas | -0.103 | 0.902 | 0.785 to 1.035 | Near-neutral to slightly negative; interval overlaps 1. |
-| Centro Fluminense | 0.258 | 1.294 | 1.143 to 1.463 | Clear positive rainfall association. |
-| Metropolitana do Rio de Janeiro | 0.146 | 1.157 | 1.086 to 1.231 | Positive reference-region rainfall effect. |
-| Noroeste Fluminense | 0.284 | 1.329 | 1.175 to 1.500 | Strongest rainfall association. |
-| Norte Fluminense | 0.176 | 1.192 | 1.028 to 1.381 | Positive rainfall association. |
-| Sul Fluminense | 0.154 | 1.166 | 1.042 to 1.304 | Positive rainfall association. |
+| Baixadas | -0.103 | 0.902 | 0.818 to 0.996 | Slight negative rainfall association under the approximate interval. |
+| Centro Fluminense | 0.258 | 1.294 | 1.186 to 1.412 | Clear positive rainfall association. |
+| Metropolitana do Rio de Janeiro | 0.146 | 1.157 | 1.087 to 1.232 | Positive reference-region rainfall effect. |
+| Noroeste Fluminense | 0.284 | 1.329 | 1.219 to 1.448 | Strongest rainfall association. |
+| Norte Fluminense | 0.176 | 1.192 | 1.073 to 1.325 | Positive rainfall association. |
+| Sul Fluminense | 0.154 | 1.166 | 1.077 to 1.264 | Positive rainfall association. |
 
 ### S7 Temperature-by-Region Effects
 
 S7 repeats the region-interaction logic for temperature. 
+Region-specific intervals use the same approximate normal interval logic as S6.
 
 | Region | Temperature effect | Temperature relative risk | 95% RR interval | Interpretation |
 | --- | ---: | ---: | --- | --- |
-| Baixadas | 0.005 | 1.005 | 0.897 to 1.126 | Essentially neutral. |
-| Centro Fluminense | 0.213 | 1.237 | 1.103 to 1.387 | Positive temperature association. |
+| Baixadas | 0.005 | 1.005 | 0.926 to 1.091 | Essentially neutral. |
+| Centro Fluminense | 0.213 | 1.237 | 1.140 to 1.343 | Positive temperature association. |
 | Metropolitana do Rio de Janeiro | 0.010 | 1.010 | 0.963 to 1.058 | Essentially neutral reference effect. |
-| Noroeste Fluminense | 0.273 | 1.314 | 1.176 to 1.469 | Strongest temperature association. |
-| Norte Fluminense | 0.111 | 1.118 | 0.994 to 1.256 | Positive but interval nearly touches 1. |
-| Sul Fluminense | 0.107 | 1.113 | 1.011 to 1.225 | Positive temperature association. |
+| Noroeste Fluminense | 0.273 | 1.314 | 1.214 to 1.423 | Strongest temperature association. |
+| Norte Fluminense | 0.111 | 1.118 | 1.028 to 1.216 | Positive temperature association. |
+| Sul Fluminense | 0.107 | 1.113 | 1.040 to 1.191 | Positive temperature association. |
 
 S7 is not the central model; it is included as a sensitivity model.
 
@@ -486,7 +509,21 @@ Key checks:
 | `outputs/s6_rainfall_region_effect_map.png` | `spatial_R/map_s6_rainfall_region_effect.R` | Map of rainfall relative risk by IBGE mesoregion. |
 | `outputs/s7_temperature_region_effects.csv` | `spatial_R/map_s7_temperature_region_effect.R` | Region-specific temperature effects and relative risks. |
 | `outputs/s7_temperature_region_effect_map.png` | `spatial_R/map_s7_temperature_region_effect.R` | Map of temperature relative risk by IBGE mesoregion. |
+| `outputs/s8_rainfall_municipality_effects.csv` | `spatial_R/spatial_inla_model_s8_rainfall_municipality.R` | Municipality-specific rainfall random-slope summaries. |
+| `outputs/s8_rainfall_municipality_effect_map.png` | `spatial_R/spatial_inla_model_s8_rainfall_municipality.R` | Exploratory municipality-level rainfall relative-risk map. |
+| `outputs/s9_temperature_municipality_effects.csv` | `spatial_R/spatial_inla_model_s9_temperature_municipality.R` | Municipality-specific temperature random-slope summaries. |
+| `outputs/s9_temperature_municipality_effect_map.png` | `spatial_R/spatial_inla_model_s9_temperature_municipality.R` | Exploratory municipality-level temperature relative-risk map. |
+| `outputs/s2_spacetime_weather_residuals_by_municipio_week.csv` | `spatial_R/map_s2_spacetime_weather_residual_animations.R` | Weekly S2 fitted means and standardized Pearson residuals. |
+| `outputs/s2_spacetime_rainfall_lag_animation_2023.gif` | `spatial_R/map_s2_spacetime_weather_residual_animations.R` | Animated 2023 map of lagged rainfall used by S2. |
+| `outputs/s2_spacetime_temperature_lag_animation_2023.gif` | `spatial_R/map_s2_spacetime_weather_residual_animations.R` | Animated 2023 map of lagged temperature used by S2. |
+| `outputs/s2_spacetime_residual_animation_2023.gif` | `spatial_R/map_s2_spacetime_weather_residual_animations.R` | Animated 2023 map of full-data S2 standardized Pearson residuals. |
 | `outputs/run_logs/` | S1-S7 model runs | Saved console logs used to update the model-results table. |
+
+Map interpretation note:
+
+- Static S2/S6/S7/S8/S9 maps are full-data explanatory maps, not held-out prediction maps.
+- The animated residual GIF is a full-data residual diagnostic. It shows weeks and places where S2 underpredicted or overpredicted after accounting for the fitted model.
+- Use train/test metrics for predictive claims. Use maps for interpretation, diagnostics, and spatial pattern description.
 
 ## How to Run
 
@@ -538,6 +575,19 @@ Run the S2 residual spatial diagnostic:
 Rscript spatial_R/s2_morans_i_diagnostic.R
 ```
 
+Create the weekly rainfall, temperature, and unexplained-residual GIFs:
+
+```bash
+Rscript spatial_R/map_s2_spacetime_weather_residual_animations.R
+```
+
+Run the exploratory municipality-level climate-effect maps:
+
+```bash
+Rscript spatial_R/spatial_inla_model_s8_rainfall_municipality.R
+Rscript spatial_R/spatial_inla_model_s9_temperature_municipality.R
+```
+
 ## Configuration
 
 Common settings are near the top of the scripts.
@@ -553,6 +603,15 @@ Common settings are near the top of the scripts.
 | `RUN_TRAIN_TEST_EVALUATION` | Whether to run train/test evaluation. |
 | `SAVE_OUTPUTS` | Whether to save generated metrics and predictions. |
 | `INLA_NUM_THREADS` | Threading setting for R-INLA. |
+
+R package note:
+
+- The GIF script requires `gganimate`, `gifski`, and `scales` in addition to the core R-INLA mapping packages.
+- If those packages are missing, install them with:
+
+```bash
+Rscript -e 'install.packages(c("gganimate", "gifski", "scales"), repos="https://cloud.r-project.org")'
+```
 
 ## Recommended Paper Framing
 
@@ -574,6 +633,8 @@ Suggested tables and figures:
 - Residual spatial relative-risk map from S2.
 - Moran's I diagnostic table for residual spatial autocorrelation.
 - Sensitivity table for temperature, road mobility, and air mobility.
+- Optional supplementary GIFs for 2023 lagged rainfall, lagged temperature, and S2 weekly residuals.
+- Optional supplementary S8/S9 municipality-level effect maps, clearly labeled as exploratory.
 
 ## Reproducibility Notes
 

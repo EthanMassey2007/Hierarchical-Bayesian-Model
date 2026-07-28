@@ -621,14 +621,24 @@ summarize_region_rainfall_effects <- function(fit) {
     stop("Could not find rainfall_lag_z in fixed effects.")
   }
 
+  normal_interval <- function(mean_value, sd_value) {
+    if (!is.finite(sd_value) || sd_value < 0) {
+      stop("Cannot compute rainfall effect interval from invalid posterior SD.")
+    }
+    c(
+      q025 = mean_value - 1.96 * sd_value,
+      q975 = mean_value + 1.96 * sd_value
+    )
+  }
+
   effects <- data.table(
     region = RAINFALL_REGION_REFERENCE,
     rainfall_effect_mean = rainfall$mean,
-    rainfall_effect_q025 = rainfall$`0.025quant`,
-    rainfall_effect_q975 = rainfall$`0.975quant`,
+    rainfall_effect_q025 = normal_interval(rainfall$mean, rainfall$sd)["q025"],
+    rainfall_effect_q975 = normal_interval(rainfall$mean, rainfall$sd)["q975"],
     rainfall_relative_risk = exp(rainfall$mean),
-    rainfall_relative_risk_q025 = exp(rainfall$`0.025quant`),
-    rainfall_relative_risk_q975 = exp(rainfall$`0.975quant`)
+    rainfall_relative_risk_q025 = exp(normal_interval(rainfall$mean, rainfall$sd)["q025"]),
+    rainfall_relative_risk_q975 = exp(normal_interval(rainfall$mean, rainfall$sd)["q975"])
   )
 
   interaction_regions <- setdiff(REGION_LEVELS, RAINFALL_REGION_REFERENCE)
@@ -640,23 +650,24 @@ summarize_region_rainfall_effects <- function(fit) {
       stop(sprintf("Could not find rainfall interaction term %s in fixed effects.", interaction_term))
     }
 
-    # Approximate interval for the region-specific sum using posterior marginal
-    # means and quantiles. This is enough for screening; final interval sums can
-    # be refined with posterior sampling if needed.
     mean_sum <- rainfall$mean + interaction$mean
-    q025_sum <- rainfall$`0.025quant` + interaction$`0.025quant`
-    q975_sum <- rainfall$`0.975quant` + interaction$`0.975quant`
+    # Approximate the uncertainty of beta_rainfall + beta_region_interaction.
+    # This avoids adding marginal quantiles, which is not a valid interval for
+    # a sum. The approximation is conservative for reporting unless strong
+    # posterior covariance is present.
+    sd_sum <- sqrt(rainfall$sd^2 + interaction$sd^2)
+    interval_sum <- normal_interval(mean_sum, sd_sum)
 
     effects <- rbind(
       effects,
       data.table(
         region = region_name,
         rainfall_effect_mean = mean_sum,
-        rainfall_effect_q025 = q025_sum,
-        rainfall_effect_q975 = q975_sum,
+        rainfall_effect_q025 = interval_sum["q025"],
+        rainfall_effect_q975 = interval_sum["q975"],
         rainfall_relative_risk = exp(mean_sum),
-        rainfall_relative_risk_q025 = exp(q025_sum),
-        rainfall_relative_risk_q975 = exp(q975_sum)
+        rainfall_relative_risk_q025 = exp(interval_sum["q025"]),
+        rainfall_relative_risk_q975 = exp(interval_sum["q975"])
       ),
       use.names = TRUE
     )

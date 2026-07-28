@@ -621,14 +621,24 @@ summarize_region_temperature_effects <- function(fit) {
     stop("Could not find temperature_lag_z in fixed effects.")
   }
 
+  normal_interval <- function(mean_value, sd_value) {
+    if (!is.finite(sd_value) || sd_value < 0) {
+      stop("Cannot compute temperature effect interval from invalid posterior SD.")
+    }
+    c(
+      q025 = mean_value - 1.96 * sd_value,
+      q975 = mean_value + 1.96 * sd_value
+    )
+  }
+
   effects <- data.table(
     region = TEMPERATURE_REGION_REFERENCE,
     temperature_effect_mean = temperature$mean,
-    temperature_effect_q025 = temperature$`0.025quant`,
-    temperature_effect_q975 = temperature$`0.975quant`,
+    temperature_effect_q025 = normal_interval(temperature$mean, temperature$sd)["q025"],
+    temperature_effect_q975 = normal_interval(temperature$mean, temperature$sd)["q975"],
     temperature_relative_risk = exp(temperature$mean),
-    temperature_relative_risk_q025 = exp(temperature$`0.025quant`),
-    temperature_relative_risk_q975 = exp(temperature$`0.975quant`)
+    temperature_relative_risk_q025 = exp(normal_interval(temperature$mean, temperature$sd)["q025"]),
+    temperature_relative_risk_q975 = exp(normal_interval(temperature$mean, temperature$sd)["q975"])
   )
 
   interaction_regions <- setdiff(REGION_LEVELS, TEMPERATURE_REGION_REFERENCE)
@@ -640,23 +650,24 @@ summarize_region_temperature_effects <- function(fit) {
       stop(sprintf("Could not find temperature interaction term %s in fixed effects.", interaction_term))
     }
 
-    # Approximate interval for the region-specific sum using posterior marginal
-    # means and quantiles. This is enough for screening; final interval sums can
-    # be refined with posterior sampling if needed.
     mean_sum <- temperature$mean + interaction$mean
-    q025_sum <- temperature$`0.025quant` + interaction$`0.025quant`
-    q975_sum <- temperature$`0.975quant` + interaction$`0.975quant`
+    # Approximate the uncertainty of beta_temperature + beta_region_interaction.
+    # This avoids adding marginal quantiles, which is not a valid interval for
+    # a sum. The approximation is conservative for reporting unless strong
+    # posterior covariance is present.
+    sd_sum <- sqrt(temperature$sd^2 + interaction$sd^2)
+    interval_sum <- normal_interval(mean_sum, sd_sum)
 
     effects <- rbind(
       effects,
       data.table(
         region = region_name,
         temperature_effect_mean = mean_sum,
-        temperature_effect_q025 = q025_sum,
-        temperature_effect_q975 = q975_sum,
+        temperature_effect_q025 = interval_sum["q025"],
+        temperature_effect_q975 = interval_sum["q975"],
         temperature_relative_risk = exp(mean_sum),
-        temperature_relative_risk_q025 = exp(q025_sum),
-        temperature_relative_risk_q975 = exp(q975_sum)
+        temperature_relative_risk_q025 = exp(interval_sum["q025"]),
+        temperature_relative_risk_q975 = exp(interval_sum["q975"])
       ),
       use.names = TRUE
     )
