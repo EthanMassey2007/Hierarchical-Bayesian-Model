@@ -1,6 +1,8 @@
 # Hierarchical Bayesian Dengue Modeling in Rio de Janeiro
 
-This project studies whether rainfall and related climate conditions help explain dengue cases in Rio de Janeiro, and whether those effects vary across space. M5 is the strongest current non-spatial model. S2 is the main spatial model, and S6 tests the key rainfall-by-region question.
+This project studies dengue cases in Rio de Janeiro with an inferential focus on rainfall: **to what extent does the evidence support a spatiotemporally varying rainfall effect compared with a conventional fixed-effect rainfall specification?** Prediction is still evaluated, but mainly as secondary validation.
+
+M5 is the strongest non-spatial benchmark. S2 is the main fixed-rainfall spatial model. S6 and S8 test spatial rainfall variation, while S10 and S11 extend the rainfall effect across time and space-time.
 
 ## Project Status
 
@@ -8,15 +10,18 @@ The models are organized into 3 layers:
 
 1. **M0-M6:** non-spatial hierarchical Bayesian models fit in Python/PyMC.
 2. **S1-S5:** spatial and mobility extensions fit in R-INLA.
-3. **S6-S9:** spatially varying climate-effect models fit in R-INLA.
+3. **S6-S11:** spatial, temporal, and spatiotemporal climate-effect models fit in R-INLA.
 
 Current interpretation:
 
 - **M5** strongest non-spatial model because lagged cases add a major predictive signal.
 - **S2** cleanest main spatial model because it adds BYM2 spatial structure and adjacency-based neighboring lagged cases.
-- **S6** most important model for the research question because it tests whether rainfall effects differ by region.
+- **S6** tests whether rainfall effects differ by region.
+- **S8** tests whether rainfall effects differ by municipality.
+- **S10** tests whether rainfall effects vary over time.
+- **S11** tests an additive municipality-plus-time rainfall effect.
 - **S7** useful sensitivity model that tests whether temperature also varies by region.
-- **S8-S9** exploratory municipality-level rainfall and temperature random-slope maps.
+- **S9** exploratory municipality-level temperature random-slope map.
 - **S3-S5** are spatial or mobility sensitivity models. They are useful, but they have not replaced S2.
 
 ## Data
@@ -117,14 +122,15 @@ data/complete_combined_datasets.csv
         |       `-- M0-M6: non-spatial baseline and feature tests
         |
         `-- R-INLA models
-                `-- S1-S9: spatial models, mobility tests, climate-effect maps, diagnostics
+                `-- S1-S11: spatial models, mobility tests, climate-effect maps, diagnostics
 ```
 
-- **Python/PyMC:** used for the non-spatial model ladder.
+- **Python/PyMC:** used for early non-spatial model development and sensitivity checks.
+- **R-INLA non-spatial baselines:** used for fast final baseline comparison against the spatial rainfall models.
 - **R-INLA:** used for spatial models because BYM2 spatial models are much faster in INLA than PyMC MCMC.
 - **Shared input:** both ecosystems read `data/complete_combined_datasets.csv`.
 - **No dependency on Python outputs:** the R scripts rebuild their own model data from the combined dataset.
-- **Main workflow:** M5 becomes the non-spatial benchmark, then S2/S6 become the main spatial models.
+- **Main workflow:** M5 becomes the non-spatial benchmark, S2 becomes the fixed-rainfall spatial benchmark, then S6/S8/S10/S11 test whether rainfall effects vary across space and time.
 
 ### Shared Data Flow
 
@@ -146,11 +152,33 @@ evaluate predictions
 - **M5:** lagged weather, IDHM, and lagged own cases.
 - **S2:** M5-style features plus lagged neighboring cases.
 - **S6:** S2 plus rainfall effects that vary by IBGE mesoregion.
+- **S8:** S2 plus rainfall effects that vary by municipality.
+- **S10:** S2 plus rainfall effects that vary over ordered weeks.
+- **S11:** S2 plus additive municipality and time rainfall effects.
 - **S7:** S2 plus temperature effects that vary by IBGE mesoregion.
+
+### R-INLA Baseline Layer
+
+The final fast baseline ladder can be run in R-INLA:
+
+| File | Model | What it does |
+| --- | --- | --- |
+| `base_model_r_m0.R` | R-M0 | Baseline with municipality, week, and year random effects; no fixed covariates. |
+| `base_model_r_m1_covariates.R` | R-M1 | Adds same-week rainfall, humidity, temperature, and IDHM. |
+| `base_model_r_m4_lag_cases.R` | R-M4 | Adds four-week log lagged cases to the same-week covariate model. |
+| `base_model_r_m5_lag_weather_cases.R` | R-M5 | Main non-spatial benchmark with lagged weather and log lagged cases. |
+
+These R baseline files save:
+
+| Output | Meaning |
+| --- | --- |
+| `r_m*_model_criteria.csv` | DIC, WAIC, LPML, and mean log CPO. |
+| `r_m*_fixed_effects.csv` | INLA fixed-effect summaries and uncertainty intervals. |
+| `r_m*_train_test_metrics.csv` | MAE, RMSE, WAPE, accuracy percentage, and R2. |
 
 ### Python/PyMC Layer
 
-The Python scripts live in `base_model/`. They build the non-spatial comparison ladder.
+The Python scripts live in `base_model/`. They were used to build and validate the original non-spatial comparison ladder. They are slower because they use MCMC, so the R-INLA versions are preferred for final repeated model comparison.
 
 | File | Model | What it does |
 | --- | --- | --- |
@@ -210,6 +238,8 @@ The R scripts live in `spatial_R/`. They add spatial structure on top of the M5-
 | `spatial_R/spatial_inla_model_s7_temperature_region.R` | S7 | Tests temperature effects by region. |
 | `spatial_R/spatial_inla_model_s8_rainfall_municipality.R` | S8 | Exploratory municipality-level rainfall random slopes. |
 | `spatial_R/spatial_inla_model_s9_temperature_municipality.R` | S9 | Exploratory municipality-level temperature random slopes. |
+| `spatial_R/spatial_inla_model_s10_rainfall_time.R` | S10 | Tests time-varying rainfall random slopes. |
+| `spatial_R/spatial_inla_model_s11_rainfall_spacetime.R` | S11 | Tests additive municipality-plus-time rainfall random slopes. |
 
 Main S2 model terms:
 
@@ -233,7 +263,32 @@ log(mu_it) =
 - **BYM2 unstructured effect:** captures municipality-specific noise.
 - **Neighbor lag:** uses adjacent municipalities' dengue cases from the lag period.
 - **S6/S7 region effects:** use IBGE mesoregion information from `data/hub_pop_density.csv`.
-- **S8/S9 municipality effects:** use partially pooled municipality-level random slopes. These are useful for supplemental maps, but the region-level S6/S7 effects are more stable for main-text inference.
+- **S8/S9 municipality effects:** use partially pooled municipality-level random slopes.
+- **S10 rainfall time effect:** uses an RW1 time-varying rainfall slope across ordered weeks.
+- **S11 rainfall space-time effect:** combines a municipality rainfall random slope and an RW1 time-varying rainfall slope.
+
+### Inferential Rainfall Model Ladder
+
+The rainfall-focused model ladder is:
+
+| Model | Rainfall specification | Main question |
+| --- | --- | --- |
+| M5 | Fixed rainfall effect, no spatial INLA structure | Non-spatial benchmark. |
+| S2 | Fixed rainfall effect with BYM2 and neighboring lagged cases | Spatial benchmark with conventional rainfall effect. |
+| S6 | Rainfall effect varies by IBGE mesoregion | Is rainfall sensitivity region-specific? |
+| S8 | Rainfall effect varies by municipality | Is there finer local rainfall heterogeneity? |
+| S10 | Rainfall effect varies over ordered weeks | Does rainfall sensitivity change over time? |
+| S11 | Rainfall effect varies additively by municipality and time | Does evidence support a spatiotemporally varying rainfall effect? |
+
+Primary inferential outputs:
+
+| Output | Meaning |
+| --- | --- |
+| rainfall coefficient / relative risk | Direction and size of the rainfall association. |
+| posterior interval | Uncertainty in the rainfall association. |
+| DIC / WAIC / CPO | Evidence and fit comparison across rainfall specifications. |
+| rainfall maps / time plots | Where and when rainfall sensitivity is stronger or weaker. |
+| MAE / RMSE / WAPE | Secondary held-out predictive validation. |
 
 ### R Diagnostics and Map Scripts
 
