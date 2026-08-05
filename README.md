@@ -1,7 +1,5 @@
 # Hierarchical Bayesian Dengue Modeling in Rio de Janeiro
 
-This project studies dengue cases in Rio de Janeiro with an inferential focus on rainfall: **to what extent does the evidence support a spatiotemporally varying rainfall effect compared with a conventional fixed-effect rainfall specification?** Prediction is still evaluated, but mainly as secondary validation.
-
 M5 is the strongest non-spatial benchmark. S2 is the main fixed-rainfall spatial model. S6 and S8 test spatial rainfall variation, while S10 and S11 extend the rainfall effect across time and space-time.
 
 ## Project Status
@@ -69,6 +67,17 @@ Project layout:
 ```text
 .
 |-- README.md
+|-- DATA_AVAILABILITY.md
+|-- REPRODUCIBILITY.md
+|-- references.bib
+|-- requirements.txt
+|-- Makefile
+|-- correlation_matrix.py
+|-- unexplained_effects_map.py
+|-- base_model_r_m0.R
+|-- base_model_r_m1_covariates.R
+|-- base_model_r_m4_lag_cases.R
+|-- base_model_r_m5_lag_weather_cases.R
 |-- base_model/
 |   |-- base_model.py
 |   |-- base_model_covariates.py
@@ -87,6 +96,8 @@ Project layout:
 |   |-- spatial_inla_model_s7_temperature_region.R
 |   |-- spatial_inla_model_s8_rainfall_municipality.R
 |   |-- spatial_inla_model_s9_temperature_municipality.R
+|   |-- spatial_inla_model_s10_rainfall_time.R
+|   |-- spatial_inla_model_s11_rainfall_spacetime.R
 |   |-- map_s2_unexplained_effects.R
 |   |-- map_s2_spacetime_weather_residual_animations.R
 |   |-- map_s6_rainfall_region_effect.R
@@ -104,6 +115,18 @@ Project layout:
 |   |-- s8_rainfall_municipality_effect_map.png
 |   |-- s9_temperature_municipality_effects.csv
 |   |-- s9_temperature_municipality_effect_map.png
+|   |-- s10_rainfall_time_effects.csv
+|   |-- s10_rainfall_time_effect_plot.png
+|   |-- s10_rainfall_time_model_criteria.csv
+|   |-- s10_rainfall_time_train_test_metrics.csv
+|   |-- s11_rainfall_spacetime_municipality_effects.csv
+|   |-- s11_rainfall_spacetime_time_effects.csv
+|   |-- s11_rainfall_spacetime_combined_effects.csv
+|   |-- s11_rainfall_spacetime_municipality_effect_map.png
+|   |-- s11_rainfall_spacetime_time_effect_plot.png
+|   |-- s11_rainfall_spacetime_model_criteria.csv
+|   |-- s11_rainfall_spacetime_train_test_metrics.csv
+|   |-- correlation_matrix_*
 |   |-- s2_spacetime_rainfall_lag_animation_2023.gif
 |   |-- s2_spacetime_temperature_lag_animation_2023.gif
 |   |-- s2_spacetime_residual_animation_2023.gif
@@ -325,6 +348,8 @@ M5 logic -> S1 -> S2 -> S3/S4/S5
                  |-- S7: temperature varies by region
                  |-- S8: rainfall varies by municipality
                  |-- S9: temperature varies by municipality
+                 |-- S10: rainfall varies over time
+                 |-- S11: rainfall varies by municipality and time
                  |-- S2 weekly rainfall/temperature/residual GIFs
                  |-- S2 unexplained-effect map
                  `-- S2 Moran's I residual diagnostic
@@ -341,6 +366,7 @@ How to think about the models:
 - **S6:** main rainfall heterogeneity model.
 - **S7:** temperature sensitivity model.
 - **S8-S9:** exploratory municipality-level climate-effect maps.
+- **S10-S11:** temporal and additive spatiotemporal rainfall-effect models for the central rainfall hypothesis.
 - **Maps/diagnostics:** explain spatial effects after modeling.
 
 ## Model Lineup
@@ -370,7 +396,8 @@ How to think about the models:
 | S7 | `spatial_R/spatial_inla_model_s7_temperature_region.R` | S2 + temperature-by-IBGE-mesoregion interaction. | Climate sensitivity model for temperature. |
 | S8 | `spatial_R/spatial_inla_model_s8_rainfall_municipality.R` | S2 + municipality-level rainfall random slope. | Exploratory fine-scale rainfall heterogeneity map. |
 | S9 | `spatial_R/spatial_inla_model_s9_temperature_municipality.R` | S2 + municipality-level temperature random slope. | Exploratory fine-scale temperature heterogeneity map. |
-
+| S10 | `spatial_R/spatial_inla_model_s10_rainfall_time.R` | S2 + RW1 time-varying rainfall random slope. | Tests whether rainfall sensitivity changes across ordered weeks. |
+| S11 | `spatial_R/spatial_inla_model_s11_rainfall_spacetime.R` | S2 + municipality rainfall random slope + RW1 time-varying rainfall random slope. | Tests additive spatiotemporal rainfall heterogeneity. |
 
 ### Model Comparison
 
@@ -390,6 +417,8 @@ How to think about the models:
 | S5-air | 4.0314 | 10.5433 | 0.4656 | 53.4441% | 0.8706 | 93818.31 | 93980.68 | Air effect was small; not a major improvement over S2. |
 | S6 | 4.0198 | 10.5809 | 0.4642 | 53.5787% | 0.8697 | 93722.40 | 93880.28 | Rainfall effect varies by region; important for the research question. |
 | S7 | 4.1713 | 11.0831 | 0.4817 | 51.8289% | 0.8570 | 93729.90 | 93914.20 | Temperature effect varies in some regions, but this is a secondary sensitivity model. |
+| S10 | 4.1318 | 10.7383 | 0.4771 | 52.2855% | 0.8658 | 93057.94 | 93434.95 | Time-varying rainfall effect improves information criteria but not held-out prediction over S2/S6. |
+| S11 | 4.6196 | 12.3057 | 0.5335 | 46.6514% | 0.8237 | 92566.65 | 92906.11 | Best information criteria among rainfall-effect models, but weaker held-out prediction; interpret as inferential rather than predictive evidence. |
 
 WAPE-based accuracy:
 
@@ -412,7 +441,7 @@ S2 is the clean main spatial model
 
 ### S6 Rainfall-by-Region Effects
 
-S6 estimates one rainfall effect for each official IBGE mesoregion. 
+S6 estimates one rainfall effect for each official IBGE mesoregion.
 Region-specific intervals use an approximate normal interval for the main climate effect plus the region interaction. This avoids adding marginal quantiles directly.
 
 | Region | Rainfall effect | Rainfall relative risk | 95% RR interval | Interpretation |
@@ -426,7 +455,7 @@ Region-specific intervals use an approximate normal interval for the main climat
 
 ### S7 Temperature-by-Region Effects
 
-S7 repeats the region-interaction logic for temperature. 
+S7 repeats the region-interaction logic for temperature.
 Region-specific intervals use the same approximate normal interval logic as S6.
 
 | Region | Temperature effect | Temperature relative risk | 95% RR interval | Interpretation |
@@ -450,7 +479,7 @@ S2 residual spatial autocorrelation was evaluated with Moran's I on municipality
 | `municipality_mean_pearson_residual` | 0.1680 | 0.001 | Sensitivity check; also suggests remaining positive residual spatial autocorrelation. |
 | `municipality_mean_deviance_residual` | 0.0254 | 0.500 | Sensitivity check; no significant residual spatial autocorrelation detected. |
 
-The Pearson-residual diagnostics suggest that S2 improves the spatial structure but does not remove every spatial pattern in the residuals. The deviance-residual sensitivity check is not significant, so the evidence is not one-dimensional. 
+The Pearson-residual diagnostics suggest that S2 improves the spatial structure but does not remove every spatial pattern in the residuals. The deviance-residual sensitivity check is not significant, so the evidence is not one-dimensional.
 
 ## Methodology
 
@@ -572,11 +601,24 @@ Key checks:
 | `outputs/s2_spacetime_rainfall_lag_animation_2023.gif` | `spatial_R/map_s2_spacetime_weather_residual_animations.R` | Animated 2023 map of lagged rainfall used by S2. |
 | `outputs/s2_spacetime_temperature_lag_animation_2023.gif` | `spatial_R/map_s2_spacetime_weather_residual_animations.R` | Animated 2023 map of lagged temperature used by S2. |
 | `outputs/s2_spacetime_residual_animation_2023.gif` | `spatial_R/map_s2_spacetime_weather_residual_animations.R` | Animated 2023 map of full-data S2 standardized Pearson residuals. |
+| `outputs/s10_rainfall_time_effects.csv` | `spatial_R/spatial_inla_model_s10_rainfall_time.R` | Time-varying rainfall effect summaries. |
+| `outputs/s10_rainfall_time_effect_plot.png` | `spatial_R/spatial_inla_model_s10_rainfall_time.R` | Plot of the RW1 rainfall time effect. |
+| `outputs/s10_rainfall_time_model_criteria.csv` | `spatial_R/spatial_inla_model_s10_rainfall_time.R` | DIC and WAIC for S10. |
+| `outputs/s10_rainfall_time_train_test_metrics.csv` | `spatial_R/spatial_inla_model_s10_rainfall_time.R` | Train/test metrics for S10. |
+| `outputs/s11_rainfall_spacetime_municipality_effects.csv` | `spatial_R/spatial_inla_model_s11_rainfall_spacetime.R` | Municipality-level rainfall random-slope summaries from S11. |
+| `outputs/s11_rainfall_spacetime_time_effects.csv` | `spatial_R/spatial_inla_model_s11_rainfall_spacetime.R` | Time-varying rainfall random-slope summaries from S11. |
+| `outputs/s11_rainfall_spacetime_combined_effects.csv` | `spatial_R/spatial_inla_model_s11_rainfall_spacetime.R` | Additive municipality-by-time rainfall-effect summaries. |
+| `outputs/s11_rainfall_spacetime_municipality_effect_map.png` | `spatial_R/spatial_inla_model_s11_rainfall_spacetime.R` | Map of S11 municipality rainfall effects. |
+| `outputs/s11_rainfall_spacetime_time_effect_plot.png` | `spatial_R/spatial_inla_model_s11_rainfall_spacetime.R` | Plot of the S11 rainfall time effect. |
+| `outputs/s11_rainfall_spacetime_model_criteria.csv` | `spatial_R/spatial_inla_model_s11_rainfall_spacetime.R` | DIC and WAIC for S11. |
+| `outputs/s11_rainfall_spacetime_train_test_metrics.csv` | `spatial_R/spatial_inla_model_s11_rainfall_spacetime.R` | Train/test metrics for S11. |
+| `outputs/correlation_matrix_*` | `correlation_matrix.py` and prior correlation-matrix runs | Covariate correlation matrices, heatmaps, and metadata. |
+| `outputs/r_m*_model_criteria.csv`, `outputs/r_m*_fixed_effects.csv`, `outputs/r_m*_train_test_metrics.csv` | `base_model_r_m*.R` | Fast R-INLA baseline summaries for R-M0, R-M1, R-M4, and R-M5. |
 | `outputs/run_logs/` | S1-S7 model runs | Saved console logs used to update the model-results table. |
 
 Map interpretation note:
 
-- Static S2/S6/S7/S8/S9 maps are full-data explanatory maps, not held-out prediction maps.
+- Static S2/S6/S7/S8/S9/S11 maps are full-data explanatory maps, not held-out prediction maps.
 - The animated residual GIF is a full-data residual diagnostic. It shows weeks and places where S2 underpredicted or overpredicted after accounting for the fitted model.
 - Use train/test metrics for predictive claims. Use maps for interpretation, diagnostics, and spatial pattern description.
 
@@ -643,6 +685,47 @@ Rscript spatial_R/spatial_inla_model_s8_rainfall_municipality.R
 Rscript spatial_R/spatial_inla_model_s9_temperature_municipality.R
 ```
 
+Run the time-varying and spatiotemporal rainfall-effect models:
+
+```bash
+Rscript spatial_R/spatial_inla_model_s10_rainfall_time.R
+Rscript spatial_R/spatial_inla_model_s11_rainfall_spacetime.R
+```
+
+Run the fast R-INLA non-spatial baseline ladder:
+
+```bash
+Rscript base_model_r_m0.R
+Rscript base_model_r_m1_covariates.R
+Rscript base_model_r_m4_lag_cases.R
+Rscript base_model_r_m5_lag_weather_cases.R
+```
+
+Create the final-model covariate correlation matrix:
+
+```bash
+python correlation_matrix.py
+```
+
+Run lightweight syntax checks:
+
+```bash
+make check
+```
+
+Convenience Make targets are available for the most common scripts:
+
+```bash
+make m0
+make m5
+make s1
+make s2
+make s6
+make s7
+make diagnostics
+make maps
+```
+
 ## Configuration
 
 Common settings are near the top of the scripts.
@@ -675,16 +758,19 @@ A good current paper structure for publication is:
 1. Start with **M0-M5** to show that lagged cases are essential and that weather-only covariates are not enough.
 2. Use **M5** as the main non-spatial benchmark.
 3. Use **S2** as the main spatial model because it combines BYM2 residual spatial risk with observed neighboring dengue pressure.
-4. Use **S6** to answer the rainfall research question: rainfall effects vary across IBGE mesoregions.
-5. Use **S7** as a sensitivity model showing whether temperature has similar spatial heterogeneity.
-6. Treat **S3-S5** as sensitivity or extension models rather than the main result.
+4. Use **S6** to answer the spatial rainfall question: rainfall effects vary across IBGE mesoregions.
+5. Use **S10** and **S11** to test whether rainfall sensitivity changes over time and across space-time.
+6. Use **S7** as a sensitivity model showing whether temperature has similar spatial heterogeneity.
+7. Treat **S3-S5** as sensitivity or extension models rather than the main result.
 
 Suggested tables and figures:
 
-- Model comparison table for M0-M6 and S1-S7, with WAPE accuracy and R2 where available.
+- Model comparison table for M0-M6 and S1-S11, with WAPE accuracy and R2 where available.
 - Posterior coefficient table for S2.
 - Region-specific rainfall table from S6.
 - Rainfall-by-region map from S6.
+- Time-varying rainfall-effect plot from S10.
+- Municipality and time rainfall-effect summaries from S11.
 - Residual spatial relative-risk map from S2.
 - Moran's I diagnostic table for residual spatial autocorrelation.
 - Sensitivity table for temperature, road mobility, and air mobility.
@@ -699,3 +785,5 @@ Suggested tables and figures:
 - Models may use different row sets if interpolation fills rows that non-interpolation models drop.
 - When comparing predictive performance, confirm whether the held-out test rows are identical.
 - Several scripts default to `SAVE_OUTPUTS = FALSE`, so not every run leaves a CSV behind.
+- Before journal submission or public archival, confirm the redistribution status of all files under `data/`; `DATA_AVAILABILITY.md` currently flags `data/RJ.json` as still needing confirmed provenance.
+- Use `references.bib` for source citations and add a repository-level software citation or DOI if the code is archived on Zenodo, OSF, or another preservation service.
