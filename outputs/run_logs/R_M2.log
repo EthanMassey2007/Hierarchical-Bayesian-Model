@@ -1,0 +1,55 @@
+R_M2 dataframe built
+Original rows: 76544 
+Model rows: 30393 
+Dropped missing model covariates: 3095 
+Municipios: 92 
+Years: 2017, 2018, 2019, 2020, 2021, 2022, 2023 
+ *** WARNING *** GMRFLib_2order_approx: rescue NAN/INF values in logl for idx=6812
+ *** WARNING *** GMRFLib_2order_approx: reset counter for 7 NAN/INF values in logl
+
+R_M2 full-data fixed effects:
+                term         mean         sd  0.025quant     0.5quant
+              <char>        <num>      <num>       <num>        <num>
+1:       (Intercept) -0.133875731 0.39442461 -0.92383329 -0.133797176
+2:    rainfall_lag_z  0.242714475 0.03250285  0.17878930  0.242815071
+3:    humidity_lag_z -0.009366756 0.01750933 -0.04370908 -0.009363756
+4: temperature_lag_z  0.091035151 0.02598276  0.04003489  0.091055947
+5:            idhm_z  0.973251346 0.15093733  0.67669188  0.973211792
+   0.975quant         mode          kld
+        <num>        <num>        <num>
+1:  0.6557044 -0.133792707 4.842051e-08
+2:  0.3060894  0.242821625 6.415943e-09
+3:  0.0249585 -0.009363736 6.851703e-11
+4:  0.1419179  0.091056290 3.847230e-10
+5:  1.2700349  0.973211585 1.007438e-08
+
+R_M2 full-data criteria:
+    model                              description      dic     waic      lpml
+   <char>                                   <char>    <num>    <num>     <num>
+1:   R_M2 base + 12-week lagged weather covariates 98268.23 98365.04 -49183.63
+   mean_log_cpo
+          <num>
+1:    -1.618255
+ *** WARNING *** GMRFLib_2order_approx: rescue NAN/INF values in logl for idx=21098
+ *** WARNING *** GMRFLib_2order_approx: reset counter for 2 NAN/INF values in logl
+ *** WARNING *** GMRFLib_2order_approx: reset counter for 2 NAN/INF values in logl
+ *** WARNING *** GMRFLib_2order_approx: reset counter for 2 NAN/INF values in logl
+ *** WARNING *** GMRFLib_2order_approx: reset counter for 2 NAN/INF values in logl
+ *** WARNING *** GMRFLib_2order_approx: rescue NAN/INF values in logl for idx=3626
+
+Train/test evaluation split:
+Train rows: 25735 
+Test rows: 4658 
+Dropped test rows with lagged cases inside test period: 0 
+No-leakage policy: scaler fit on training data only.
+
+R_M2 train/test metrics:
+    model  split       mae     rmse      wape accuracy_pct        r2
+   <char> <char>     <num>    <num>     <num>        <num>     <num>
+1:   R_M2  train  3.948279 22.53675 0.8738826     12.61174 0.5702727
+2:   R_M2   test 18.698798 95.66677 0.8524910     14.75090 0.2263213
+
+Saved outputs:
+Criteria: /Users/ethanmassey/VS_Code_Test/Hierarchical-Bayesian-Model/outputs/r_m2_model_criteria.csv 
+Fixed effects: /Users/ethanmassey/VS_Code_Test/Hierarchical-Bayesian-Model/outputs/r_m2_fixed_effects.csv 
+Metrics: /Users/ethanmassey/VS_Code_Test/Hierarchical-Bayesian-Model/outputs/r_m2_train_test_metrics.csv 

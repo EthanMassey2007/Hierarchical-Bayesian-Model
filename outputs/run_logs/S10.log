@@ -1,0 +1,119 @@
+M5/S2 dataframe built
+Original rows: 76544 
+Model rows: 30302 
+Dropped missing S2 covariates: 3186 
+Municipios: 92 
+Years: 2017, 2018, 2019, 2020, 2021, 2022, 2023 
+Rows with at least one neighbor lag value: 28635 
+INLA graph written: /var/folders/hf/rt97wjy964g2q1trd19ksx0r0000gn/T//RtmpQapnz1/rj_municipality_inla_s10.graph 
+Connected graph nodes: 87 
+Connected graph edges: 511 
+Isolated municipalities: 5 
+ *** WARNING *** GMRFLib_2order_approx: rescue NAN/INF values in logl for idx=676
+ *** WARNING *** GMRFLib_2order_approx: reset counter for 7 NAN/INF values in logl
+ *** WARNING *** GMRFLib_2order_approx: reset counter for 7 NAN/INF values in logl
+
+S10 full-data fixed effects:
+                                 mean         sd  0.025quant     0.5quant
+(Intercept)              -0.058876323 0.15522362 -0.36645067 -0.058984424
+rainfall_lag_z            0.322611324 0.03365035  0.25660575  0.322608971
+humidity_lag_z           -0.060477964 0.01622183 -0.09231118 -0.060469996
+temperature_lag_z        -0.008344709 0.02367990 -0.05480466 -0.008336555
+idhm_z                    0.510794937 0.08600333  0.34077517  0.511132747
+log_cases_lag_z           0.930560616 0.01052953  0.90991526  0.930559792
+neighbor_log_cases_lag_z  0.250858691 0.02283176  0.20609286  0.250856675
+                          0.975quant         mode          kld
+(Intercept)               0.24847022 -0.059160023 2.055667e-08
+rainfall_lag_z            0.38862670  0.322608093 1.420627e-10
+humidity_lag_z           -0.02869009 -0.060469949 9.368736e-11
+temperature_lag_z         0.03806892 -0.008336489 4.902077e-11
+idhm_z                    0.67898611  0.511152212 1.524892e-08
+log_cases_lag_z           0.95121065  0.930559786 4.480243e-11
+neighbor_log_cases_lag_z  0.29563669  0.250856854 4.199106e-11
+
+S10 full-data model criteria:
+    model          rainfall_specification      dic    waic
+   <char>                          <char>    <num>   <num>
+1:    S10 time-varying RW1 rainfall slope 90356.11 90736.7
+
+S10 time-varying rainfall outputs written:
+CSV: /Users/ethanmassey/VS_Code_Test/Hierarchical-Bayesian-Model/outputs/s10_rainfall_time_effects.csv 
+Criteria: /Users/ethanmassey/VS_Code_Test/Hierarchical-Bayesian-Model/outputs/s10_rainfall_time_model_criteria.csv 
+Plot: /Users/ethanmassey/VS_Code_Test/Hierarchical-Bayesian-Model/outputs/s10_rainfall_time_effect_plot.png 
+ *** WARNING *** GMRFLib_2order_approx: rescue NAN/INF values in logl for idx=18407
+ *** WARNING *** GMRFLib_2order_approx: reset counter for 3 NAN/INF values in logl
+ *** WARNING *** GMRFLib_2order_approx: reset counter for 3 NAN/INF values in logl
+ *** WARNING *** GMRFLib_2order_approx: reset counter for 3 NAN/INF values in logl
+ *** WARNING *** GMRFLib_2order_approx: reset counter for 3 NAN/INF values in logl
+ *** WARNING *** GMRFLib_2order_approx: rescue NAN/INF values in logl for idx=6619
+ *** WARNING *** GMRFLib_2order_approx: reset counter for 3 NAN/INF values in logl
+ *** WARNING *** GMRFLib_2order_approx: reset counter for 3 NAN/INF values in logl
+
+Train/test evaluation split:
+Train rows: 25644 
+Test rows: 365 
+Dropped test rows with own/neighbor lagged cases inside test period: 4293 
+No-leakage policy: scaler fit on training data only.
+No-leakage policy: test own-case and neighbor-case lags must come from before test start.
+
+S10 train/test metrics:
+    model  split      mae     rmse      wape accuracy_pct        r2
+   <char> <char>    <num>    <num>     <num>        <num>     <num>
+1:    S10  train 2.911762 17.71180 0.6425868     35.74132 0.7354988
+2:    S10   test 4.503814 12.33753 0.5213740     47.86260 0.8223487
+Metrics: /Users/ethanmassey/VS_Code_Test/Hierarchical-Bayesian-Model/outputs/s10_rainfall_time_train_test_metrics.csv 
+
+S10 time-specific rainfall effects:
+Key: <rainfall_time_idx>
+           date  year  week rainfall_time_idx rainfall_effect_mean
+         <Date> <int> <int>             <int>                <num>
+  1: 2017-03-27  2017    13                 1          -0.05648771
+  2: 2017-04-03  2017    14                 2          -0.09323611
+  3: 2017-04-10  2017    15                 3          -0.14039546
+  4: 2017-04-17  2017    16                 4          -0.17742434
+  5: 2017-04-24  2017    17                 5          -0.27184232
+ ---                                                              
+333: 2023-11-27  2023    48               333          -0.53842111
+334: 2023-12-04  2023    49               334          -0.74833308
+335: 2023-12-11  2023    50               335          -0.96281610
+336: 2023-12-18  2023    51               336          -0.91353125
+337: 2023-12-25  2023    52               337          -0.95244173
+     rainfall_effect_sd rainfall_effect_q025 rainfall_effect_q975
+                  <num>                <num>                <num>
+  1:          0.1066812           -0.2655829          0.152607520
+  2:          0.1002297           -0.2896863          0.103214112
+  3:          0.1021791           -0.3406664          0.059875499
+  4:          0.1016719           -0.3767014          0.021852678
+  5:          0.1426052           -0.5513484          0.007663799
+ ---                                                             
+333:          0.1535395           -0.8393586         -0.237483593
+334:          0.1595906           -1.0611307         -0.435535506
+335:          0.1795300           -1.3146949         -0.610937353
+336:          0.2054950           -1.3163014         -0.510761129
+337:          0.2303657           -1.4039585         -0.500925004
+     rainfall_relative_risk rainfall_relative_risk_q025
+                      <num>                       <num>
+  1:              0.9450781                   0.7667588
+  2:              0.9109784                   0.7484983
+  3:              0.8690145                   0.7112961
+  4:              0.8374244                   0.6861209
+  5:              0.7619744                   0.5761724
+ ---                                                   
+333:              0.5836691                   0.4319875
+334:              0.4731546                   0.3460643
+335:              0.3818161                   0.2685563
+336:              0.4011053                   0.2681252
+337:              0.3857979                   0.2456227
+     rainfall_relative_risk_q975
+                           <num>
+  1:                   1.1648677
+  2:                   1.1087288
+  3:                   1.0617044
+  4:                   1.0220932
+  5:                   1.0076932
+ ---                            
+333:                   0.7886098
+334:                   0.6469181
+335:                   0.5428418
+336:                   0.6000387
+337:                   0.6059699

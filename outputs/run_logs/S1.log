@@ -1,0 +1,68 @@
+M5/S1 dataframe built
+Original rows: 76544 
+Model rows: 30302 
+Dropped missing M5 covariates: 3186 
+Municipios: 92 
+Years: 2017, 2018, 2019, 2020, 2021, 2022, 2023 
+INLA graph written: /var/folders/hf/rt97wjy964g2q1trd19ksx0r0000gn/T//RtmpIoXUl5/rj_municipality_inla.graph 
+Connected graph nodes: 87 
+Connected graph edges: 511 
+Isolated municipalities: 5 
+ *** WARNING *** GMRFLib_2order_approx: rescue NAN/INF values in logl for idx=5211
+ *** WARNING *** GMRFLib_2order_approx: reset counter for 3 NAN/INF values in logl
+
+S1 full-data fixed effects:
+                          mean         sd  0.025quant     0.5quant  0.975quant
+(Intercept)       -0.217344245 0.19160905 -0.59723459 -0.217586921  0.16443274
+rainfall_lag_z     0.159007969 0.02463832  0.11032194  0.159148062  0.20693380
+humidity_lag_z    -0.044161394 0.01422585 -0.07206550 -0.044158499 -0.01627378
+temperature_lag_z  0.009626201 0.02043297 -0.03049553  0.009645139  0.04964033
+idhm_z             0.501176334 0.08019044  0.34366433  0.501084363  0.65919228
+log_cases_lag_z    0.941826062 0.01045368  0.92132782  0.941825819  0.96232571
+                          mode          kld
+(Intercept)       -0.217574438 2.269431e-06
+rainfall_lag_z     0.159158096 7.454364e-09
+humidity_lag_z    -0.044158485 5.630471e-11
+temperature_lag_z  0.009645297 2.596702e-10
+idhm_z             0.501080983 1.831404e-08
+log_cases_lag_z    0.941825825 4.409945e-11
+
+S1 full-data model criteria:
+    model      dic     waic
+   <char>    <num>    <num>
+1:     S1 91357.04 91526.44
+Criteria: /Users/ethanmassey/VS_Code_Test/Hierarchical-Bayesian-Model/outputs/spatial_inla_s1_model_criteria.csv 
+ *** WARNING *** GMRFLib_2order_approx: rescue NAN/INF values in logl for idx=6557
+ *** WARNING *** GMRFLib_2order_approx: reset counter for 2 NAN/INF values in logl
+ *** WARNING *** GMRFLib_2order_approx: rescue NAN/INF values in logl for idx=7857
+ *** WARNING *** GMRFLib_2order_approx: reset counter for 2 NAN/INF values in logl
+ *** WARNING *** GMRFLib_2order_approx: reset counter for 2 NAN/INF values in logl
+
+Train/test evaluation split:
+Train rows: 25644 
+Test rows: 365 
+Dropped test rows with lagged cases inside test period: 4293 
+No-leakage policy: scaler fit on training data only.
+No-leakage policy: test lagged cases must come from before test start.
+
+S1 train/test metrics:
+    model  split      mae     rmse      wape accuracy_pct        r2
+   <char> <char>    <num>    <num>     <num>        <num>     <num>
+1:     S1  train 3.023839 19.04056 0.6673206     33.26794 0.6943237
+2:     S1   test 4.153653 11.24919 0.4808384     51.91616 0.8523088
+
+S1 train-fit fixed effects:
+                         mean         sd  0.025quant    0.5quant  0.975quant
+(Intercept)       -0.57181428 0.17342071 -0.91541038 -0.57225379 -0.22583221
+rainfall_lag_z     0.13824494 0.02863233  0.08166286  0.13841168  0.19391581
+humidity_lag_z    -0.02173428 0.01739018 -0.05585179 -0.02172846  0.01235017
+temperature_lag_z  0.06250061 0.02438447  0.01459348  0.06253252  0.11022650
+idhm_z             0.54149069 0.09147718  0.36286222  0.54099718  0.72286491
+log_cases_lag_z    0.86781555 0.01154291  0.84518515  0.86781394  0.89045509
+                         mode          kld
+(Intercept)       -0.57228451 2.905604e-06
+rainfall_lag_z     0.13842187 8.224426e-09
+humidity_lag_z    -0.02172843 7.242299e-11
+temperature_lag_z  0.06253280 4.782805e-10
+idhm_z             0.54098660 2.475994e-08
+log_cases_lag_z    0.86781393 4.565386e-11

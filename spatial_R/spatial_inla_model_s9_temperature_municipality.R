@@ -50,6 +50,8 @@ RJ_GEOJSON <- file.path(DATA_DIR_PROJECT, "RJ.json")
 dir.create(OUTPUT_DIR, showWarnings = FALSE, recursive = TRUE)
 
 EFFECTS_CSV <- file.path(OUTPUT_DIR, "s9_temperature_municipality_effects.csv")
+CRITERIA_CSV <- file.path(OUTPUT_DIR, "s9_temperature_municipality_model_criteria.csv")
+METRICS_CSV <- file.path(OUTPUT_DIR, "s9_temperature_municipality_train_test_metrics.csv")
 MAP_PNG <- file.path(OUTPUT_DIR, "s9_temperature_municipality_effect_map.png")
 
 
@@ -262,11 +264,15 @@ main <- function() {
   cat("\nS9 full-data fixed effects:\n")
   print(full_fit$summary.fixed)
 
-  cat("\nS9 full-data model criteria:\n")
-  print(data.table(
+  criteria <- data.table(
+    model = "S9",
+    temperature_specification = "municipality temperature slope",
     dic = full_fit$dic$dic,
     waic = full_fit$waic$waic
-  ))
+  )
+  cat("\nS9 full-data model criteria:\n")
+  print(criteria)
+  fwrite(criteria, CRITERIA_CSV)
 
   full_effects <- summarize_municipality_temperature_effects(full_fit, slope_lookup)
   fwrite(full_effects, EFFECTS_CSV)
@@ -274,6 +280,7 @@ main <- function() {
 
   cat("\nS9 municipality-level temperature outputs written:\n")
   cat("CSV:", EFFECTS_CSV, "\n")
+  cat("Criteria:", CRITERIA_CSV, "\n")
   cat("Map:", MAP_PNG, "\n")
 
   if (RUN_TRAIN_TEST_EVALUATION) {
@@ -301,7 +308,8 @@ main <- function() {
     test_metrics <- compute_metrics(test_dt$cases, test_pred)
     test_metrics[, split := "test"]
     metrics <- rbindlist(list(train_metrics, test_metrics), use.names = TRUE)
-    setcolorder(metrics, c("split", "mae", "rmse", "wape", "accuracy_pct", "r2"))
+    metrics[, model := "S9"]
+    setcolorder(metrics, c("model", "split", "mae", "rmse", "wape", "accuracy_pct", "r2"))
 
     cat("\nTrain/test evaluation split:\n")
     cat("Train rows:", nrow(train_dt), "\n")
@@ -312,6 +320,8 @@ main <- function() {
 
     cat("\nS9 train/test metrics:\n")
     print(metrics)
+    fwrite(metrics, METRICS_CSV)
+    cat("Metrics:", METRICS_CSV, "\n")
   }
 
   cat("\nS9 municipality-specific temperature effects:\n")

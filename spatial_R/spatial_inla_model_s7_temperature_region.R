@@ -38,10 +38,10 @@ TEST_START_YEAR <- 2023
 TEST_END_YEAR <- 2023
 
 CASE_LAG_WEEKS <- 4
-WEATHER_LAG_WEEKS <- 6
+WEATHER_LAG_WEEKS <- 12
 
 RUN_TRAIN_TEST_EVALUATION <- TRUE
-SAVE_OUTPUTS <- FALSE
+SAVE_OUTPUTS <- TRUE
 INLA_NUM_THREADS <- "4:1"
 inla.setOption(num.threads = INLA_NUM_THREADS)
 
@@ -719,11 +719,16 @@ main <- function() {
   cat("\nS7 full-data fixed effects:\n")
   print(full_fit$summary.fixed)
 
-  cat("\nS7 full-data model criteria:\n")
-  print(data.table(
+  criteria <- data.table(
+    model = "S7",
     dic = full_fit$dic$dic,
     waic = full_fit$waic$waic
-  ))
+  )
+  cat("\nS7 full-data model criteria:\n")
+  print(criteria)
+  dir.create(OUTPUT_DIR, showWarnings = FALSE, recursive = TRUE)
+  fwrite(criteria, file.path(OUTPUT_DIR, "spatial_inla_s7_temperature_region_model_criteria.csv"))
+  cat("Criteria:", file.path(OUTPUT_DIR, "spatial_inla_s7_temperature_region_model_criteria.csv"), "\n")
 
   full_region_temperature <- summarize_region_temperature_effects(full_fit)
   cat("\nS7 full-data region-specific temperature effects:\n")
@@ -759,7 +764,8 @@ main <- function() {
     test_metrics <- compute_metrics(test_dt$cases, test_pred)
     test_metrics[, split := "test"]
     metrics <- rbindlist(list(train_metrics, test_metrics), use.names = TRUE)
-    setcolorder(metrics, c("split", "mae", "rmse", "wape", "accuracy_pct", "r2"))
+    metrics[, model := "S7"]
+    setcolorder(metrics, c("model", "split", "mae", "rmse", "wape", "accuracy_pct", "r2"))
 
     cat("\nTrain/test evaluation split:\n")
     cat("Train rows:", nrow(train_dt), "\n")

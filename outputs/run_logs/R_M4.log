@@ -1,0 +1,60 @@
+R_M4 dataframe built
+Original rows: 76544 
+Model rows: 31143 
+Dropped missing model covariates: 2345 
+Municipios: 92 
+Years: 2017, 2018, 2019, 2020, 2021, 2022, 2023 
+ *** WARNING *** GMRFLib_2order_approx: rescue NAN/INF values in logl for idx=2043
+ *** WARNING *** GMRFLib_2order_approx: reset counter for 6 NAN/INF values in logl
+ *** WARNING *** GMRFLib_2order_approx: reset counter for 6 NAN/INF values in logl
+ *** WARNING *** GMRFLib_2order_approx: reset counter for 6 NAN/INF values in logl
+ *** WARNING *** GMRFLib_2order_approx: reset counter for 6 NAN/INF values in logl
+
+R_M4 full-data fixed effects:
+              term       mean         sd   0.025quant    0.5quant 0.975quant
+            <char>      <num>      <num>        <num>       <num>      <num>
+1:     (Intercept) -0.1866599 0.19500015 -0.574353800 -0.18658195 0.20061067
+2:      rainfall_z  0.0802679 0.02314218  0.034847027  0.08028080 0.12561542
+3:      humidity_z  0.0355291 0.01381601  0.008429211  0.03553183 0.06261342
+4:   temperature_z  0.1707173 0.01894702  0.133534513  0.17072757 0.20784148
+5:          idhm_z  0.5182875 0.08532316  0.350867937  0.51818514 0.68628958
+6: log_cases_lag_z  0.9614415 0.01032967  0.941187927  0.96144075 0.98169944
+          mode          kld
+         <num>        <num>
+1: -0.18658116 9.225850e-10
+2:  0.08028087 8.435543e-11
+3:  0.03553185 5.770433e-11
+4:  0.17072766 1.259156e-10
+5:  0.51818529 1.099234e-08
+6:  0.96144074 4.572567e-11
+
+R_M4 full-data criteria:
+    model                                    description      dic     waic
+   <char>                                         <char>    <num>    <num>
+1:   R_M4 base + same-week covariates + log lagged cases 95277.22 95469.41
+        lpml mean_log_cpo
+       <num>        <num>
+1: -47694.49    -1.531468
+ *** WARNING *** GMRFLib_2order_approx: rescue NAN/INF values in logl for idx=5093
+ *** WARNING *** GMRFLib_2order_approx: reset counter for 4 NAN/INF values in logl
+ *** WARNING *** GMRFLib_2order_approx: rescue NAN/INF values in logl for idx=17758
+ *** WARNING *** GMRFLib_2order_approx: reset counter for 2 NAN/INF values in logl
+ *** WARNING *** GMRFLib_2order_approx: reset counter for 2 NAN/INF values in logl
+
+Train/test evaluation split:
+Train rows: 26464 
+Test rows: 324 
+Dropped test rows with lagged cases inside test period: 4355 
+No-leakage policy: scaler fit on training data only.
+No-leakage policy: test case lags must come from before test start.
+
+R_M4 train/test metrics:
+    model  split      mae     rmse      wape accuracy_pct        r2
+   <char> <char>    <num>    <num>     <num>        <num>     <num>
+1:   R_M4  train 3.189683 22.75669 0.6830205     31.69795 0.5569185
+2:   R_M4   test 4.559602 12.43066 0.4895000     51.05000 0.8382174
+
+Saved outputs:
+Criteria: /Users/ethanmassey/VS_Code_Test/Hierarchical-Bayesian-Model/outputs/r_m4_model_criteria.csv 
+Fixed effects: /Users/ethanmassey/VS_Code_Test/Hierarchical-Bayesian-Model/outputs/r_m4_fixed_effects.csv 
+Metrics: /Users/ethanmassey/VS_Code_Test/Hierarchical-Bayesian-Model/outputs/r_m4_train_test_metrics.csv 

@@ -188,6 +188,8 @@ The final fast baseline ladder can be run in R-INLA:
 | --- | --- | --- |
 | `base_model_r_m0.R` | R-M0 | Baseline with municipality, week, and year random effects; no fixed covariates. |
 | `base_model_r_m1_covariates.R` | R-M1 | Adds same-week rainfall, humidity, temperature, and IDHM. |
+| `base_model_r_m2_lag_weather.R` | R-M2 | Adds 12-week lagged rainfall, humidity, temperature, and IDHM. |
+| `base_model_r_m3_interpolation.R` | R-M3 | Adds leakage-free humidity and temperature interpolation to the same-week covariate model. |
 | `base_model_r_m4_lag_cases.R` | R-M4 | Adds four-week log lagged cases to the same-week covariate model. |
 | `base_model_r_m5_lag_weather_cases.R` | R-M5 | Main non-spatial benchmark with lagged weather and log lagged cases. |
 
@@ -198,6 +200,18 @@ These R baseline files save:
 | `r_m*_model_criteria.csv` | DIC, WAIC, LPML, and mean log CPO. |
 | `r_m*_fixed_effects.csv` | INLA fixed-effect summaries and uncertainty intervals. |
 | `r_m*_train_test_metrics.csv` | MAE, RMSE, WAPE, accuracy percentage, and R2. |
+
+All R-INLA model scripts can be run and summarized with:
+
+```bash
+make all-results
+```
+
+This writes one log per model in `outputs/run_logs/`, then combines model criteria and held-out prediction metrics into `outputs/all_model_results_table.csv`. To rebuild the combined result CSVs from existing model outputs without refitting, run:
+
+```bash
+make collect-results
+```
 
 ### Python/PyMC Layer
 
@@ -539,7 +553,7 @@ neighbor_log_cases_lag[i,t] =
 
 ```text
 CASE_LAG_WEEKS = 4
-WEATHER_LAG_WEEKS = 6
+WEATHER_LAG_WEEKS = 12
 ```
 
 Lagged cases:
@@ -612,9 +626,13 @@ Key checks:
 | `outputs/s11_rainfall_spacetime_time_effect_plot.png` | `spatial_R/spatial_inla_model_s11_rainfall_spacetime.R` | Plot of the S11 rainfall time effect. |
 | `outputs/s11_rainfall_spacetime_model_criteria.csv` | `spatial_R/spatial_inla_model_s11_rainfall_spacetime.R` | DIC and WAIC for S11. |
 | `outputs/s11_rainfall_spacetime_train_test_metrics.csv` | `spatial_R/spatial_inla_model_s11_rainfall_spacetime.R` | Train/test metrics for S11. |
+| `outputs/all_model_criteria.csv` | `run_all_models_collect_results.R` | Combined DIC, WAIC, LPML, and related criteria from all R-INLA models. |
+| `outputs/all_model_train_test_metrics.csv` | `run_all_models_collect_results.R` | Combined train/test MAE, RMSE, WAPE, accuracy percentage, and R2 from all R-INLA models. |
+| `outputs/all_model_results_table.csv` | `run_all_models_collect_results.R` | Compact model-comparison table combining WAIC/DIC with held-out test metrics and ranks. |
+| `outputs/all_model_run_status.csv` | `run_all_models_collect_results.R` | Status file showing which model scripts completed or failed during a full run. |
 | `outputs/correlation_matrix_*` | `correlation_matrix.py` and prior correlation-matrix runs | Covariate correlation matrices, heatmaps, and metadata. |
-| `outputs/r_m*_model_criteria.csv`, `outputs/r_m*_fixed_effects.csv`, `outputs/r_m*_train_test_metrics.csv` | `base_model_r_m*.R` | Fast R-INLA baseline summaries for R-M0, R-M1, R-M4, and R-M5. |
-| `outputs/run_logs/` | S1-S7 model runs | Saved console logs used to update the model-results table. |
+| `outputs/r_m*_model_criteria.csv`, `outputs/r_m*_fixed_effects.csv`, `outputs/r_m*_train_test_metrics.csv` | `base_model_r_m*.R` | Fast R-INLA baseline summaries for R-M0 through R-M5. |
+| `outputs/run_logs/` | R-INLA model runs | Saved console logs used to check full model-run status. |
 
 Map interpretation note:
 

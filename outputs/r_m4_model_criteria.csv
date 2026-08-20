@@ -1,0 +1,2 @@
+model,description,dic,waic,lpml,mean_log_cpo
+R_M4,base + same-week covariates + log lagged cases,95277.2152395866,95469.4099039219,-47694.4933722272,-1.53146753274338

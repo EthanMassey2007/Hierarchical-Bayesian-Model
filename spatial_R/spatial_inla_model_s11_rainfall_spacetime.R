@@ -55,6 +55,8 @@ dir.create(OUTPUT_DIR, showWarnings = FALSE, recursive = TRUE)
 EFFECTS_CSV <- file.path(OUTPUT_DIR, "s11_rainfall_spacetime_municipality_effects.csv")
 TIME_EFFECTS_CSV <- file.path(OUTPUT_DIR, "s11_rainfall_spacetime_time_effects.csv")
 COMBINED_EFFECTS_CSV <- file.path(OUTPUT_DIR, "s11_rainfall_spacetime_combined_effects.csv")
+FIXED_EFFECTS_CSV <- file.path(OUTPUT_DIR, "s11_rainfall_spacetime_fixed_effects.csv")
+RAINFALL_AVERAGE_EFFECT_CSV <- file.path(OUTPUT_DIR, "s11_rainfall_spacetime_average_rainfall_effect.csv")
 CRITERIA_CSV <- file.path(OUTPUT_DIR, "s11_rainfall_spacetime_model_criteria.csv")
 METRICS_CSV <- file.path(OUTPUT_DIR, "s11_rainfall_spacetime_train_test_metrics.csv")
 MAP_PNG <- file.path(OUTPUT_DIR, "s11_rainfall_spacetime_municipality_effect_map.png")
@@ -161,6 +163,32 @@ extract_rainfall_fixed <- function(fit) {
     stop("Could not find rainfall_lag_z in fixed effects.")
   }
   rainfall
+}
+
+save_fixed_effect_outputs <- function(fit, model_id, fixed_csv, rainfall_csv) {
+  fixed <- as.data.table(fit$summary.fixed, keep.rownames = "term")
+  fixed[, model := model_id]
+  setcolorder(fixed, c("model", "term", setdiff(names(fixed), c("model", "term"))))
+  fwrite(fixed, fixed_csv)
+
+  rainfall <- copy(fixed[term == "rainfall_lag_z"])
+  if (nrow(rainfall) != 1) {
+    warning("Could not find rainfall_lag_z in fixed effects; rainfall average-effect CSV was not written.")
+    return(invisible(NULL))
+  }
+
+  rainfall[, `:=`(
+    relative_risk_mean = exp(mean),
+    relative_risk_q025 = exp(`0.025quant`),
+    relative_risk_q975 = exp(`0.975quant`),
+    interpretation = fifelse(
+      `0.025quant` > 0,
+      "positive",
+      fifelse(`0.975quant` < 0, "negative", "not clearly different from null")
+    )
+  )]
+  fwrite(rainfall, rainfall_csv)
+  invisible(rainfall)
 }
 
 summarize_municipality_rainfall_effects <- function(fit, municipality_lookup) {
@@ -398,6 +426,12 @@ main <- function() {
 
   cat("\nS11 full-data fixed effects:\n")
   print(full_fit$summary.fixed)
+  average_rainfall_effect <- save_fixed_effect_outputs(
+    full_fit,
+    "S11",
+    FIXED_EFFECTS_CSV,
+    RAINFALL_AVERAGE_EFFECT_CSV
+  )
 
   cat("\nS11 full-data model criteria:\n")
   criteria <- data.table(
@@ -422,6 +456,8 @@ main <- function() {
   cat("Municipality CSV:", EFFECTS_CSV, "\n")
   cat("Time CSV:", TIME_EFFECTS_CSV, "\n")
   cat("Combined municipality-week CSV:", COMBINED_EFFECTS_CSV, "\n")
+  cat("Fixed effects:", FIXED_EFFECTS_CSV, "\n")
+  cat("Average rainfall effect:", RAINFALL_AVERAGE_EFFECT_CSV, "\n")
   cat("Criteria:", CRITERIA_CSV, "\n")
   cat("Municipality map:", MAP_PNG, "\n")
   cat("Time plot:", TIME_PNG, "\n")
@@ -451,7 +487,8 @@ main <- function() {
     test_metrics <- compute_metrics(test_dt$cases, test_pred)
     test_metrics[, split := "test"]
     metrics <- rbindlist(list(train_metrics, test_metrics), use.names = TRUE)
-    setcolorder(metrics, c("split", "mae", "rmse", "wape", "accuracy_pct", "r2"))
+    metrics[, model := "S11"]
+    setcolorder(metrics, c("model", "split", "mae", "rmse", "wape", "accuracy_pct", "r2"))
 
     cat("\nTrain/test evaluation split:\n")
     cat("Train rows:", nrow(train_dt), "\n")

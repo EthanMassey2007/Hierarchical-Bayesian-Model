@@ -1,0 +1,59 @@
+R_M5 dataframe built
+Original rows: 76544 
+Model rows: 30302 
+Dropped missing model covariates: 3186 
+Municipios: 92 
+Years: 2017, 2018, 2019, 2020, 2021, 2022, 2023 
+ *** WARNING *** GMRFLib_2order_approx: rescue NAN/INF values in logl for idx=1836
+ *** WARNING *** GMRFLib_2order_approx: reset counter for 3 NAN/INF values in logl
+ *** WARNING *** GMRFLib_2order_approx: reset counter for 3 NAN/INF values in logl
+
+R_M5 full-data fixed effects:
+                term         mean         sd  0.025quant     0.5quant
+              <char>        <num>      <num>       <num>        <num>
+1:       (Intercept) -0.210835475 0.20697594 -0.62305292 -0.210753763
+2:    rainfall_lag_z  0.158625352 0.02480250  0.10971159  0.158737458
+3:    humidity_lag_z -0.044269841 0.01423370 -0.07218901 -0.044267053
+4: temperature_lag_z  0.009812873 0.02045566 -0.03035115  0.009831219
+5:            idhm_z  0.515882575 0.08723955  0.34468806  0.515782200
+6:   log_cases_lag_z  0.941218378 0.01045634  0.92071558  0.941217890
+    0.975quant         mode          kld
+         <num>        <num>        <num>
+1:  0.20094404 -0.210752592 1.630284e-09
+2:  0.20691817  0.158742785 6.276510e-09
+3: -0.01636653 -0.044267036 5.559923e-11
+4:  0.04987275  0.009831401 2.527035e-10
+5:  0.68764909  0.515782568 1.122785e-08
+6:  0.96172395  0.941217888 4.372267e-11
+
+R_M5 full-data criteria:
+    model                              description      dic     waic      lpml
+   <char>                                   <char>    <num>    <num>     <num>
+1:   R_M5 base + lagged weather + log lagged cases 91356.65 91525.63 -45734.06
+   mean_log_cpo
+          <num>
+1:    -1.509275
+ *** WARNING *** GMRFLib_2order_approx: rescue NAN/INF values in logl for idx=1788
+ *** WARNING *** GMRFLib_2order_approx: reset counter for 6 NAN/INF values in logl
+ *** WARNING *** GMRFLib_2order_approx: rescue NAN/INF values in logl for idx=9075
+ *** WARNING *** GMRFLib_2order_approx: reset counter for 6 NAN/INF values in logl
+ *** WARNING *** GMRFLib_2order_approx: reset counter for 6 NAN/INF values in logl
+ *** WARNING *** GMRFLib_2order_approx: reset counter for 6 NAN/INF values in logl
+
+Train/test evaluation split:
+Train rows: 25644 
+Test rows: 365 
+Dropped test rows with lagged cases inside test period: 4293 
+No-leakage policy: scaler fit on training data only.
+No-leakage policy: test case lags must come from before test start.
+
+R_M5 train/test metrics:
+    model  split      mae     rmse      wape accuracy_pct        r2
+   <char> <char>    <num>    <num>     <num>        <num>     <num>
+1:   R_M5  train 3.036361 19.30065 0.6700842     32.99158 0.6859156
+2:   R_M5   test 4.121098 11.11799 0.4770697     52.29303 0.8557337
+
+Saved outputs:
+Criteria: /Users/ethanmassey/VS_Code_Test/Hierarchical-Bayesian-Model/outputs/r_m5_model_criteria.csv 
+Fixed effects: /Users/ethanmassey/VS_Code_Test/Hierarchical-Bayesian-Model/outputs/r_m5_fixed_effects.csv 
+Metrics: /Users/ethanmassey/VS_Code_Test/Hierarchical-Bayesian-Model/outputs/r_m5_train_test_metrics.csv 

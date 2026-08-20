@@ -20,7 +20,7 @@ TEST_START_YEAR <- 2023
 TEST_END_YEAR <- 2023
 
 CASE_LAG_WEEKS <- 4
-WEATHER_LAG_WEEKS <- 6
+WEATHER_LAG_WEEKS <- 12
 INLA_NUM_THREADS <- "4:1"
 inla.setOption(num.threads = INLA_NUM_THREADS)
 
@@ -304,7 +304,8 @@ main <- function() {
   test_metrics <- compute_metrics(test_dt$cases, test_pred)
   test_metrics[, split := "test"]
   metrics <- rbindlist(list(train_metrics, test_metrics), use.names = TRUE)
-  setcolorder(metrics, c("split", "mae", "rmse", "wape", "accuracy_pct", "r2"))
+  metrics[, model := MODEL_ID]
+  setcolorder(metrics, c("model", "split", "mae", "rmse", "wape", "accuracy_pct", "r2"))
 
   cat("\nTrain/test evaluation split:\n")
   cat("Train rows:", nrow(train_dt), "\n")

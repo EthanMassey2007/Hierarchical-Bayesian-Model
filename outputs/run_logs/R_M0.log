@@ -1,0 +1,39 @@
+R_M0 dataframe built
+Original rows: 76544 
+Model rows: 33488 
+Dropped missing model covariates: 0 
+Municipios: 92 
+Years: 2017, 2018, 2019, 2020, 2021, 2022, 2023 
+ *** WARNING *** GMRFLib_2order_approx: rescue NAN/INF values in logl for idx=2184
+ *** WARNING *** GMRFLib_2order_approx: reset counter for 9 NAN/INF values in logl
+
+R_M0 full-data fixed effects:
+          term        mean        sd 0.025quant    0.5quant 0.975quant
+        <char>       <num>     <num>      <num>       <num>      <num>
+1: (Intercept) -0.06544648 0.3727853 -0.8056185 -0.06538904  0.6743832
+          mode          kld
+         <num>        <num>
+1: -0.06539259 1.569179e-07
+
+R_M0 full-data criteria:
+    model description      dic     waic      lpml mean_log_cpo
+   <char>      <char>    <num>    <num>     <num>        <num>
+1:   R_M0   base only 109000.9 109095.9 -54548.92    -1.628909
+ *** WARNING *** GMRFLib_2order_approx: rescue NAN/INF values in logl for idx=19981
+
+Train/test evaluation split:
+Train rows: 28704 
+Test rows: 4784 
+Dropped test rows with lagged cases inside test period: 0 
+No-leakage policy: scaler fit on training data only.
+
+R_M0 train/test metrics:
+    model  split       mae     rmse      wape accuracy_pct        r2
+   <char> <char>     <num>    <num>     <num>        <num>     <num>
+1:   R_M0  train  3.989144 22.09658 0.8840604     11.59396 0.5516178
+2:   R_M0   test 18.449070 93.97814 0.8579378     14.20622 0.2337496
+
+Saved outputs:
+Criteria: /Users/ethanmassey/VS_Code_Test/Hierarchical-Bayesian-Model/outputs/r_m0_model_criteria.csv 
+Fixed effects: /Users/ethanmassey/VS_Code_Test/Hierarchical-Bayesian-Model/outputs/r_m0_fixed_effects.csv 
+Metrics: /Users/ethanmassey/VS_Code_Test/Hierarchical-Bayesian-Model/outputs/r_m0_train_test_metrics.csv 

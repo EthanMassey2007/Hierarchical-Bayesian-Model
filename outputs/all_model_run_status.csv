@@ -1,0 +1,18 @@
+model,script,status,exit_status,started_at,finished_at,log_path
+R_M0,base_model_r_m0.R,ok,0,2026-08-20 08:17:50.787658,2026-08-20 08:18:12.510386,/Users/ethanmassey/VS_Code_Test/Hierarchical-Bayesian-Model/outputs/run_logs/R_M0.log
+R_M1,base_model_r_m1_covariates.R,ok,0,2026-08-20 08:18:12.510692,2026-08-20 08:18:32.608025,/Users/ethanmassey/VS_Code_Test/Hierarchical-Bayesian-Model/outputs/run_logs/R_M1.log
+R_M2,base_model_r_m2_lag_weather.R,ok,0,2026-08-20 08:18:32.608337,2026-08-20 08:18:57.509705,/Users/ethanmassey/VS_Code_Test/Hierarchical-Bayesian-Model/outputs/run_logs/R_M2.log
+R_M3,base_model_r_m3_interpolation.R,ok,0,2026-08-20 08:18:57.510008,2026-08-20 08:19:19.872962,/Users/ethanmassey/VS_Code_Test/Hierarchical-Bayesian-Model/outputs/run_logs/R_M3.log
+R_M4,base_model_r_m4_lag_cases.R,ok,0,2026-08-20 08:19:19.873312,2026-08-20 08:19:39.465281,/Users/ethanmassey/VS_Code_Test/Hierarchical-Bayesian-Model/outputs/run_logs/R_M4.log
+R_M5,base_model_r_m5_lag_weather_cases.R,ok,0,2026-08-20 08:19:39.465606,2026-08-20 08:20:01.78279,/Users/ethanmassey/VS_Code_Test/Hierarchical-Bayesian-Model/outputs/run_logs/R_M5.log
+S1,spatial_R/spatial_inla_model_s1.R,ok,0,2026-08-20 08:20:01.783089,2026-08-20 08:21:03.042862,/Users/ethanmassey/VS_Code_Test/Hierarchical-Bayesian-Model/outputs/run_logs/S1.log
+S2,spatial_R/spatial_inla_model_s2.R,ok,0,2026-08-20 08:21:03.043167,2026-08-20 08:21:56.9582,/Users/ethanmassey/VS_Code_Test/Hierarchical-Bayesian-Model/outputs/run_logs/S2.log
+S3,spatial_R/spatial_inla_model_s3.R,ok,0,2026-08-20 08:21:56.958498,2026-08-20 08:22:57.120868,/Users/ethanmassey/VS_Code_Test/Hierarchical-Bayesian-Model/outputs/run_logs/S3.log
+S4,spatial_R/spatial_inla_model_s4_road.R,ok,0,2026-08-20 08:22:57.121169,2026-08-20 08:23:59.89207,/Users/ethanmassey/VS_Code_Test/Hierarchical-Bayesian-Model/outputs/run_logs/S4.log
+S5,spatial_R/spatial_inla_model_s5_air.R,ok,0,2026-08-20 08:23:59.892383,2026-08-20 08:25:02.27633,/Users/ethanmassey/VS_Code_Test/Hierarchical-Bayesian-Model/outputs/run_logs/S5.log
+S6,spatial_R/spatial_inla_model_s6_rainfall_region.R,ok,0,2026-08-20 08:25:02.276659,2026-08-20 08:25:59.606235,/Users/ethanmassey/VS_Code_Test/Hierarchical-Bayesian-Model/outputs/run_logs/S6.log
+S7,spatial_R/spatial_inla_model_s7_temperature_region.R,ok,0,2026-08-20 08:25:59.606541,2026-08-20 08:26:58.357111,/Users/ethanmassey/VS_Code_Test/Hierarchical-Bayesian-Model/outputs/run_logs/S7.log
+S8,spatial_R/spatial_inla_model_s8_rainfall_municipality.R,ok,0,2026-08-20 08:26:58.357416,2026-08-20 08:28:09.554704,/Users/ethanmassey/VS_Code_Test/Hierarchical-Bayesian-Model/outputs/run_logs/S8.log
+S9,spatial_R/spatial_inla_model_s9_temperature_municipality.R,ok,0,2026-08-20 08:28:09.555001,2026-08-20 08:29:21.985408,/Users/ethanmassey/VS_Code_Test/Hierarchical-Bayesian-Model/outputs/run_logs/S9.log
+S10,spatial_R/spatial_inla_model_s10_rainfall_time.R,ok,0,2026-08-20 08:29:21.985737,2026-08-20 08:30:43.763658,/Users/ethanmassey/VS_Code_Test/Hierarchical-Bayesian-Model/outputs/run_logs/S10.log
+S11,spatial_R/spatial_inla_model_s11_rainfall_spacetime.R,ok,0,2026-08-20 08:30:43.763976,2026-08-20 08:32:34.142208,/Users/ethanmassey/VS_Code_Test/Hierarchical-Bayesian-Model/outputs/run_logs/S11.log

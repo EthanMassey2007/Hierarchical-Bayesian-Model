@@ -1,0 +1,80 @@
+M5/S4-road dataframe built
+Original rows: 76544 
+Model rows: 30302 
+Dropped missing S4-road covariates: 3186 
+Municipios: 92 
+Years: 2017, 2018, 2019, 2020, 2021, 2022, 2023 
+Rows with at least one neighbor lag value: 28635 
+Municipios with zero road connectivity: 5 
+INLA graph written: /var/folders/hf/rt97wjy964g2q1trd19ksx0r0000gn/T//Rtmpwn7cRe/rj_municipality_inla.graph 
+Connected graph nodes: 87 
+Connected graph edges: 511 
+Isolated municipalities: 5 
+ *** WARNING *** GMRFLib_2order_approx: rescue NAN/INF values in logl for idx=25378
+
+S4-road full-data fixed effects:
+                                mean         sd  0.025quant    0.5quant
+(Intercept)              -0.32767551 0.15444589 -0.62482600 -0.33069861
+rainfall_lag_z            0.13206429 0.02419405  0.08430894  0.13217905
+humidity_lag_z           -0.04812087 0.01421065 -0.07599041 -0.04811963
+temperature_lag_z         0.01038561 0.02028047 -0.02940820  0.01039433
+idhm_z                    0.47427475 0.09130427  0.30080305  0.47202807
+log_cases_lag_z           0.92005754 0.01052573  0.89941875  0.92005704
+neighbor_log_cases_lag_z  0.29189332 0.02045780  0.25179094  0.29188842
+road_connectivity_log_z   0.31062253 0.24390884 -0.17520518  0.33888283
+                          0.975quant        mode          kld
+(Intercept)              -0.01377220 -0.33077725 7.590830e-08
+rainfall_lag_z            0.17918356  0.13218416 5.486330e-09
+humidity_lag_z           -0.02025836 -0.04811963 4.794047e-11
+temperature_lag_z         0.05012977  0.01039437 8.594650e-11
+idhm_z                    0.65987628  0.47186895 1.232005e-07
+log_cases_lag_z           0.94069920  0.92005704 4.453603e-11
+neighbor_log_cases_lag_z  0.33202390  0.29188847 5.745246e-11
+road_connectivity_log_z   0.72577087  0.41239394 1.076841e-05
+
+S4-road full-data model criteria:
+    model      dic    waic
+   <char>    <num>   <num>
+1:     S4 91142.23 91303.4
+Criteria: /Users/ethanmassey/VS_Code_Test/Hierarchical-Bayesian-Model/outputs/spatial_inla_s4_road_model_criteria.csv 
+ *** WARNING *** GMRFLib_2order_approx: rescue NAN/INF values in logl for idx=10357
+ *** WARNING *** GMRFLib_2order_approx: reset counter for 6 NAN/INF values in logl
+ *** WARNING *** GMRFLib_2order_approx: reset counter for 6 NAN/INF values in logl
+ *** WARNING *** GMRFLib_2order_approx: reset counter for 6 NAN/INF values in logl
+ *** WARNING *** GMRFLib_2order_approx: rescue NAN/INF values in logl for idx=18845
+ *** WARNING *** GMRFLib_2order_approx: reset counter for 2 NAN/INF values in logl
+ *** WARNING *** GMRFLib_2order_approx: reset counter for 2 NAN/INF values in logl
+ *** WARNING *** GMRFLib_2order_approx: reset counter for 2 NAN/INF values in logl
+
+Train/test evaluation split:
+Train rows: 25644 
+Test rows: 365 
+Dropped test rows with own/neighbor lagged cases inside test period: 4293 
+No-leakage policy: scaler fit on training data only.
+No-leakage policy: test own-case and neighbor-case lags must come from before test start.
+
+S4-road train/test metrics:
+    model  split      mae     rmse      wape accuracy_pct        r2
+   <char> <char>    <num>    <num>     <num>        <num>     <num>
+1:     S4  train 3.027320 19.19361 0.6680888     33.19112 0.6893899
+2:     S4   test 3.984327 10.43051 0.4612367     53.87633 0.8730236
+
+S4-road train-fit fixed effects:
+                                mean         sd   0.025quant    0.5quant
+(Intercept)              -0.62920128 0.15991976 -0.941299394 -0.63002876
+rainfall_lag_z            0.10874212 0.02769814  0.054171788  0.10882640
+humidity_lag_z           -0.02681383 0.01732617 -0.060797122 -0.02681108
+temperature_lag_z         0.05316417 0.02411807  0.005829098  0.05317839
+idhm_z                    0.54801622 0.11047360  0.334022766  0.54740419
+log_cases_lag_z           0.84933959 0.01159419  0.826607273  0.84933848
+neighbor_log_cases_lag_z  0.26065165 0.02159794  0.218309757  0.26064801
+road_connectivity_log_z   0.13323118 0.29513417 -0.328668066  0.11365476
+                           0.975quant        mode          kld
+(Intercept)              -0.314132158 -0.63041974 2.096679e-08
+rainfall_lag_z            0.162825102  0.10882446 2.544651e-09
+humidity_lag_z            0.007153766 -0.02681107 5.040525e-11
+temperature_lag_z         0.100418197  0.05317843 1.248076e-10
+idhm_z                    0.765656209  0.54742751 1.545603e-08
+log_cases_lag_z           0.872078203  0.84933847 4.455668e-11
+neighbor_log_cases_lag_z  0.303014379  0.26064804 4.802029e-11
+road_connectivity_log_z   0.715560685  0.12427785 1.184810e-04

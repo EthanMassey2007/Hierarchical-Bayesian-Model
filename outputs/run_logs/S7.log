@@ -1,0 +1,173 @@
+M5/S7 temperature-region dataframe built
+Original rows: 76544 
+Model rows: 30302 
+Dropped missing S7 covariates: 3186 
+Municipios: 92 
+Regions: Baixadas, Centro Fluminense, Metropolitana do Rio de Janeiro, Noroeste Fluminense, Norte Fluminense, Sul Fluminense 
+Temperature-region reference: Metropolitana do Rio de Janeiro 
+Temperature-region interaction columns: temperature_lag_region_Baixadas, temperature_lag_region_Centro.Fluminense, temperature_lag_region_Noroeste.Fluminense, temperature_lag_region_Norte.Fluminense, temperature_lag_region_Sul.Fluminense 
+Years: 2017, 2018, 2019, 2020, 2021, 2022, 2023 
+Rows with at least one neighbor lag value: 28635 
+INLA graph written: /var/folders/hf/rt97wjy964g2q1trd19ksx0r0000gn/T//RtmpzUGQvF/rj_municipality_inla.graph 
+Connected graph nodes: 87 
+Connected graph edges: 511 
+Isolated municipalities: 5 
+ *** WARNING *** GMRFLib_2order_approx: rescue NAN/INF values in logl for idx=17377
+ *** WARNING *** GMRFLib_2order_approx: reset counter for 3 NAN/INF values in logl
+
+S7 full-data fixed effects:
+                                                  mean         sd   0.025quant
+(Intercept)                                -0.25275699 0.15636828 -0.560772969
+rainfall_lag_z                              0.13871033 0.02530387  0.088856810
+humidity_lag_z                             -0.03960080 0.01432245 -0.067689285
+temperature_lag_z                          -0.03887782 0.02384542 -0.085663751
+idhm_z                                      0.52672080 0.08874444  0.351409187
+log_cases_lag_z                             0.91986015 0.01053821  0.899196773
+neighbor_log_cases_lag_z                    0.28632793 0.02048882  0.246143117
+temperature_lag_region_Baixadas             0.11078673 0.03309264  0.045894637
+temperature_lag_region_Centro.Fluminense    0.05210075 0.03425067 -0.015054940
+temperature_lag_region_Noroeste.Fluminense  0.17140199 0.03230409  0.108058238
+temperature_lag_region_Norte.Fluminense     0.09992302 0.03594618  0.029432949
+temperature_lag_region_Sul.Fluminense       0.05566017 0.02528061  0.006092201
+                                              0.5quant   0.975quant        mode
+(Intercept)                                -0.25324197  0.057973864 -0.25325904
+rainfall_lag_z                              0.13878773  0.188118646  0.13878667
+humidity_lag_z                             -0.03959965 -0.011518861 -0.03959965
+temperature_lag_z                          -0.03886854  0.007855227 -0.03886851
+idhm_z                                      0.52707809  0.700144867  0.52711190
+log_cases_lag_z                             0.91985969  0.940526194  0.91985968
+neighbor_log_cases_lag_z                    0.28633126  0.326493744  0.28633127
+temperature_lag_region_Baixadas             0.11078672  0.175678889  0.11078672
+temperature_lag_region_Centro.Fluminense    0.05209829  0.119270404  0.05209828
+temperature_lag_region_Noroeste.Fluminense  0.17140130  0.234749622  0.17140130
+temperature_lag_region_Norte.Fluminense     0.09992389  0.170408091  0.09992390
+temperature_lag_region_Sul.Fluminense       0.05565828  0.105238907  0.05565827
+                                                    kld
+(Intercept)                                7.609452e-07
+rainfall_lag_z                             2.507665e-09
+humidity_lag_z                             4.896705e-11
+temperature_lag_z                          7.956891e-11
+idhm_z                                     1.027581e-08
+log_cases_lag_z                            4.399853e-11
+neighbor_log_cases_lag_z                   8.594035e-11
+temperature_lag_region_Baixadas            4.694644e-11
+temperature_lag_region_Centro.Fluminense   5.095548e-11
+temperature_lag_region_Noroeste.Fluminense 4.864514e-11
+temperature_lag_region_Norte.Fluminense    4.832245e-11
+temperature_lag_region_Sul.Fluminense      4.823826e-11
+
+S7 full-data model criteria:
+    model      dic     waic
+   <char>    <num>    <num>
+1:     S7 91118.81 91284.39
+Criteria: /Users/ethanmassey/VS_Code_Test/Hierarchical-Bayesian-Model/outputs/spatial_inla_s7_temperature_region_model_criteria.csv 
+
+S7 full-data region-specific temperature effects:
+                            region temperature_effect_mean
+                            <char>                   <num>
+1:                        Baixadas              0.07190891
+2:               Centro Fluminense              0.01322292
+3: Metropolitana do Rio de Janeiro             -0.03887782
+4:             Noroeste Fluminense              0.13252416
+5:                Norte Fluminense              0.06104519
+6:                  Sul Fluminense              0.01678234
+   temperature_effect_q025 temperature_effect_q975 temperature_relative_risk
+                     <num>                   <num>                     <num>
+1:            -0.008037159             0.151854973                 1.0745575
+2:            -0.068575376             0.095021225                 1.0133107
+3:            -0.085614847             0.007859203                 0.9618682
+4:             0.053826853             0.211221476                 1.1417066
+5:            -0.023501759             0.145592147                 1.0629470
+6:            -0.051331917             0.084896605                 1.0169240
+   temperature_relative_risk_q025 temperature_relative_risk_q975
+                            <num>                          <num>
+1:                      0.9919951                       1.163991
+2:                      0.9337231                       1.099682
+3:                      0.9179477                       1.007890
+4:                      1.0553019                       1.235186
+5:                      0.9767723                       1.156724
+6:                      0.9499633                       1.088605
+ *** WARNING *** GMRFLib_2order_approx: rescue NAN/INF values in logl for idx=6248
+ *** WARNING *** GMRFLib_2order_approx: reset counter for 5 NAN/INF values in logl
+ *** WARNING *** GMRFLib_2order_approx: rescue NAN/INF values in logl for idx=7884
+ *** WARNING *** GMRFLib_2order_approx: reset counter for 7 NAN/INF values in logl
+
+Train/test evaluation split:
+Train rows: 25644 
+Test rows: 365 
+Dropped test rows with own/neighbor lagged cases inside test period: 4293 
+No-leakage policy: scaler fit on training data only.
+No-leakage policy: test own-case and neighbor-case lags must come from before test start.
+
+S7 train/test metrics:
+    model  split      mae     rmse      wape accuracy_pct        r2
+   <char> <char>    <num>    <num>     <num>        <num>     <num>
+1:     S7  train 2.930742 17.38356 0.6467754     35.32246 0.7452116
+2:     S7   test 4.005670 10.62084 0.4637075     53.62925 0.8683473
+
+S7 train-fit fixed effects:
+                                                  mean         sd   0.025quant
+(Intercept)                                -0.61769041 0.14787977 -0.909436008
+rainfall_lag_z                              0.10807273 0.02984887  0.048995564
+humidity_lag_z                             -0.01660173 0.01749106 -0.050910574
+temperature_lag_z                          -0.01307158 0.02827403 -0.068587436
+idhm_z                                      0.58405121 0.09894567  0.390005415
+log_cases_lag_z                             0.84985561 0.01159385  0.827125156
+neighbor_log_cases_lag_z                    0.25202282 0.02167539  0.209549136
+temperature_lag_region_Baixadas             0.16229016 0.03937600  0.085075925
+temperature_lag_region_Centro.Fluminense    0.12397749 0.04447498  0.036783575
+temperature_lag_region_Noroeste.Fluminense  0.24259530 0.04026640  0.163635428
+temperature_lag_region_Norte.Fluminense     0.07626955 0.04112405 -0.004377744
+temperature_lag_region_Sul.Fluminense       0.07871409 0.02913133  0.021603139
+                                              0.5quant  0.975quant        mode
+(Intercept)                                -0.61812875 -0.32385059 -0.61822229
+rainfall_lag_z                              0.10827180  0.16604293  0.10827931
+humidity_lag_z                             -0.01659821  0.01768710 -0.01659819
+temperature_lag_z                          -0.01304650  0.04230162 -0.01304633
+idhm_z                                      0.58384833  0.77923039  0.58384466
+log_cases_lag_z                             0.84985406  0.87259492  0.84985405
+neighbor_log_cases_lag_z                    0.25201218  0.29455678  0.25201204
+temperature_lag_region_Baixadas             0.16229033  0.23950343  0.16229034
+temperature_lag_region_Centro.Fluminense    0.12397112  0.21120767  0.12397108
+temperature_lag_region_Noroeste.Fluminense  0.24259543  0.32155445  0.24259543
+temperature_lag_region_Norte.Fluminense     0.07627159  0.15690524  0.07627160
+temperature_lag_region_Sul.Fluminense       0.07870928  0.13585235  0.07870924
+                                                    kld
+(Intercept)                                3.172469e-09
+rainfall_lag_z                             1.086088e-08
+humidity_lag_z                             5.305595e-11
+temperature_lag_z                          2.339090e-10
+idhm_z                                     1.582713e-08
+log_cases_lag_z                            4.505586e-11
+neighbor_log_cases_lag_z                   1.078793e-10
+temperature_lag_region_Baixadas            4.302428e-11
+temperature_lag_region_Centro.Fluminense   5.197849e-11
+temperature_lag_region_Noroeste.Fluminense 4.530647e-11
+temperature_lag_region_Norte.Fluminense    4.430942e-11
+temperature_lag_region_Sul.Fluminense      5.038639e-11
+
+S7 train-fit region-specific temperature effects:
+                            region temperature_effect_mean
+                            <char>                   <num>
+1:                        Baixadas              0.14921858
+2:               Centro Fluminense              0.11090591
+3: Metropolitana do Rio de Janeiro             -0.01307158
+4:             Noroeste Fluminense              0.22952372
+5:                Norte Fluminense              0.06319797
+6:                  Sul Fluminense              0.06564251
+   temperature_effect_q025 temperature_effect_q975 temperature_relative_risk
+                     <num>                   <num>                     <num>
+1:             0.054206276              0.24423089                 1.1609267
+2:             0.007611037              0.21420078                 1.1172898
+3:            -0.068488685              0.04234553                 0.9870135
+4:             0.133088455              0.32595899                 1.2580007
+5:            -0.034617782              0.16101372                 1.0652377
+6:            -0.013926143              0.14521116                 1.0678449
+   temperature_relative_risk_q025 temperature_relative_risk_q975
+                            <num>                          <num>
+1:                      1.0557023                       1.276639
+2:                      1.0076401                       1.238871
+3:                      0.9338040                       1.043255
+4:                      1.1423510                       1.385359
+5:                      0.9659746                       1.174701
+6:                      0.9861704                       1.156284

@@ -1,0 +1,18 @@
+model,model_group,description,dic,waic,lpml,mean_log_cpo,result_type,source_file,rainfall_specification,temperature_specification
+R_M0,non_spatial,base only,109000.873804158,109095.891356347,-54548.9179251482,-1.62890939814703,criteria,r_m0_model_criteria.csv,,
+R_M1,non_spatial,base + same-week covariates,104129.160581325,104221.589103497,-52111.7334207426,-1.64973196849256,criteria,r_m1_model_criteria.csv,,
+R_M2,non_spatial,base + 12-week lagged weather covariates,98268.2281620355,98365.0357278747,-49183.6300495437,-1.61825519196998,criteria,r_m2_model_criteria.csv,,
+R_M3,non_spatial,base + same-week covariates + humidity/temperature interpolation,105301.715622031,105395.012114274,-52698.4446451263,-1.64113371259464,criteria,r_m3_model_criteria.csv,,
+R_M4,non_spatial,base + same-week covariates + log lagged cases,95277.2152395866,95469.4099039219,-47694.4933722272,-1.53146753274338,criteria,r_m4_model_criteria.csv,,
+R_M5,non_spatial,base + lagged weather + log lagged cases,91356.6457683783,91525.6311577326,-45734.0649703747,-1.50927545938798,criteria,r_m5_model_criteria.csv,,
+S1,spatial,,91357.0399189354,91526.4431096961,,,criteria,spatial_inla_s1_model_criteria.csv,,
+S2,spatial,,91141.7233128812,91302.5510403236,,,criteria,spatial_inla_s2_model_criteria.csv,,
+S3,spatial,,91189.1722040866,91360.8711812599,,,criteria,spatial_inla_s3_model_criteria.csv,,
+S4,spatial,,91142.2291115268,91303.4012266555,,,criteria,spatial_inla_s4_road_model_criteria.csv,,
+S5,spatial,,91140.746913222,91303.4811841189,,,criteria,spatial_inla_s5_air_model_criteria.csv,,
+S6,spatial,,91062.5749989572,91226.2825320059,,,criteria,spatial_inla_s6_rainfall_region_model_criteria.csv,,
+S7,spatial,,91118.8115804656,91284.3862077195,,,criteria,spatial_inla_s7_temperature_region_model_criteria.csv,,
+S8,spatial,,90483.3224592379,90669.29691185,,,criteria,s8_rainfall_municipality_model_criteria.csv,municipality rainfall slope,
+S9,spatial,,90775.5197177888,90966.5377619955,,,criteria,s9_temperature_municipality_model_criteria.csv,,municipality temperature slope
+S10,spatial,,90356.1055900937,90736.6988553904,,,criteria,s10_rainfall_time_model_criteria.csv,time-varying RW1 rainfall slope,
+S11,spatial,,89767.217939392,90155.0778600099,,,criteria,s11_rainfall_spacetime_model_criteria.csv,additive municipality + RW1 time rainfall slopes,

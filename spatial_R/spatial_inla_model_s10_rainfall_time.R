@@ -47,6 +47,8 @@ S2_SCRIPT <- file.path(PROJECT_DIR, "spatial_R", "spatial_inla_model_s2.R")
 dir.create(OUTPUT_DIR, showWarnings = FALSE, recursive = TRUE)
 
 EFFECTS_CSV <- file.path(OUTPUT_DIR, "s10_rainfall_time_effects.csv")
+FIXED_EFFECTS_CSV <- file.path(OUTPUT_DIR, "s10_rainfall_time_fixed_effects.csv")
+RAINFALL_AVERAGE_EFFECT_CSV <- file.path(OUTPUT_DIR, "s10_rainfall_time_average_rainfall_effect.csv")
 CRITERIA_CSV <- file.path(OUTPUT_DIR, "s10_rainfall_time_model_criteria.csv")
 METRICS_CSV <- file.path(OUTPUT_DIR, "s10_rainfall_time_train_test_metrics.csv")
 EFFECT_PNG <- file.path(OUTPUT_DIR, "s10_rainfall_time_effect_plot.png")
@@ -136,6 +138,32 @@ predict_s10_mean <- function(fit, new_dt) {
 
   pred_rows <- (nrow(fit$.model_data) + 1L):nrow(fit_dt)
   result$summary.fitted.values$mean[pred_rows]
+}
+
+save_fixed_effect_outputs <- function(fit, model_id, fixed_csv, rainfall_csv) {
+  fixed <- as.data.table(fit$summary.fixed, keep.rownames = "term")
+  fixed[, model := model_id]
+  setcolorder(fixed, c("model", "term", setdiff(names(fixed), c("model", "term"))))
+  fwrite(fixed, fixed_csv)
+
+  rainfall <- copy(fixed[term == "rainfall_lag_z"])
+  if (nrow(rainfall) != 1) {
+    warning("Could not find rainfall_lag_z in fixed effects; rainfall average-effect CSV was not written.")
+    return(invisible(NULL))
+  }
+
+  rainfall[, `:=`(
+    relative_risk_mean = exp(mean),
+    relative_risk_q025 = exp(`0.025quant`),
+    relative_risk_q975 = exp(`0.975quant`),
+    interpretation = fifelse(
+      `0.025quant` > 0,
+      "positive",
+      fifelse(`0.975quant` < 0, "negative", "not clearly different from null")
+    )
+  )]
+  fwrite(rainfall, rainfall_csv)
+  invisible(rainfall)
 }
 
 summarize_time_rainfall_effects <- function(fit, slope_lookup) {
@@ -250,6 +278,12 @@ main <- function() {
 
   cat("\nS10 full-data fixed effects:\n")
   print(full_fit$summary.fixed)
+  average_rainfall_effect <- save_fixed_effect_outputs(
+    full_fit,
+    "S10",
+    FIXED_EFFECTS_CSV,
+    RAINFALL_AVERAGE_EFFECT_CSV
+  )
 
   cat("\nS10 full-data model criteria:\n")
   criteria <- data.table(
@@ -267,6 +301,8 @@ main <- function() {
 
   cat("\nS10 time-varying rainfall outputs written:\n")
   cat("CSV:", EFFECTS_CSV, "\n")
+  cat("Fixed effects:", FIXED_EFFECTS_CSV, "\n")
+  cat("Average rainfall effect:", RAINFALL_AVERAGE_EFFECT_CSV, "\n")
   cat("Criteria:", CRITERIA_CSV, "\n")
   cat("Plot:", EFFECT_PNG, "\n")
 
@@ -295,7 +331,8 @@ main <- function() {
     test_metrics <- compute_metrics(test_dt$cases, test_pred)
     test_metrics[, split := "test"]
     metrics <- rbindlist(list(train_metrics, test_metrics), use.names = TRUE)
-    setcolorder(metrics, c("split", "mae", "rmse", "wape", "accuracy_pct", "r2"))
+    metrics[, model := "S10"]
+    setcolorder(metrics, c("model", "split", "mae", "rmse", "wape", "accuracy_pct", "r2"))
 
     cat("\nTrain/test evaluation split:\n")
     cat("Train rows:", nrow(train_dt), "\n")

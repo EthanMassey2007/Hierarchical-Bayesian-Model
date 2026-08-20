@@ -1,0 +1,74 @@
+full-data interpolation filled values:
+ humidity: filled 519, remaining missing 1377
+ temperature: filled 520, remaining missing 1377
+R_M3 dataframe built
+Original rows: 76544 
+Model rows: 32111 
+Dropped missing model covariates: 1377 
+Municipios: 92 
+Years: 2017, 2018, 2019, 2020, 2021, 2022, 2023 
+ *** WARNING *** GMRFLib_2order_approx: rescue NAN/INF values in logl for idx=2700
+ *** WARNING *** GMRFLib_2order_approx: reset counter for 11 NAN/INF values in logl
+ *** WARNING *** GMRFLib_2order_approx: reset counter for 11 NAN/INF values in logl
+
+R_M3 full-data fixed effects:
+            term        mean         sd  0.025quant    0.5quant 0.975quant
+          <char>       <num>      <num>       <num>       <num>      <num>
+1:   (Intercept) -0.06306546 0.39309484 -0.84961847 -0.06299265 0.72314396
+2:    rainfall_z  0.04694073 0.02994545 -0.01174112  0.04692656 0.10570327
+3:    humidity_z  0.06015860 0.01711593  0.02659209  0.06015982 0.09371815
+4: temperature_z  0.17712519 0.02313928  0.13174235  0.17712814 0.22249123
+5:        idhm_z  0.97773984 0.14836350  0.68622693  0.97769570 1.26950125
+          mode          kld
+         <num>        <num>
+1: -0.06298703 6.705873e-08
+2:  0.04692650 8.894615e-11
+3:  0.06015982 4.835078e-11
+4:  0.17712816 4.990979e-11
+5:  0.97769507 1.027094e-08
+
+R_M3 full-data criteria:
+    model                                                      description
+   <char>                                                           <char>
+1:   R_M3 base + same-week covariates + humidity/temperature interpolation
+        dic   waic      lpml mean_log_cpo
+      <num>  <num>     <num>        <num>
+1: 105301.7 105395 -52698.44    -1.641134
+R_M3 dataframe built
+Original rows: 76544 
+Model rows: 33488 
+Interpolation deferred; missing covariates retained for split-specific handling.
+Municipios: 92 
+Years: 2017, 2018, 2019, 2020, 2021, 2022, 2023 
+train interpolation filled values:
+ humidity: filled 426, remaining missing 1365
+ temperature: filled 427, remaining missing 1365
+test interpolation filled values:
+ humidity: filled 33, remaining missing 72
+ temperature: filled 33, remaining missing 72
+ *** WARNING *** GMRFLib_2order_approx: rescue NAN/INF values in logl for idx=8191
+ *** WARNING *** GMRFLib_2order_approx: reset counter for 3 NAN/INF values in logl
+ *** WARNING *** GMRFLib_2order_approx: reset counter for 3 NAN/INF values in logl
+ *** WARNING *** GMRFLib_2order_approx: reset counter for 3 NAN/INF values in logl
+ *** WARNING *** GMRFLib_2order_approx: reset counter for 3 NAN/INF values in logl
+ *** WARNING *** GMRFLib_2order_approx: rescue NAN/INF values in logl for idx=5922
+ *** WARNING *** GMRFLib_2order_approx: reset counter for 4 NAN/INF values in logl
+ *** WARNING *** GMRFLib_2order_approx: reset counter for 4 NAN/INF values in logl
+
+Train/test evaluation split:
+Train rows: 27339 
+Test rows: 4712 
+Dropped test rows with lagged cases inside test period: 0 
+No-leakage policy: scaler fit on training data only.
+No-leakage policy: interpolation is applied separately to train and test.
+
+R_M3 train/test metrics:
+    model  split       mae     rmse      wape accuracy_pct        r2
+   <char> <char>     <num>    <num>     <num>        <num>     <num>
+1:   R_M3  train  4.072154 21.90454 0.8807992     11.92008 0.5794029
+2:   R_M3   test 18.618835 94.61934 0.8546957     14.53043 0.2345678
+
+Saved outputs:
+Criteria: /Users/ethanmassey/VS_Code_Test/Hierarchical-Bayesian-Model/outputs/r_m3_model_criteria.csv 
+Fixed effects: /Users/ethanmassey/VS_Code_Test/Hierarchical-Bayesian-Model/outputs/r_m3_fixed_effects.csv 
+Metrics: /Users/ethanmassey/VS_Code_Test/Hierarchical-Bayesian-Model/outputs/r_m3_train_test_metrics.csv 

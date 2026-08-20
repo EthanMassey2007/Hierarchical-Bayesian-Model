@@ -1,0 +1,2 @@
+model,description,dic,waic,lpml,mean_log_cpo
+R_M2,base + 12-week lagged weather covariates,98268.2281620355,98365.0357278747,-49183.6300495437,-1.61825519196998
