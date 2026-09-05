@@ -10,9 +10,9 @@ S2,spatial,,91141.7233128812,91302.5510403236,,,criteria,spatial_inla_s2_model_c
 S3,spatial,,91189.1722040866,91360.8711812599,,,criteria,spatial_inla_s3_model_criteria.csv,,
 S4,spatial,,91142.2291115268,91303.4012266555,,,criteria,spatial_inla_s4_road_model_criteria.csv,,
 S5,spatial,,91140.746913222,91303.4811841189,,,criteria,spatial_inla_s5_air_model_criteria.csv,,
-S6,spatial,,91062.5749989572,91226.2825320059,,,criteria,spatial_inla_s6_rainfall_region_model_criteria.csv,,
-S7,spatial,,91118.8115804656,91284.3862077195,,,criteria,spatial_inla_s7_temperature_region_model_criteria.csv,,
+S6,spatial,,91062.2894116172,91226.1371915723,,,criteria,spatial_inla_s6_rainfall_region_model_criteria.csv,,
+S7,spatial,,91110.9807759084,91276.6767372917,,,criteria,spatial_inla_s7_temperature_region_model_criteria.csv,,
 S8,spatial,,90483.3224592379,90669.29691185,,,criteria,s8_rainfall_municipality_model_criteria.csv,municipality rainfall slope,
 S9,spatial,,90775.5197177888,90966.5377619955,,,criteria,s9_temperature_municipality_model_criteria.csv,,municipality temperature slope
 S10,spatial,,90356.1055900937,90736.6988553904,,,criteria,s10_rainfall_time_model_criteria.csv,time-varying RW1 rainfall slope,
-S11,spatial,,89767.217939392,90155.0778600099,,,criteria,s11_rainfall_spacetime_model_criteria.csv,additive municipality + RW1 time rainfall slopes,
+S11,spatial,,89767.4815713076,90154.5978407602,,,criteria,s11_rainfall_spacetime_model_criteria.csv,additive municipality + RW1 time rainfall slopes,

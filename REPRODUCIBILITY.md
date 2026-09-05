@@ -20,7 +20,7 @@ save summaries or figures write them to `outputs/`.
 Install the R dependencies with:
 
 ```bash
-Rscript spatial_R/install_packages.R
+Rscript models/r_inla/spatial/install_packages.R
 ```
 
 The spatial scripts use INLA, Arrow, data.table, Matrix, sf, and ggplot2.

@@ -13,7 +13,8 @@ outputs.
 | `data/adjacency_matrix_correct.parquet` | Municipality adjacency matrix used for BYM2 spatial structure and neighboring-case lag features. | `andrezaleite/reproducibility_transportation_hubs-early_warning_surveillance_systems`. |
 | `data/aero_anac_2017_2023.parquet` | Air passenger mobility data used in the S5 sensitivity model. | `andrezaleite/reproducibility_transportation_hubs-early_warning_surveillance_systems`. |
 | `data/fluvi_road_ibge.parquet` | Road and fluvial connectivity data used in the S4 sensitivity model. | `andrezaleite/reproducibility_transportation_hubs-early_warning_surveillance_systems`. |
-| `data/hub_pop_density.csv` | Municipality hub, IBGE region, population, and density lookup data. | `andrezaleite/reproducibility_transportation_hubs-early_warning_surveillance_systems`. |
+| `data/hub_pop_density.csv` | Municipality hub, population, and density lookup data. | `andrezaleite/reproducibility_transportation_hubs-early_warning_surveillance_systems`. |
+| `data/rj_ibge_intermediate_regions.csv` | Current IBGE immediate and intermediate region lookup for RJ municipalities. | IBGE Localidades API, RJ municipalities endpoint. |
 | `data/municipios.csv` | Municipality metadata and IBGE lookup support. | `andrezaleite/reproducibility_transportation_hubs-early_warning_surveillance_systems`. |
 | `data/RJ.json` | Rio de Janeiro municipality GeoJSON boundaries used for maps. | Source should be verified before public release. |
 

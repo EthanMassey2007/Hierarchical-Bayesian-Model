@@ -72,37 +72,53 @@ Project layout:
 |-- references.bib
 |-- requirements.txt
 |-- Makefile
-|-- correlation_matrix.py
-|-- unexplained_effects_map.py
-|-- base_model_r_m0.R
-|-- base_model_r_m1_covariates.R
-|-- base_model_r_m4_lag_cases.R
-|-- base_model_r_m5_lag_weather_cases.R
-|-- base_model/
-|   |-- base_model.py
-|   |-- base_model_covariates.py
-|   |-- base_model_lag_weather.py
-|   |-- base_model_interpolation.py
-|   |-- base_model_lag_cases.py
-|   |-- base_model_lag_cases_weather.py
-|   `-- base_model_lag_cases_weather_interpolation.py
-|-- spatial_R/
-|   |-- spatial_inla_model_s1.R
-|   |-- spatial_inla_model_s2.R
-|   |-- spatial_inla_model_s3.R
-|   |-- spatial_inla_model_s4_road.R
-|   |-- spatial_inla_model_s5_air.R
-|   |-- spatial_inla_model_s6_rainfall_region.R
-|   |-- spatial_inla_model_s7_temperature_region.R
-|   |-- spatial_inla_model_s8_rainfall_municipality.R
-|   |-- spatial_inla_model_s9_temperature_municipality.R
-|   |-- spatial_inla_model_s10_rainfall_time.R
-|   |-- spatial_inla_model_s11_rainfall_spacetime.R
-|   |-- map_s2_unexplained_effects.R
-|   |-- map_s2_spacetime_weather_residual_animations.R
-|   |-- map_s6_rainfall_region_effect.R
-|   |-- map_s7_temperature_region_effect.R
-|   `-- s2_morans_i_diagnostic.R
+|-- models/
+|   |-- pymc/
+|   |   |-- base_model.py
+|   |   |-- base_model_covariates.py
+|   |   |-- base_model_lag_weather.py
+|   |   |-- base_model_interpolation.py
+|   |   |-- base_model_lag_cases.py
+|   |   |-- base_model_lag_cases_weather.py
+|   |   `-- base_model_lag_cases_weather_interpolation.py
+|   `-- r_inla/
+|       |-- baseline/
+|       |   |-- base_model_r_m0.R
+|       |   |-- base_model_r_m1_covariates.R
+|       |   |-- base_model_r_m2_lag_weather.R
+|       |   |-- base_model_r_m3_interpolation.R
+|       |   |-- base_model_r_m4_lag_cases.R
+|       |   `-- base_model_r_m5_lag_weather_cases.R
+|       `-- spatial/
+|           |-- spatial_inla_model_s1.R
+|           |-- spatial_inla_model_s2.R
+|           |-- spatial_inla_model_s3.R
+|           |-- spatial_inla_model_s4_road.R
+|           |-- spatial_inla_model_s5_air.R
+|           |-- spatial_inla_model_s6_rainfall_region.R
+|           |-- spatial_inla_model_s7_temperature_region.R
+|           |-- spatial_inla_model_s8_rainfall_municipality.R
+|           |-- spatial_inla_model_s9_temperature_municipality.R
+|           |-- spatial_inla_model_s10_rainfall_time.R
+|           |-- spatial_inla_model_s11_rainfall_spacetime.R
+|           |-- lag_sensitivity_climate_s2.R
+|           |-- map_s2_unexplained_effects.R
+|           |-- map_s2_spacetime_weather_residual_animations.R
+|           |-- map_s6_rainfall_region_effect.R
+|           |-- map_s7_temperature_region_effect.R
+|           |-- s2_morans_i_diagnostic.R
+|           `-- install_packages.R
+|-- scripts/
+|   |-- analysis/
+|   |   |-- run_all_models_collect_results.R
+|   |   |-- correlation_matrix.py
+|   |   `-- unexplained_effects_map.py
+|   `-- figures/
+|       |-- plot_weekly_dengue_cases.py
+|       |-- plot_municipal_mean_annual_incidence.py
+|       |-- plot_model_comparison_figures.py
+|       |-- plot_observed_predicted_s6_s11.py
+|       `-- plot_s11_rainfall_effect_heterogeneity.py
 |-- outputs/
 |   |-- s2_unexplained_spatial_effects.csv
 |   |-- s2_unexplained_spatial_relative_risk_map.png
@@ -130,6 +146,11 @@ Project layout:
 |   |-- s2_spacetime_rainfall_lag_animation_2023.gif
 |   |-- s2_spacetime_temperature_lag_animation_2023.gif
 |   |-- s2_spacetime_residual_animation_2023.gif
+|   |-- descriptive_figures/
+|   |-- model_comparison_figures/
+|   |-- observed_predicted_figures/
+|   |-- rainfall_effect_heterogeneity_figures/
+|   |-- misc/
 |   `-- run_logs/
 `-- data/
 ```

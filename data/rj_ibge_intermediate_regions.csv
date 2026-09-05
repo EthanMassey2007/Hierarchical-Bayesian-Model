@@ -1,0 +1,93 @@
+ibge_code,municipio,regiao_imediata_id,regiao_imediata_nome,regiao_intermediaria_id,regiao_intermediaria_nome
+3300100,Angra dos Reis,330002,Angra dos Reis,3301,Rio de Janeiro
+3300159,Aperibé,330012,Santo Antônio de Pádua,3304,Campos dos Goytacazes
+3300209,Araruama,330013,Cabo Frio,3305,Macaé - Rio das Ostras - Cabo Frio
+3300225,Areal,330007,Petrópolis,3303,Petrópolis
+3300233,Armação dos Búzios,330013,Cabo Frio,3305,Macaé - Rio das Ostras - Cabo Frio
+3300258,Arraial do Cabo,330013,Cabo Frio,3305,Macaé - Rio das Ostras - Cabo Frio
+3300308,Barra do Piraí,330004,Volta Redonda - Barra Mansa,3302,Volta Redonda - Barra Mansa
+3300407,Barra Mansa,330004,Volta Redonda - Barra Mansa,3302,Volta Redonda - Barra Mansa
+3300456,Belford Roxo,330001,Rio de Janeiro,3301,Rio de Janeiro
+3300506,Bom Jardim,330008,Nova Friburgo,3303,Petrópolis
+3300605,Bom Jesus do Itabapoana,330011,Itaperuna,3304,Campos dos Goytacazes
+3300704,Cabo Frio,330013,Cabo Frio,3305,Macaé - Rio das Ostras - Cabo Frio
+3300803,Cachoeiras de Macacu,330003,Rio Bonito,3301,Rio de Janeiro
+3300902,Cambuci,330012,Santo Antônio de Pádua,3304,Campos dos Goytacazes
+3300936,Carapebus,330014,Macaé - Rio das Ostras,3305,Macaé - Rio das Ostras - Cabo Frio
+3300951,Comendador Levy Gasparian,330009,Três Rios - Paraíba do Sul,3303,Petrópolis
+3301009,Campos dos Goytacazes,330010,Campos dos Goytacazes,3304,Campos dos Goytacazes
+3301108,Cantagalo,330008,Nova Friburgo,3303,Petrópolis
+3301157,Cardoso Moreira,330010,Campos dos Goytacazes,3304,Campos dos Goytacazes
+3301207,Carmo,330008,Nova Friburgo,3303,Petrópolis
+3301306,Casimiro de Abreu,330014,Macaé - Rio das Ostras,3305,Macaé - Rio das Ostras - Cabo Frio
+3301405,Conceição de Macabu,330014,Macaé - Rio das Ostras,3305,Macaé - Rio das Ostras - Cabo Frio
+3301504,Cordeiro,330008,Nova Friburgo,3303,Petrópolis
+3301603,Duas Barras,330008,Nova Friburgo,3303,Petrópolis
+3301702,Duque de Caxias,330001,Rio de Janeiro,3301,Rio de Janeiro
+3301801,Engenheiro Paulo de Frontin,330004,Volta Redonda - Barra Mansa,3302,Volta Redonda - Barra Mansa
+3301850,Guapimirim,330001,Rio de Janeiro,3301,Rio de Janeiro
+3301876,Iguaba Grande,330013,Cabo Frio,3305,Macaé - Rio das Ostras - Cabo Frio
+3301900,Itaboraí,330001,Rio de Janeiro,3301,Rio de Janeiro
+3302007,Itaguaí,330001,Rio de Janeiro,3301,Rio de Janeiro
+3302056,Italva,330010,Campos dos Goytacazes,3304,Campos dos Goytacazes
+3302106,Itaocara,330012,Santo Antônio de Pádua,3304,Campos dos Goytacazes
+3302205,Itaperuna,330011,Itaperuna,3304,Campos dos Goytacazes
+3302254,Itatiaia,330005,Resende,3302,Volta Redonda - Barra Mansa
+3302270,Japeri,330001,Rio de Janeiro,3301,Rio de Janeiro
+3302304,Laje do Muriaé,330011,Itaperuna,3304,Campos dos Goytacazes
+3302403,Macaé,330014,Macaé - Rio das Ostras,3305,Macaé - Rio das Ostras - Cabo Frio
+3302452,Macuco,330008,Nova Friburgo,3303,Petrópolis
+3302502,Magé,330001,Rio de Janeiro,3301,Rio de Janeiro
+3302601,Mangaratiba,330001,Rio de Janeiro,3301,Rio de Janeiro
+3302700,Maricá,330001,Rio de Janeiro,3301,Rio de Janeiro
+3302809,Mendes,330004,Volta Redonda - Barra Mansa,3302,Volta Redonda - Barra Mansa
+3302858,Mesquita,330001,Rio de Janeiro,3301,Rio de Janeiro
+3302908,Miguel Pereira,330006,Valença,3302,Volta Redonda - Barra Mansa
+3303005,Miracema,330012,Santo Antônio de Pádua,3304,Campos dos Goytacazes
+3303104,Natividade,330011,Itaperuna,3304,Campos dos Goytacazes
+3303203,Nilópolis,330001,Rio de Janeiro,3301,Rio de Janeiro
+3303302,Niterói,330001,Rio de Janeiro,3301,Rio de Janeiro
+3303401,Nova Friburgo,330008,Nova Friburgo,3303,Petrópolis
+3303500,Nova Iguaçu,330001,Rio de Janeiro,3301,Rio de Janeiro
+3303609,Paracambi,330001,Rio de Janeiro,3301,Rio de Janeiro
+3303708,Paraíba do Sul,330009,Três Rios - Paraíba do Sul,3303,Petrópolis
+3303807,Paraty,330002,Angra dos Reis,3301,Rio de Janeiro
+3303856,Paty do Alferes,330006,Valença,3302,Volta Redonda - Barra Mansa
+3303906,Petrópolis,330007,Petrópolis,3303,Petrópolis
+3303955,Pinheiral,330004,Volta Redonda - Barra Mansa,3302,Volta Redonda - Barra Mansa
+3304003,Piraí,330004,Volta Redonda - Barra Mansa,3302,Volta Redonda - Barra Mansa
+3304102,Porciúncula,330011,Itaperuna,3304,Campos dos Goytacazes
+3304110,Porto Real,330005,Resende,3302,Volta Redonda - Barra Mansa
+3304128,Quatis,330005,Resende,3302,Volta Redonda - Barra Mansa
+3304144,Queimados,330001,Rio de Janeiro,3301,Rio de Janeiro
+3304151,Quissamã,330014,Macaé - Rio das Ostras,3305,Macaé - Rio das Ostras - Cabo Frio
+3304201,Resende,330005,Resende,3302,Volta Redonda - Barra Mansa
+3304300,Rio Bonito,330003,Rio Bonito,3301,Rio de Janeiro
+3304409,Rio Claro,330004,Volta Redonda - Barra Mansa,3302,Volta Redonda - Barra Mansa
+3304508,Rio das Flores,330006,Valença,3302,Volta Redonda - Barra Mansa
+3304524,Rio das Ostras,330014,Macaé - Rio das Ostras,3305,Macaé - Rio das Ostras - Cabo Frio
+3304557,Rio de Janeiro,330001,Rio de Janeiro,3301,Rio de Janeiro
+3304607,Santa Maria Madalena,330008,Nova Friburgo,3303,Petrópolis
+3304706,Santo Antônio de Pádua,330012,Santo Antônio de Pádua,3304,Campos dos Goytacazes
+3304755,São Francisco de Itabapoana,330010,Campos dos Goytacazes,3304,Campos dos Goytacazes
+3304805,São Fidélis,330010,Campos dos Goytacazes,3304,Campos dos Goytacazes
+3304904,São Gonçalo,330001,Rio de Janeiro,3301,Rio de Janeiro
+3305000,São João da Barra,330010,Campos dos Goytacazes,3304,Campos dos Goytacazes
+3305109,São João de Meriti,330001,Rio de Janeiro,3301,Rio de Janeiro
+3305133,São José de Ubá,330011,Itaperuna,3304,Campos dos Goytacazes
+3305158,São José do Vale do Rio Preto,330007,Petrópolis,3303,Petrópolis
+3305208,São Pedro da Aldeia,330013,Cabo Frio,3305,Macaé - Rio das Ostras - Cabo Frio
+3305307,São Sebastião do Alto,330008,Nova Friburgo,3303,Petrópolis
+3305406,Sapucaia,330009,Três Rios - Paraíba do Sul,3303,Petrópolis
+3305505,Saquarema,330001,Rio de Janeiro,3301,Rio de Janeiro
+3305554,Seropédica,330001,Rio de Janeiro,3301,Rio de Janeiro
+3305604,Silva Jardim,330003,Rio Bonito,3301,Rio de Janeiro
+3305703,Sumidouro,330008,Nova Friburgo,3303,Petrópolis
+3305752,Tanguá,330001,Rio de Janeiro,3301,Rio de Janeiro
+3305802,Teresópolis,330007,Petrópolis,3303,Petrópolis
+3305901,Trajano de Moraes,330008,Nova Friburgo,3303,Petrópolis
+3306008,Três Rios,330009,Três Rios - Paraíba do Sul,3303,Petrópolis
+3306107,Valença,330006,Valença,3302,Volta Redonda - Barra Mansa
+3306156,Varre-Sai,330011,Itaperuna,3304,Campos dos Goytacazes
+3306206,Vassouras,330006,Valença,3302,Volta Redonda - Barra Mansa
+3306305,Volta Redonda,330004,Volta Redonda - Barra Mansa,3302,Volta Redonda - Barra Mansa

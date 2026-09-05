@@ -1,0 +1,14 @@
+.DS_Store
+__pycache__/
+*.py[cod]
+
+.Rhistory
+.RData
+.Rproj.user/
+
+outputs/.DS_Store
+outputs/.matplotlib-cache/
+outputs/.plot-cache/
+outputs/**/.plot-cache/
+outputs/misc/cache/
+outputs/**/*.tiff

@@ -1,0 +1,93 @@
+ibge_code,municipio,regiao_intermediaria_nome,rainfall_relative_risk,municipality_order
+3306156,varre-sai,Campos dos Goytacazes,2.910038201894386,0
+3300902,cambuci,Campos dos Goytacazes,2.449679740121483,1
+3304805,sao fidelis,Campos dos Goytacazes,2.4033182807410207,2
+3305000,sao joao da barra,Campos dos Goytacazes,2.25740275352659,3
+3303005,miracema,Campos dos Goytacazes,2.0540944718499787,4
+3302106,itaocara,Campos dos Goytacazes,2.0372879533449586,5
+3304755,sao francisco de itabapoana,Campos dos Goytacazes,1.9542272073215619,6
+3300159,aperibe,Campos dos Goytacazes,1.8307777997553552,7
+3302304,laje do muriae,Campos dos Goytacazes,1.6972414376357257,8
+3304706,santo antonio de padua,Campos dos Goytacazes,1.6371808884080057,9
+3301157,cardoso moreira,Campos dos Goytacazes,1.5803819977654132,10
+3300605,bom jesus do itabapoana,Campos dos Goytacazes,1.4913201250340997,11
+3303104,natividade,Campos dos Goytacazes,1.4187400813334543,12
+3304102,porciuncula,Campos dos Goytacazes,1.3212616564515878,13
+3305133,sao jose de uba,Campos dos Goytacazes,1.2498524744937602,14
+3302056,italva,Campos dos Goytacazes,1.2213986111617987,15
+3301009,campos dos goytacazes,Campos dos Goytacazes,1.1136319987335999,16
+3302205,itaperuna,Campos dos Goytacazes,1.013532316483165,17
+3301405,conceicao de macabu,Macaé - Rio das Ostras - Cabo Frio,2.5335171874595566,18
+3300936,carapebus,Macaé - Rio das Ostras - Cabo Frio,2.245299614595862,19
+3305208,sao pedro da aldeia,Macaé - Rio das Ostras - Cabo Frio,1.584016357121685,20
+3300233,armacao dos buzios,Macaé - Rio das Ostras - Cabo Frio,1.5414407261656202,21
+3300704,cabo frio,Macaé - Rio das Ostras - Cabo Frio,1.3345852680771921,22
+3300258,arraial do cabo,Macaé - Rio das Ostras - Cabo Frio,1.3081989729562489,23
+3304524,rio das ostras,Macaé - Rio das Ostras - Cabo Frio,1.1980405447586315,24
+3302403,macae,Macaé - Rio das Ostras - Cabo Frio,1.168846039282505,25
+3304151,quissama,Macaé - Rio das Ostras - Cabo Frio,1.1669224224139494,26
+3301306,casimiro de abreu,Macaé - Rio das Ostras - Cabo Frio,1.1503206227307212,27
+3301876,iguaba grande,Macaé - Rio das Ostras - Cabo Frio,1.0719752104074507,28
+3300209,araruama,Macaé - Rio das Ostras - Cabo Frio,0.9176064840382703,29
+3302452,macuco,Petrópolis,2.2307723337229977,30
+3301603,duas barras,Petrópolis,2.209833062985119,31
+3305703,sumidouro,Petrópolis,1.8699773786797906,32
+3303708,paraiba do sul,Petrópolis,1.790299019163354,33
+3304607,santa maria madalena,Petrópolis,1.764314911612426,34
+3301504,cordeiro,Petrópolis,1.6897105086975637,35
+3300506,bom jardim,Petrópolis,1.6356147870552071,36
+3305406,sapucaia,Petrópolis,1.591892070195886,37
+3301108,cantagalo,Petrópolis,1.560572506679117,38
+3300225,areal,Petrópolis,1.551178452904706,39
+3305158,sao jose do vale do rio preto,Petrópolis,1.5281463623019824,40
+3301207,carmo,Petrópolis,1.4666299466843007,41
+3305802,teresopolis,Petrópolis,1.3850624253471502,42
+3305901,trajano de moraes,Petrópolis,1.286429615219868,43
+3303906,petropolis,Petrópolis,1.1970800826914243,44
+3303401,nova friburgo,Petrópolis,1.1211170087692337,45
+3305307,sao sebastiao do alto,Petrópolis,0.9859912756295155,46
+3306008,tres rios,Petrópolis,0.9622026780172801,47
+3300951,comendador levy gasparian,Petrópolis,0.9063112931358072,48
+3305752,tangua,Rio de Janeiro,2.7158437659009595,49
+3304144,queimados,Rio de Janeiro,2.130225184165287,50
+3302270,japeri,Rio de Janeiro,1.7322933437877381,51
+3305554,seropedica,Rio de Janeiro,1.6814040220475375,52
+3305604,silva jardim,Rio de Janeiro,1.6014246617284196,53
+3300100,angra dos reis,Rio de Janeiro,1.3978749996720758,54
+3303807,paraty,Rio de Janeiro,1.3913933297940266,55
+3305109,sao joao de meriti,Rio de Janeiro,1.3909171532972504,56
+3301850,guapimirim,Rio de Janeiro,1.3582087380455916,57
+3300803,cachoeiras de macacu,Rio de Janeiro,1.3580975980002945,58
+3303203,nilopolis,Rio de Janeiro,1.340987179863235,59
+3302601,mangaratiba,Rio de Janeiro,1.3280037217014369,60
+3302007,itaguai,Rio de Janeiro,1.280260227563128,61
+3302858,mesquita,Rio de Janeiro,1.2766983727359582,62
+3302502,mage,Rio de Janeiro,1.2567358334037753,63
+3303302,niteroi,Rio de Janeiro,1.2365408848418407,64
+3304300,rio bonito,Rio de Janeiro,1.2299010750408608,65
+3302700,marica,Rio de Janeiro,1.2108341095014665,66
+3301900,itaborai,Rio de Janeiro,1.20981393551557,67
+3303609,paracambi,Rio de Janeiro,1.1817286689758961,68
+3304557,rio de janeiro,Rio de Janeiro,1.1305939380939338,69
+3304904,sao goncalo,Rio de Janeiro,1.125607868631508,70
+3301702,duque de caxias,Rio de Janeiro,1.0849294662342157,71
+3303500,nova iguacu,Rio de Janeiro,1.0551729554876563,72
+3300456,belford roxo,Rio de Janeiro,1.049268158442491,73
+3305505,saquarema,Rio de Janeiro,0.9409778648059277,74
+3302809,mendes,Volta Redonda - Barra Mansa,2.6393649936588406,75
+3302908,miguel pereira,Volta Redonda - Barra Mansa,2.0258713052678328,76
+3304508,rio das flores,Volta Redonda - Barra Mansa,1.9421700122481584,77
+3301801,engenheiro paulo de frontin,Volta Redonda - Barra Mansa,1.810024944532366,78
+3303856,paty do alferes,Volta Redonda - Barra Mansa,1.7872069027831154,79
+3303955,pinheiral,Volta Redonda - Barra Mansa,1.6818495694021163,80
+3306107,valenca,Volta Redonda - Barra Mansa,1.596693019892002,81
+3300308,barra do pirai,Volta Redonda - Barra Mansa,1.5921615238689006,82
+3300407,barra mansa,Volta Redonda - Barra Mansa,1.5895423936996804,83
+3304128,quatis,Volta Redonda - Barra Mansa,1.4688189293728489,84
+3306206,vassouras,Volta Redonda - Barra Mansa,1.4292704013014452,85
+3306305,volta redonda,Volta Redonda - Barra Mansa,1.3380926897976075,86
+3304409,rio claro,Volta Redonda - Barra Mansa,1.2896842388076142,87
+3304110,porto real,Volta Redonda - Barra Mansa,1.2287731833008726,88
+3302254,itatiaia,Volta Redonda - Barra Mansa,1.1947514365846323,89
+3304201,resende,Volta Redonda - Barra Mansa,1.1188758285084495,90
+3304003,pirai,Volta Redonda - Barra Mansa,1.1095754277081862,91
