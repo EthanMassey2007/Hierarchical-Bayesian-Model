@@ -24,6 +24,7 @@ import json
 import math
 import os
 import re
+import textwrap
 import unicodedata
 from pathlib import Path
 
@@ -32,6 +33,7 @@ import pandas as pd
 
 
 DEFAULT_OUTPUT_NAME = "s11_rainfall_effect_heterogeneity"
+SPACED_OUTPUT_NAME = "s11_rainfall_effect_heterogeneity_2024_spaced"
 REGION_FIELD = "regiao_intermediaria_nome"
 
 
@@ -303,6 +305,9 @@ def plot_figure(
     heatmap: pd.DataFrame,
     order: pd.DataFrame,
     show_title: bool,
+    output_name: str = DEFAULT_OUTPUT_NAME,
+    include_2024_tick: bool = False,
+    spacious_panel_c: bool = False,
 ) -> None:
     import matplotlib.dates as mdates
     import matplotlib.pyplot as plt
@@ -325,16 +330,18 @@ def plot_figure(
     span = max(upper - 1.0, 1.0 - lower)
     norm = TwoSlopeNorm(vmin=max(0.05, 1.0 - span), vcenter=1.0, vmax=1.0 + span)
     cmap = "RdBu_r"
+    heat_cmap = plt.get_cmap(cmap).copy()
+    heat_cmap.set_bad("#ffffff")
 
-    fig = plt.figure(figsize=(10.6, 9.0))
+    fig = plt.figure(figsize=(11.2, 10.0) if spacious_panel_c else (10.6, 9.0))
     fig.patch.set_facecolor("white")
     grid = fig.add_gridspec(
         3,
         2,
-        height_ratios=[1.0, 1.18, 0.72],
+        height_ratios=[1.0, 1.55, 0.72] if spacious_panel_c else [1.0, 1.18, 0.72],
         width_ratios=[0.92, 1.08],
-        hspace=0.52,
-        wspace=0.23,
+        hspace=0.62 if spacious_panel_c else 0.52,
+        wspace=0.27 if spacious_panel_c else 0.23,
     )
     ax_map = fig.add_subplot(grid[0, 0])
     ax_time = fig.add_subplot(grid[0, 1])
@@ -371,7 +378,10 @@ def plot_figure(
     ax_time.set_title("(b) Temporal rainfall RR", loc="left", pad=5)
     ax_time.set_ylabel("RR per 1-SD rainfall increase")
     ax_time.set_xlabel("Year")
-    ax_time.set_xlim(time_effects["date"].min(), time_effects["date"].max())
+    time_axis_end = time_effects["date"].max()
+    if include_2024_tick:
+        time_axis_end = max(time_axis_end, pd.Timestamp(year=2024, month=1, day=1))
+    ax_time.set_xlim(time_effects["date"].min(), time_axis_end)
     ax_time.xaxis.set_major_locator(mdates.YearLocator())
     ax_time.xaxis.set_major_formatter(mdates.DateFormatter("%Y"))
     ax_time.yaxis.set_major_locator(MaxNLocator(nbins=5))
@@ -382,16 +392,42 @@ def plot_figure(
         .sort_index()
     )
     heat_dates = pd.to_datetime(heat_matrix.columns)
+    display_matrix = heat_matrix.to_numpy()
+    region_ranges = (
+        order.groupby(REGION_FIELD, sort=False)["municipality_order"]
+        .agg(["min", "max"])
+        .reset_index()
+    )
+    region_midpoints = []
+    region_labels = []
+
+    if spacious_panel_c:
+        gap_rows = 3
+        display_blocks = []
+        display_row = 0
+        for region_idx, row in region_ranges.iterrows():
+            row_orders = list(range(int(row["min"]), int(row["max"]) + 1))
+            block = heat_matrix.loc[row_orders].to_numpy()
+            display_blocks.append(block)
+            block_height = block.shape[0]
+            region_midpoints.append(display_row + (block_height - 1) / 2)
+            region_labels.append(textwrap.fill(str(row[REGION_FIELD]), width=22))
+            display_row += block_height
+            if region_idx < len(region_ranges) - 1:
+                display_blocks.append(np.full((gap_rows, heat_matrix.shape[1]), np.nan))
+                display_row += gap_rows
+        display_matrix = np.vstack(display_blocks)
+
     extent = [
         mdates.date2num(heat_dates.min()),
         mdates.date2num(heat_dates.max()),
-        heat_matrix.index.max() + 0.5,
-        heat_matrix.index.min() - 0.5,
+        display_matrix.shape[0] - 0.5,
+        -0.5,
     ]
     image = ax_heat.imshow(
-        heat_matrix.to_numpy(),
+        display_matrix,
         aspect="auto",
-        cmap=cmap,
+        cmap=heat_cmap,
         norm=norm,
         interpolation="nearest",
         extent=extent,
@@ -416,25 +452,26 @@ def plot_figure(
     heat_cbar.set_label("RR", fontsize=8)
     heat_cbar.ax.tick_params(labelsize=7)
 
-    region_ranges = (
-        order.groupby(REGION_FIELD, sort=False)["municipality_order"]
-        .agg(["min", "max"])
-        .reset_index()
-    )
-    for _, row in region_ranges.iterrows():
-        boundary = row["max"] + 0.5
-        ax_heat.axhline(boundary, color="#ffffff", linewidth=0.55, alpha=0.9)
-        midpoint = (row["min"] + row["max"]) / 2
-        ax_heat.text(
-            mdates.date2num(heat_dates.min()) - (mdates.date2num(heat_dates.max()) - mdates.date2num(heat_dates.min())) * 0.012,
-            midpoint,
-            str(row[REGION_FIELD]),
-            ha="right",
-            va="center",
-            fontsize=6.5,
-            color="#333333",
-            clip_on=False,
-        )
+    if not spacious_panel_c:
+        for _, row in region_ranges.iterrows():
+            boundary = row["max"] + 0.5
+            ax_heat.axhline(boundary, color="#ffffff", linewidth=0.55, alpha=0.9)
+            midpoint = (row["min"] + row["max"]) / 2
+            ax_heat.text(
+                mdates.date2num(heat_dates.min()) - (mdates.date2num(heat_dates.max()) - mdates.date2num(heat_dates.min())) * 0.012,
+                midpoint,
+                str(row[REGION_FIELD]),
+                ha="right",
+                va="center",
+                fontsize=6.5,
+                color="#333333",
+                clip_on=False,
+            )
+
+    if spacious_panel_c:
+        ax_heat.set_yticks(region_midpoints)
+        ax_heat.set_yticklabels(region_labels)
+        ax_heat.tick_params(axis="y", length=0, pad=8)
 
     dates = representative_dates(time_effects, n=4)
     for ax_period, date in zip(period_axes, dates, strict=False):
@@ -461,8 +498,13 @@ def plot_figure(
         fontsize=9.5,
     )
 
-    fig.subplots_adjust(left=0.13, right=0.985, top=0.965, bottom=0.055)
-    save_all_formats(fig, output_dir / DEFAULT_OUTPUT_NAME)
+    fig.subplots_adjust(
+        left=0.19 if spacious_panel_c else 0.13,
+        right=0.985,
+        top=0.965,
+        bottom=0.055,
+    )
+    save_all_formats(fig, output_dir / output_name)
     plt.close(fig)
 
 
@@ -502,11 +544,24 @@ def main() -> None:
     order.to_csv(output_dir / "s11_rainfall_rr_municipality_order.csv", index=False)
 
     plot_figure(project_dir, output_dir, spatial_average, time_effects, heatmap, order, args.show_title)
+    plot_figure(
+        project_dir,
+        output_dir,
+        spatial_average,
+        time_effects,
+        heatmap,
+        order,
+        args.show_title,
+        output_name=SPACED_OUTPUT_NAME,
+        include_2024_tick=True,
+        spacious_panel_c=True,
+    )
 
     print(f"Municipalities plotted: {spatial_average['ibge_code'].nunique():,}")
     print(f"Weeks plotted: {time_effects['date'].nunique():,}")
     print(f"Municipality-week effects plotted: {len(heatmap):,}")
-    print(f"Wrote figures to: {output_dir}")
+    print(f"Wrote original figure to: {output_dir / DEFAULT_OUTPUT_NAME}")
+    print(f"Wrote 2024/spaced variant to: {output_dir / SPACED_OUTPUT_NAME}")
 
 
 if __name__ == "__main__":
