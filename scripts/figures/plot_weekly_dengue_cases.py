@@ -179,9 +179,9 @@ def save_figure(
     ax.plot(
         weekly["date"],
         weekly["incidence_per_100k"],
-        color="#9a9a9a",
-        linewidth=0.75,
-        alpha=0.7,
+        color="#5f6368",
+        linewidth=1.15,
+        alpha=1.0,
         label="Weekly incidence",
         zorder=2,
     )
