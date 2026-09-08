@@ -204,12 +204,15 @@ plot_spatial_effect_map <- function(effects) {
       high = "#d7191c",
       midpoint = 1,
       na.value = "grey92",
-      name = "Residual spatial\nrelative risk"
+      breaks = function(x) sort(unique(c(pretty(x, n = 4), 1))),
+      labels = function(x) ifelse(abs(x - 1) < 1e-8, "1.0\nNo change", sprintf("%.2f", x)),
+      name = "Residual spatial RR",
+      guide = guide_colorbar(title.position = "top", barheight = grid::unit(4.2, "cm"))
     ) +
     labs(
       title = "S2 Residual Spatial Relative Risk",
       subtitle = "exp(posterior mean BYM2 spatial effect); adjusted for lagged weather, IDHM, own-case lag, and neighboring-case lag",
-      caption = "Values above 1 indicate higher unexplained spatial dengue risk; values below 1 indicate lower unexplained spatial risk."
+      caption = "Blue values below 1 indicate lower unexplained spatial dengue risk; white at RR = 1 indicates no change; red values above 1 indicate higher unexplained spatial risk."
     ) +
     theme_minimal(base_size = 12) +
     theme(

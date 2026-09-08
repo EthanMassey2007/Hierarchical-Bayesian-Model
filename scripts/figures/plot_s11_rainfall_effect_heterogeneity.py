@@ -288,6 +288,22 @@ def save_all_formats(fig, output_stem: Path) -> None:
     fig.savefig(output_stem.with_suffix(".tiff"), bbox_inches="tight")
 
 
+def style_rr_colorbar(cbar, label: str, fontsize: int = 8, tick_fontsize: int = 7) -> None:
+    ticks = [cbar.norm.vmin, 1.0, cbar.norm.vmax]
+    cbar.set_ticks(ticks)
+    cbar.set_ticklabels(
+        [
+            f"{cbar.norm.vmin:.1f}\nLower",
+            "1.0\nNo change",
+            f"{cbar.norm.vmax:.1f}\nHigher",
+        ]
+    )
+    cbar.set_label("")
+    cbar.ax.set_title(label, fontsize=fontsize, pad=7)
+    cbar.ax.tick_params(labelsize=tick_fontsize)
+    cbar.outline.set_visible(False)
+
+
 def representative_dates(time_effects: pd.DataFrame, n: int = 4) -> list[pd.Timestamp]:
     dates = time_effects["date"].drop_duplicates().sort_values().reset_index(drop=True)
     if dates.empty:
@@ -341,7 +357,7 @@ def plot_figure(
         height_ratios=[1.0, 1.55, 0.72] if spacious_panel_c else [1.0, 1.18, 0.72],
         width_ratios=[0.92, 1.08],
         hspace=0.62 if spacious_panel_c else 0.52,
-        wspace=0.27 if spacious_panel_c else 0.23,
+        wspace=0.34 if spacious_panel_c else 0.23,
     )
     ax_map = fig.add_subplot(grid[0, 0])
     ax_time = fig.add_subplot(grid[0, 1])
@@ -361,9 +377,7 @@ def plot_figure(
     )
     map_collection = add_map(ax_map, geojson, map_values, norm, cmap, "(a) Time-averaged rainfall RR")
     cbar = fig.colorbar(map_collection, ax=ax_map, fraction=0.035, pad=0.015)
-    cbar.outline.set_visible(False)
-    cbar.set_label("RR per 1-SD rainfall increase", fontsize=8)
-    cbar.ax.tick_params(labelsize=7)
+    style_rr_colorbar(cbar, "Rainfall RR\nper 1-SD increase")
 
     ax_time.fill_between(
         time_effects["date"],
@@ -448,9 +462,7 @@ def plot_figure(
     ax_heat.spines["left"].set_color("#4a4a4a")
     ax_heat.spines["bottom"].set_color("#4a4a4a")
     heat_cbar = fig.colorbar(image, ax=ax_heat, fraction=0.018, pad=0.01)
-    heat_cbar.outline.set_visible(False)
-    heat_cbar.set_label("RR", fontsize=8)
-    heat_cbar.ax.tick_params(labelsize=7)
+    style_rr_colorbar(heat_cbar, "Rainfall RR")
 
     if not spacious_panel_c:
         for _, row in region_ranges.iterrows():

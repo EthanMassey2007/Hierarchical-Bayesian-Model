@@ -22,9 +22,15 @@ import os
 import subprocess
 from pathlib import Path
 
+os.environ.setdefault("MPLCONFIGDIR", str(Path.cwd() / "outputs" / ".matplotlib-cache"))
+os.environ.setdefault("XDG_CACHE_HOME", str(Path.cwd() / "outputs" / ".plot-cache"))
+
+import matplotlib
+
+matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 from matplotlib.collections import PatchCollection
-from matplotlib.colors import Normalize, TwoSlopeNorm
+from matplotlib.colors import TwoSlopeNorm
 from matplotlib.patches import Polygon
 
 
@@ -154,6 +160,7 @@ def plot_unexplained_effects() -> None:
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
     fig, ax = plt.subplots(figsize=(12, 8))
+    fig.subplots_adjust(top=0.84, bottom=0.12)
     norm = relative_risk_norm(values)
     collection = PatchCollection(
         patches,
@@ -169,24 +176,34 @@ def plot_unexplained_effects() -> None:
     ax.axis("off")
 
     cbar = fig.colorbar(collection, ax=ax, fraction=0.03, pad=0.02)
-    cbar.set_label("Residual spatial relative risk")
+    cbar.set_ticks([norm.vmin, 1.0, norm.vmax])
+    cbar.set_ticklabels([f"{norm.vmin:.2f}\nLower", "1.0\nNo change", f"{norm.vmax:.2f}\nHigher"])
+    cbar.set_label("Residual spatial RR")
 
-    ax.set_title("S2 Residual Spatial Relative Risk", fontsize=18, weight="bold", loc="left")
-    ax.text(
-        0,
-        1.02,
-        "exp(posterior mean BYM2 spatial effect); adjusted for lagged weather, IDHM, own-case lag, and neighboring-case lag",
-        transform=ax.transAxes,
-        fontsize=11,
-        va="bottom",
-    )
-    ax.text(
-        0,
-        -0.04,
-        "Values above 1 indicate higher unexplained spatial dengue risk; values below 1 indicate lower unexplained spatial risk.",
-        transform=ax.transAxes,
-        fontsize=10,
+    fig.text(
+        0.03,
+        0.955,
+        "S2 Residual Spatial Relative Risk",
+        fontsize=18,
+        weight="bold",
+        ha="left",
         va="top",
+    )
+    fig.text(
+        0.03,
+        0.915,
+        "exp(posterior mean BYM2 spatial effect); adjusted for lagged weather, IDHM, own-case lag, and neighboring-case lag",
+        fontsize=11,
+        ha="left",
+        va="top",
+    )
+    fig.text(
+        0.03,
+        0.055,
+        "Blue values below 1 indicate lower unexplained spatial dengue risk; white at RR = 1 indicates no change; red values above 1 indicate higher unexplained spatial risk.",
+        fontsize=10,
+        ha="left",
+        va="bottom",
     )
 
     fig.tight_layout()

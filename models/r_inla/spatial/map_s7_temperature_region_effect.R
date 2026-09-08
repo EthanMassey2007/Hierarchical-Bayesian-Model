@@ -153,12 +153,15 @@ plot_temperature_region_map <- function(effects, region_lookup) {
       high = "#d7191c",
       midpoint = 1,
       na.value = "grey92",
-      name = "Temperature relative\nrisk"
+      breaks = function(x) sort(unique(c(pretty(x, n = 4), 1))),
+      labels = function(x) ifelse(abs(x - 1) < 1e-8, "1.0\nNo change", sprintf("%.2f", x)),
+      name = "Temperature RR\nper 1-SD increase",
+      guide = guide_colorbar(title.position = "top", barheight = grid::unit(4.2, "cm"))
     ) +
     labs(
       title = "S7 Region-Specific Temperature Effect",
       subtitle = "Relative change in expected dengue cases for a one-SD increase in lagged temperature",
-      caption = "Temperature-by-IBGE-intermediate-region interactions. Values above 1 indicate higher expected cases."
+      caption = "Temperature-by-IBGE-intermediate-region interactions. Blue values below 1 indicate lower expected cases; white at RR = 1 indicates no change; red values above 1 indicate higher expected cases."
     ) +
     theme_minimal(base_size = 12) +
     theme(

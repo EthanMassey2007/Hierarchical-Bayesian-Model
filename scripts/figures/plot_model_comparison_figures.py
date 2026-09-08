@@ -70,11 +70,11 @@ STAGE_COLORS = {
 }
 
 STAGE_DISPLAY_LABELS = {
-    "Climate/socioeconomic": "Clim./socioecon.",
-    "Temporal": "Temp.",
+    "Climate/socioeconomic": "Climate and\nsocioeconomic",
+    "Temporal": "Temporal",
     "Spatial": "Spatial",
     "Mobility": "Mobility",
-    "Climate heterogeneity": "Climate heterog.",
+    "Climate heterogeneity": "Climate\nheterogeneity",
 }
 
 METRIC_SPECS = [
@@ -219,6 +219,7 @@ def add_stage_guides(ax, models: list[str], y_text: float = -0.29, y_line: float
             va="top",
             color="#333333",
             fontsize=7.0,
+            linespacing=1.05,
             clip_on=False,
         )
 
@@ -283,7 +284,7 @@ def plot_primary(df: pd.DataFrame, output_dir: Path, show_title: bool) -> None:
     add_stage_guides(axes[0], df["model_label"].tolist(), y_text=-0.24, y_line=-0.13)
 
     plot_line_metric(axes[1], df, "wape_percent", "Held-out WAPE (%)", higher_is_better=False)
-    fig.subplots_adjust(left=0.09, right=0.98, top=0.95, bottom=0.18, hspace=0.55)
+    fig.subplots_adjust(left=0.09, right=0.98, top=0.95, bottom=0.24, hspace=0.65)
     save_all_formats(fig, output_dir / "model_comparison_primary")
     plt.close(fig)
 
@@ -299,7 +300,7 @@ def plot_heldout_metrics(df: pd.DataFrame, output_dir: Path, show_title: bool) -
     for ax, (metric, _, ylabel, higher_is_better) in zip(axes.flat, METRIC_SPECS, strict=True):
         plot_line_metric(ax, df, metric, ylabel, higher_is_better=higher_is_better)
 
-    fig.subplots_adjust(left=0.08, right=0.98, top=0.95, bottom=0.15, hspace=0.68, wspace=0.28)
+    fig.subplots_adjust(left=0.08, right=0.98, top=0.95, bottom=0.20, hspace=0.85, wspace=0.28)
     save_all_formats(fig, output_dir / "model_comparison_heldout_metrics")
     plt.close(fig)
 
@@ -323,7 +324,7 @@ def plot_information_criteria(df: pd.DataFrame, output_dir: Path, show_title: bo
 
     style_model_axis(ax, models, "Difference from best model")
     ax.legend(frameon=False, loc="upper right", handlelength=2.2)
-    fig.subplots_adjust(left=0.09, right=0.98, top=0.94, bottom=0.26)
+    fig.subplots_adjust(left=0.09, right=0.98, top=0.94, bottom=0.32)
     save_all_formats(fig, output_dir / "model_comparison_information_criteria")
     plt.close(fig)
 

@@ -223,7 +223,15 @@ build_map_sf <- function(spacetime_dt) {
   map_sf
 }
 
-save_fill_animation <- function(map_sf, fill_col, title, subtitle, legend_name, output_file, midpoint = NULL) {
+save_fill_animation <- function(
+    map_sf,
+    fill_col,
+    title,
+    subtitle,
+    legend_name,
+    output_file,
+    midpoint = NULL,
+    caption = "Weekly municipality-level panel for Rio de Janeiro.") {
   values <- map_sf[[fill_col]]
   if (all(is.na(values))) {
     stop(sprintf("All values are NA for %s.", fill_col))
@@ -256,7 +264,7 @@ save_fill_animation <- function(map_sf, fill_col, title, subtitle, legend_name, 
     labs(
       title = paste0(title, ": {closest_state}"),
       subtitle = subtitle,
-      caption = "Weekly municipality-level panel for Rio de Janeiro."
+      caption = caption
     ) +
     theme_minimal(base_size = 12) +
     theme(
@@ -298,8 +306,9 @@ main <- function() {
     fill_col = "rainfall_lag",
     title = "Lagged Rainfall Used By S2",
     subtitle = "Rainfall value from the S2 weather lag period",
-    legend_name = "Lagged\nrainfall",
-    output_file = RAINFALL_GIF
+    legend_name = "Lagged rainfall\n(mm/week)",
+    output_file = RAINFALL_GIF,
+    caption = "Darker colors indicate higher lagged rainfall values. Weekly municipality-level panel for Rio de Janeiro."
   )
 
   save_fill_animation(
@@ -307,8 +316,9 @@ main <- function() {
     fill_col = "temperature_lag",
     title = "Lagged Temperature Used By S2",
     subtitle = "Temperature value from the S2 weather lag period",
-    legend_name = "Lagged\ntemperature",
-    output_file = TEMPERATURE_GIF
+    legend_name = "Lagged temperature\n(degrees C)",
+    output_file = TEMPERATURE_GIF,
+    caption = "Darker colors indicate higher lagged temperature values. Weekly municipality-level panel for Rio de Janeiro."
   )
 
   save_fill_animation(
@@ -318,7 +328,8 @@ main <- function() {
     subtitle = "Red = observed cases above fitted expectation; blue = observed cases below fitted expectation",
     legend_name = "Standardized\nresidual",
     output_file = RESIDUAL_GIF,
-    midpoint = 0
+    midpoint = 0,
+    caption = "Blue values below 0 indicate fewer observed cases than expected; white at 0 indicates fitted expectation; red values above 0 indicate more observed cases than expected."
   )
 
   cat("\nS2 space-time animation outputs written:\n")

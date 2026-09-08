@@ -234,12 +234,30 @@ def save_all_formats(fig, output_stem: Path) -> None:
     fig.savefig(output_stem.with_suffix(".tiff"), bbox_inches="tight")
 
 
+def apply_year_axis(ax, dates: pd.Series, tick_interval: int = 1) -> None:
+    import matplotlib.dates as mdates
+
+    date_values = pd.to_datetime(dates).dropna()
+    start_year = int(date_values.min().year)
+    end_year = int(date_values.max().year)
+    axis_start = pd.Timestamp(year=start_year, month=1, day=1)
+    axis_end = pd.Timestamp(year=end_year, month=12, day=31)
+
+    tick_years = list(range(start_year, end_year + 1, tick_interval))
+    if end_year not in tick_years:
+        tick_years.append(end_year)
+    ticks = [pd.Timestamp(year=year, month=1, day=1) for year in tick_years]
+
+    ax.set_xlim(axis_start, axis_end)
+    ax.set_xticks(ticks)
+    ax.xaxis.set_major_formatter(mdates.DateFormatter("%Y"))
+
+
 def plot_observed_predicted(
     predictions: pd.DataFrame,
     output_dir: Path,
     show_title: bool,
 ) -> None:
-    import matplotlib.dates as mdates
     import matplotlib.pyplot as plt
     from matplotlib.ticker import MaxNLocator
 
@@ -285,9 +303,7 @@ def plot_observed_predicted(
             zorder=2,
         )
     ax_time.set_ylabel("Weekly incidence per 100,000")
-    ax_time.xaxis.set_major_locator(mdates.YearLocator())
-    ax_time.xaxis.set_major_formatter(mdates.DateFormatter("%Y"))
-    ax_time.set_xlim(statewide["date"].min(), statewide["date"].max())
+    apply_year_axis(ax_time, statewide["date"], tick_interval=1)
     ax_time.yaxis.set_major_locator(MaxNLocator(nbins=5))
     ax_time.legend(frameon=False, loc="upper left", ncol=3, handlelength=2.2)
     style_axis(ax_time)
@@ -349,9 +365,7 @@ def plot_observed_predicted(
                     alpha=0.9,
                 )
             ax_rep.set_title(display, loc="left", pad=5, fontsize=9)
-            ax_rep.xaxis.set_major_locator(mdates.YearLocator(2))
-            ax_rep.xaxis.set_major_formatter(mdates.DateFormatter("%Y"))
-            ax_rep.set_xlim(statewide["date"].min(), statewide["date"].max())
+            apply_year_axis(ax_rep, statewide["date"], tick_interval=2)
             ax_rep.yaxis.set_major_locator(MaxNLocator(nbins=4))
             style_axis(ax_rep)
 
