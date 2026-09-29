@@ -1,0 +1,97 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="180mm" height="217.8mm" viewBox="0 0 1000 1210">
+<rect width="1000" height="1210" fill="white"/>
+<rect x="30" y="25" width="300" height="96" rx="0" fill="#EDF3F8" stroke="#56758A" stroke-width="1.5"/>
+<text x="180.0" y="54" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700" text-anchor="middle" fill="#252A30">Dengue and climate</text>
+<text x="180.0" y="80" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" text-anchor="middle" fill="#252A30">Weekly cases, rainfall,</text>
+<text x="180.0" y="103" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" text-anchor="middle" fill="#252A30">temperature and humidity</text>
+<rect x="350" y="25" width="300" height="96" rx="0" fill="#EDF3F8" stroke="#56758A" stroke-width="1.5"/>
+<text x="500.0" y="54" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700" text-anchor="middle" fill="#252A30">Socioeconomic data</text>
+<text x="500.0" y="80" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" text-anchor="middle" fill="#252A30">Municipal development index</text>
+<text x="500.0" y="103" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" text-anchor="middle" fill="#252A30">IDHM (2010)</text>
+<rect x="670" y="25" width="300" height="96" rx="0" fill="#EDF3F8" stroke="#56758A" stroke-width="1.5"/>
+<text x="820.0" y="54" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700" text-anchor="middle" fill="#252A30">Geography and mobility</text>
+<text x="820.0" y="80" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#252A30">Municipal adjacency and regions</text>
+<text x="820.0" y="103" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#252A30">Distance and transport connectivity</text>
+<polyline points="180,121 180,143" fill="none" stroke="#252A30" stroke-width="1.5"/>
+<polyline points="500,121 500,143" fill="none" stroke="#252A30" stroke-width="1.5"/>
+<polyline points="820,121 820,143" fill="none" stroke="#252A30" stroke-width="1.5"/>
+<polyline points="180,143 820,143" fill="none" stroke="#252A30" stroke-width="1.5"/>
+<polyline points="500,143 500,166" fill="none" stroke="#252A30" stroke-width="1.5"/>
+<polygon points="500,166 503.6,158.0 496.4,158.0" fill="#252A30"/>
+<rect x="150" y="166" width="700" height="116" rx="0" fill="#FFFFFF" stroke="#737B82" stroke-width="1.5"/>
+<text x="500.0" y="195" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700" text-anchor="middle" fill="#252A30">Data integration and feature construction</text>
+<text x="500.0" y="221" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" text-anchor="middle" fill="#252A30">92 municipalities in Rio de Janeiro; weekly observations, 2017-2023</text>
+<text x="500.0" y="244" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" text-anchor="middle" fill="#252A30">Align records and address missing climate values</text>
+<text x="500.0" y="267" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" text-anchor="middle" fill="#252A30">Construct lags; log-transform case predictors; standardize covariates</text>
+<polyline points="500,282 500,316" fill="none" stroke="#252A30" stroke-width="1.5"/>
+<polygon points="500,316 503.6,308.0 496.4,308.0" fill="#252A30"/>
+<rect x="150" y="316" width="700" height="96" rx="0" fill="#FFFFFF" stroke="#737B82" stroke-width="1.5"/>
+<text x="500.0" y="345" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700" text-anchor="middle" fill="#252A30">Temporal evaluation design</text>
+<text x="500.0" y="371" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" text-anchor="middle" fill="#252A30">Training: 2017-2021; held-out testing: 2022-2023</text>
+<text x="500.0" y="394" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" text-anchor="middle" fill="#252A30">Rolling-origin validation and climate-lag sensitivity analysis</text>
+<polyline points="500,412 500,440" fill="none" stroke="#252A30" stroke-width="1.5"/>
+<polygon points="500,440 503.6,432.0 496.4,432.0" fill="#252A30"/>
+<rect x="150" y="440" width="700" height="76" rx="0" fill="#FFFFFF" stroke="#737B82" stroke-width="1.5"/>
+<text x="500.0" y="469" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700" text-anchor="middle" fill="#252A30">Bayesian model fitting (all candidate models)</text>
+<text x="500.0" y="495" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" text-anchor="middle" fill="#252A30">Negative-binomial likelihood; R-INLA estimation</text>
+<polyline points="500,516 500,546" fill="none" stroke="#252A30" stroke-width="1.5"/>
+<polygon points="500,546 503.6,538.0 496.4,538.0" fill="#252A30"/>
+<rect x="150" y="546" width="700" height="96" rx="0" fill="#FFFFFF" stroke="#737B82" stroke-width="1.5"/>
+<text x="500.0" y="575" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700" text-anchor="middle" fill="#252A30">Non-spatial model development (M0-M5)</text>
+<text x="500.0" y="601" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" text-anchor="middle" fill="#252A30">Municipality and temporal effects; climate and IDHM</text>
+<text x="500.0" y="624" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" text-anchor="middle" fill="#252A30">Lagged local cases; interpolation sensitivity</text>
+<polyline points="500,642 500,676" fill="none" stroke="#252A30" stroke-width="1.5"/>
+<polygon points="500,676 503.6,668.0 496.4,668.0" fill="#252A30"/>
+<rect x="150" y="676" width="700" height="76" rx="0" fill="#FFFFFF" stroke="#737B82" stroke-width="1.5"/>
+<text x="500.0" y="705" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700" text-anchor="middle" fill="#252A30">Spatial benchmarks (S1-S2)</text>
+<text x="500.0" y="731" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" text-anchor="middle" fill="#252A30">BYM2 spatial effects and lagged cases in adjacent municipalities</text>
+<polyline points="500,752 500,773" fill="none" stroke="#252A30" stroke-width="1.5"/>
+<polyline points="180,773 820,773" fill="none" stroke="#252A30" stroke-width="1.5"/>
+<polyline points="180,773 180,798" fill="none" stroke="#252A30" stroke-width="1.5"/>
+<polygon points="180,798 183.6,790.0 176.4,790.0" fill="#252A30"/>
+<polyline points="500,773 500,798" fill="none" stroke="#252A30" stroke-width="1.5"/>
+<polygon points="500,798 503.6,790.0 496.4,790.0" fill="#252A30"/>
+<polyline points="820,773 820,798" fill="none" stroke="#252A30" stroke-width="1.5"/>
+<polygon points="820,798 823.6,790.0 816.4,790.0" fill="#252A30"/>
+<rect x="30" y="798" width="300" height="123" rx="0" fill="#FFFFFF" stroke="#737B82" stroke-width="1.5"/>
+<text x="180.0" y="827" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700" text-anchor="middle" fill="#252A30">Spatial and mobility sensitivity</text>
+<text x="180.0" y="853" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#252A30">S3-S5</text>
+<text x="180.0" y="876" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#252A30">Distance-based neighboring cases</text>
+<text x="180.0" y="899" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#252A30">Road/fluvial and air mobility</text>
+<rect x="350" y="798" width="300" height="123" rx="0" fill="#FFFFFF" stroke="#737B82" stroke-width="1.5"/>
+<text x="500.0" y="827" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700" text-anchor="middle" fill="#252A30">Rainfall heterogeneity</text>
+<text x="500.0" y="853" font-family="Arial, Helvetica, sans-serif" font-size="16.5" font-weight="400" text-anchor="middle" fill="#252A30">S6, S8, S10, S11</text>
+<text x="500.0" y="876" font-family="Arial, Helvetica, sans-serif" font-size="16.5" font-weight="400" text-anchor="middle" fill="#252A30">Regional, municipal, temporal,</text>
+<text x="500.0" y="899" font-family="Arial, Helvetica, sans-serif" font-size="16.5" font-weight="400" text-anchor="middle" fill="#252A30">and additive municipal + temporal</text>
+<rect x="670" y="798" width="300" height="123" rx="0" fill="#FFFFFF" stroke="#737B82" stroke-width="1.5"/>
+<text x="820.0" y="827" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700" text-anchor="middle" fill="#252A30">Temperature heterogeneity</text>
+<text x="820.0" y="853" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#252A30">S7, S9</text>
+<text x="820.0" y="876" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#252A30">Regional and municipal</text>
+<text x="820.0" y="899" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#252A30">temperature effects</text>
+<polyline points="180,921 180,940" fill="none" stroke="#252A30" stroke-width="1.5"/>
+<polyline points="500,921 500,940" fill="none" stroke="#252A30" stroke-width="1.5"/>
+<polyline points="820,921 820,940" fill="none" stroke="#252A30" stroke-width="1.5"/>
+<polyline points="180,940 820,940" fill="none" stroke="#252A30" stroke-width="1.5"/>
+<polyline points="500,940 500,958" fill="none" stroke="#252A30" stroke-width="1.5"/>
+<polyline points="257.5,958 742.5,958" fill="none" stroke="#252A30" stroke-width="1.5"/>
+<polyline points="257.5,958 257.5,980" fill="none" stroke="#252A30" stroke-width="1.5"/>
+<polygon points="257.5,980 261.1,972.0 253.9,972.0" fill="#252A30"/>
+<polyline points="742.5,958 742.5,980" fill="none" stroke="#252A30" stroke-width="1.5"/>
+<polygon points="742.5,980 746.1,972.0 738.9,972.0" fill="#252A30"/>
+<rect x="30" y="980" width="455" height="99" rx="0" fill="#EDF5F2" stroke="#527B70" stroke-width="1.5"/>
+<text x="257.5" y="1009" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700" text-anchor="middle" fill="#252A30">Predictive assessment: all models</text>
+<text x="257.5" y="1035" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" text-anchor="middle" fill="#252A30">Held-out MAE, RMSE, WAPE and R-squared</text>
+<text x="257.5" y="1058" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" text-anchor="middle" fill="#252A30">Observed and predicted incidence</text>
+<rect x="515" y="980" width="455" height="99" rx="0" fill="#EDF5F2" stroke="#527B70" stroke-width="1.5"/>
+<text x="742.5" y="1009" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700" text-anchor="middle" fill="#252A30">Model assessment: all models</text>
+<text x="742.5" y="1035" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" text-anchor="middle" fill="#252A30">DIC and WAIC</text>
+<text x="742.5" y="1058" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" text-anchor="middle" fill="#252A30">Residual spatial autocorrelation: Moran&#x27;s I</text>
+<polyline points="257.5,1079 257.5,1098" fill="none" stroke="#252A30" stroke-width="1.5"/>
+<polyline points="742.5,1079 742.5,1098" fill="none" stroke="#252A30" stroke-width="1.5"/>
+<polyline points="257.5,1098 742.5,1098" fill="none" stroke="#252A30" stroke-width="1.5"/>
+<polyline points="500,1098 500,1118" fill="none" stroke="#252A30" stroke-width="1.5"/>
+<polygon points="500,1118 503.6,1110.0 496.4,1110.0" fill="#252A30"/>
+<rect x="150" y="1118" width="700" height="76" rx="0" fill="#EDF5F2" stroke="#527B70" stroke-width="1.5"/>
+<text x="500.0" y="1147" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700" text-anchor="middle" fill="#252A30">Rainfall inference</text>
+<text x="500.0" y="1173" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" text-anchor="middle" fill="#252A30">Posterior relative risks and credible intervals across space and time</text>
+</svg>

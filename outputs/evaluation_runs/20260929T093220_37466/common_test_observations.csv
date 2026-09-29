@@ -1,0 +1,325 @@
+municipio,date,cases
+angra dos reis,2023-01-02,8
+angra dos reis,2023-01-09,7
+angra dos reis,2023-01-16,15
+angra dos reis,2023-01-23,8
+aperibe,2023-01-02,1
+aperibe,2023-01-09,1
+aperibe,2023-01-16,0
+aperibe,2023-01-23,2
+araruama,2023-01-02,1
+araruama,2023-01-09,0
+araruama,2023-01-16,0
+araruama,2023-01-23,0
+areal,2023-01-02,0
+areal,2023-01-09,0
+areal,2023-01-16,0
+areal,2023-01-23,0
+armacao dos buzios,2023-01-02,0
+armacao dos buzios,2023-01-09,2
+armacao dos buzios,2023-01-16,0
+armacao dos buzios,2023-01-23,3
+arraial do cabo,2023-01-02,0
+arraial do cabo,2023-01-09,0
+arraial do cabo,2023-01-16,0
+arraial do cabo,2023-01-23,2
+barra do pirai,2023-01-02,1
+barra do pirai,2023-01-09,0
+barra do pirai,2023-01-16,0
+barra do pirai,2023-01-23,0
+belford roxo,2023-01-02,26
+belford roxo,2023-01-09,20
+belford roxo,2023-01-16,32
+belford roxo,2023-01-23,38
+bom jardim,2023-01-02,0
+bom jardim,2023-01-09,0
+bom jardim,2023-01-16,0
+bom jardim,2023-01-23,0
+bom jesus do itabapoana,2023-01-02,0
+bom jesus do itabapoana,2023-01-09,1
+bom jesus do itabapoana,2023-01-16,3
+bom jesus do itabapoana,2023-01-23,7
+cabo frio,2023-01-02,8
+cabo frio,2023-01-09,4
+cabo frio,2023-01-16,11
+cabo frio,2023-01-23,20
+cachoeiras de macacu,2023-01-02,1
+cachoeiras de macacu,2023-01-09,3
+cachoeiras de macacu,2023-01-16,2
+cachoeiras de macacu,2023-01-23,9
+cambuci,2023-01-02,1
+cambuci,2023-01-09,0
+cambuci,2023-01-16,0
+cambuci,2023-01-23,1
+campos dos goytacazes,2023-01-02,78
+campos dos goytacazes,2023-01-09,92
+campos dos goytacazes,2023-01-16,79
+campos dos goytacazes,2023-01-23,117
+cantagalo,2023-01-02,1
+cantagalo,2023-01-09,0
+cantagalo,2023-01-16,0
+cantagalo,2023-01-23,2
+carapebus,2023-01-02,1
+carapebus,2023-01-09,3
+carapebus,2023-01-16,5
+carapebus,2023-01-23,8
+cardoso moreira,2023-01-02,0
+cardoso moreira,2023-01-09,0
+cardoso moreira,2023-01-16,1
+cardoso moreira,2023-01-23,0
+carmo,2023-01-02,0
+carmo,2023-01-09,1
+carmo,2023-01-16,1
+carmo,2023-01-23,0
+casimiro de abreu,2023-01-02,6
+casimiro de abreu,2023-01-09,7
+casimiro de abreu,2023-01-16,8
+casimiro de abreu,2023-01-23,8
+comendador levy gasparian,2023-01-02,0
+comendador levy gasparian,2023-01-09,0
+comendador levy gasparian,2023-01-16,0
+comendador levy gasparian,2023-01-23,0
+conceicao de macabu,2023-01-02,0
+conceicao de macabu,2023-01-09,0
+conceicao de macabu,2023-01-16,0
+conceicao de macabu,2023-01-23,1
+cordeiro,2023-01-02,2
+cordeiro,2023-01-09,0
+cordeiro,2023-01-16,1
+cordeiro,2023-01-23,0
+duas barras,2023-01-02,0
+duas barras,2023-01-09,0
+duas barras,2023-01-16,0
+duas barras,2023-01-23,0
+duque de caxias,2023-01-02,24
+duque de caxias,2023-01-09,23
+duque de caxias,2023-01-16,45
+duque de caxias,2023-01-23,44
+guapimirim,2023-01-02,0
+guapimirim,2023-01-09,0
+guapimirim,2023-01-16,3
+guapimirim,2023-01-23,2
+iguaba grande,2023-01-02,10
+iguaba grande,2023-01-09,8
+iguaba grande,2023-01-16,14
+iguaba grande,2023-01-23,7
+itaborai,2023-01-02,7
+itaborai,2023-01-09,8
+itaborai,2023-01-16,8
+itaborai,2023-01-23,9
+italva,2023-01-02,2
+italva,2023-01-09,4
+italva,2023-01-16,6
+italva,2023-01-23,8
+itaocara,2023-01-02,0
+itaocara,2023-01-09,0
+itaocara,2023-01-16,1
+itaocara,2023-01-23,0
+itaperuna,2023-01-02,33
+itaperuna,2023-01-09,60
+itaperuna,2023-01-16,83
+itaperuna,2023-01-23,73
+itatiaia,2023-01-02,0
+itatiaia,2023-01-09,0
+itatiaia,2023-01-16,0
+itatiaia,2023-01-23,0
+japeri,2023-01-02,0
+japeri,2023-01-09,1
+japeri,2023-01-16,1
+japeri,2023-01-23,0
+laje do muriae,2023-01-02,0
+laje do muriae,2023-01-09,0
+laje do muriae,2023-01-16,0
+laje do muriae,2023-01-23,0
+macae,2023-01-02,8
+macae,2023-01-09,16
+macae,2023-01-16,20
+macae,2023-01-23,17
+macuco,2023-01-02,0
+macuco,2023-01-09,0
+macuco,2023-01-16,0
+macuco,2023-01-23,0
+mage,2023-01-02,10
+mage,2023-01-09,6
+mage,2023-01-16,4
+mage,2023-01-23,9
+mangaratiba,2023-01-02,4
+mangaratiba,2023-01-09,0
+mangaratiba,2023-01-16,0
+mangaratiba,2023-01-23,2
+marica,2023-01-02,5
+marica,2023-01-09,1
+marica,2023-01-16,2
+marica,2023-01-23,3
+mesquita,2023-01-02,0
+mesquita,2023-01-09,0
+mesquita,2023-01-16,0
+mesquita,2023-01-23,3
+miguel pereira,2023-01-02,1
+miguel pereira,2023-01-09,0
+miguel pereira,2023-01-16,0
+miguel pereira,2023-01-23,0
+miracema,2023-01-02,1
+miracema,2023-01-09,0
+miracema,2023-01-16,2
+miracema,2023-01-23,0
+natividade,2023-01-02,0
+natividade,2023-01-09,0
+natividade,2023-01-16,1
+natividade,2023-01-23,3
+nilopolis,2023-01-02,0
+nilopolis,2023-01-09,0
+nilopolis,2023-01-16,0
+nilopolis,2023-01-23,0
+niteroi,2023-01-02,2
+niteroi,2023-01-09,1
+niteroi,2023-01-16,3
+niteroi,2023-01-23,1
+nova friburgo,2023-01-02,5
+nova friburgo,2023-01-09,12
+nova friburgo,2023-01-16,13
+nova friburgo,2023-01-23,17
+nova iguacu,2023-01-02,6
+nova iguacu,2023-01-09,3
+nova iguacu,2023-01-16,8
+nova iguacu,2023-01-23,8
+paraiba do sul,2023-01-02,0
+paraiba do sul,2023-01-09,0
+paraiba do sul,2023-01-16,1
+paraiba do sul,2023-01-23,0
+paraty,2023-01-02,31
+paraty,2023-01-09,27
+paraty,2023-01-16,29
+paraty,2023-01-23,60
+paty do alferes,2023-01-02,1
+paty do alferes,2023-01-09,1
+paty do alferes,2023-01-16,0
+paty do alferes,2023-01-23,0
+petropolis,2023-01-02,3
+petropolis,2023-01-09,2
+petropolis,2023-01-16,2
+petropolis,2023-01-23,4
+porciuncula,2023-01-02,5
+porciuncula,2023-01-09,10
+porciuncula,2023-01-16,20
+porciuncula,2023-01-23,17
+porto real,2023-01-02,0
+porto real,2023-01-09,0
+porto real,2023-01-16,0
+porto real,2023-01-23,0
+quatis,2023-01-02,0
+quatis,2023-01-09,1
+quatis,2023-01-16,0
+quatis,2023-01-23,0
+quissama,2023-01-02,15
+quissama,2023-01-09,17
+quissama,2023-01-16,18
+quissama,2023-01-23,25
+resende,2023-01-02,31
+resende,2023-01-09,40
+resende,2023-01-16,10
+resende,2023-01-23,25
+rio bonito,2023-01-02,0
+rio bonito,2023-01-09,0
+rio bonito,2023-01-16,0
+rio bonito,2023-01-23,1
+rio das flores,2023-01-02,0
+rio das flores,2023-01-09,0
+rio das flores,2023-01-16,0
+rio das flores,2023-01-23,0
+rio das ostras,2023-01-02,15
+rio das ostras,2023-01-09,16
+rio das ostras,2023-01-16,24
+rio das ostras,2023-01-23,18
+rio de janeiro,2023-01-02,230
+rio de janeiro,2023-01-09,218
+rio de janeiro,2023-01-16,246
+rio de janeiro,2023-01-23,312
+santa maria madalena,2023-01-02,0
+santa maria madalena,2023-01-09,0
+santa maria madalena,2023-01-16,0
+santa maria madalena,2023-01-23,0
+santo antonio de padua,2023-01-02,4
+santo antonio de padua,2023-01-09,12
+santo antonio de padua,2023-01-16,12
+santo antonio de padua,2023-01-23,13
+sao fidelis,2023-01-02,2
+sao fidelis,2023-01-09,0
+sao fidelis,2023-01-16,0
+sao fidelis,2023-01-23,1
+sao francisco de itabapoana,2023-01-02,0
+sao francisco de itabapoana,2023-01-09,2
+sao francisco de itabapoana,2023-01-16,0
+sao francisco de itabapoana,2023-01-23,1
+sao goncalo,2023-01-02,5
+sao goncalo,2023-01-09,8
+sao goncalo,2023-01-16,17
+sao goncalo,2023-01-23,15
+sao joao da barra,2023-01-02,0
+sao joao da barra,2023-01-09,1
+sao joao da barra,2023-01-16,0
+sao joao da barra,2023-01-23,2
+sao joao de meriti,2023-01-02,3
+sao joao de meriti,2023-01-09,3
+sao joao de meriti,2023-01-16,7
+sao joao de meriti,2023-01-23,12
+sao jose de uba,2023-01-02,0
+sao jose de uba,2023-01-09,4
+sao jose de uba,2023-01-16,2
+sao jose de uba,2023-01-23,1
+sao jose do vale do rio preto,2023-01-02,0
+sao jose do vale do rio preto,2023-01-09,0
+sao jose do vale do rio preto,2023-01-16,0
+sao jose do vale do rio preto,2023-01-23,0
+sao pedro da aldeia,2023-01-02,10
+sao pedro da aldeia,2023-01-09,6
+sao pedro da aldeia,2023-01-16,6
+sao pedro da aldeia,2023-01-23,9
+sao sebastiao do alto,2023-01-02,0
+sao sebastiao do alto,2023-01-09,0
+sao sebastiao do alto,2023-01-16,0
+sao sebastiao do alto,2023-01-23,0
+sapucaia,2023-01-02,0
+sapucaia,2023-01-09,0
+sapucaia,2023-01-16,0
+sapucaia,2023-01-23,1
+saquarema,2023-01-02,2
+saquarema,2023-01-09,1
+saquarema,2023-01-16,6
+saquarema,2023-01-23,4
+silva jardim,2023-01-02,0
+silva jardim,2023-01-09,0
+silva jardim,2023-01-16,0
+silva jardim,2023-01-23,0
+sumidouro,2023-01-02,0
+sumidouro,2023-01-09,0
+sumidouro,2023-01-16,0
+sumidouro,2023-01-23,0
+tangua,2023-01-02,0
+tangua,2023-01-09,0
+tangua,2023-01-16,0
+tangua,2023-01-23,1
+teresopolis,2023-01-02,0
+teresopolis,2023-01-09,0
+teresopolis,2023-01-16,0
+teresopolis,2023-01-23,0
+trajano de moraes,2023-01-02,0
+trajano de moraes,2023-01-09,0
+trajano de moraes,2023-01-16,0
+trajano de moraes,2023-01-23,3
+tres rios,2023-01-02,1
+tres rios,2023-01-09,5
+tres rios,2023-01-16,4
+tres rios,2023-01-23,2
+varre-sai,2023-01-02,0
+varre-sai,2023-01-09,0
+varre-sai,2023-01-16,2
+varre-sai,2023-01-23,1
+vassouras,2023-01-02,2
+vassouras,2023-01-09,4
+vassouras,2023-01-16,2
+vassouras,2023-01-23,0
+volta redonda,2023-01-02,0
+volta redonda,2023-01-09,2
+volta redonda,2023-01-16,0
+volta redonda,2023-01-23,1

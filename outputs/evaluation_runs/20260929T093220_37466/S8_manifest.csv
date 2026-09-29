@@ -1,0 +1,2 @@
+model,run_id,protocol,train_start_year,train_end_year,train_n,train_signature,fit_n,fit_signature,fit_start,fit_end,eligible_test_n,eligible_signature,prediction_md5,dic,waic
+S8,20260929T093220_37466,common_observations_2023_january_v1,2017,2022,25644,5c97f3bd668c3a5290a95f97af5a1888,30302,75570f3877a2e800c2c9d870c399f1a3,2017-03-27,2023-12-25,365,9fe0b6127a3135ce3e25d8318581900f,e62bbc40b50fc470db983103e4afa364,90483.1552888703,90669.2705800105

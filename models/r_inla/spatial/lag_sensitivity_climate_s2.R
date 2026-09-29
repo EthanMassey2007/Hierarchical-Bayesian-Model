@@ -179,12 +179,10 @@ fit_validation_fold <- function(df, validation_year) {
     train_mae = train_metrics$mae,
     train_rmse = train_metrics$rmse,
     train_wape = train_metrics$wape,
-    train_accuracy_pct = train_metrics$accuracy_pct,
     train_r2 = train_metrics$r2,
     test_mae = test_metrics$mae,
     test_rmse = test_metrics$rmse,
     test_wape = test_metrics$wape,
-    test_accuracy_pct = test_metrics$accuracy_pct,
     test_r2 = test_metrics$r2
   )
 }
@@ -199,7 +197,6 @@ summarize_validation_folds <- function(folds) {
     cv_mae = sum(test_abs_error_sum) / sum(test_rows),
     cv_rmse = sqrt(sum(test_sq_error_sum) / sum(test_rows)),
     cv_wape = sum(test_abs_error_sum) / max(sum(test_cases_sum), 1e-9),
-    cv_accuracy_pct = max(0, 100 * (1 - sum(test_abs_error_sum) / max(sum(test_cases_sum), 1e-9))),
     cv_r2 = weighted.mean(test_r2, test_rows)
   )]
 }
@@ -351,7 +348,6 @@ main <- function() {
     "cv_folds",
     "cv_test_rows_total",
     "cv_wape",
-    "cv_accuracy_pct",
     "cv_rmse",
     "waic",
     "dic",

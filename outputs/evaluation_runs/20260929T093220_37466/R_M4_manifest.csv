@@ -1,0 +1,2 @@
+model,run_id,protocol,train_start_year,train_end_year,train_n,train_signature,fit_n,fit_signature,fit_start,fit_end,eligible_test_n,eligible_signature,prediction_md5,dic,waic
+R_M4,20260929T093220_37466,common_observations_2023_january_v1,2017,2022,26464,8cf5dfa5ea3b83bfd8b36847ff9e59f6,31143,fef1a707af450e85d9a638ae9261319e,2017-01-30,2023-12-25,324,9621dfb7dc9a4a451dbee246ecd8a2b6,767ecf96280b6e2e98713a547d943973,95277.2087946161,95469.4646791925

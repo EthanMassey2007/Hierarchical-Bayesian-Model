@@ -256,6 +256,7 @@ prepare_s9_dataframe <- function(df) {
 # Main
 # =========================================================
 main <- function() {
+  source(file.path(BASE_DIR, "scripts", "analysis", "common_evaluation.R"))
   df <- build_model_dataframe()
   prepared <- prepare_s9_dataframe(df)
   df <- prepared$df
@@ -298,6 +299,7 @@ main <- function() {
     ]
     dropped_test_lag_rows <- test_rows_before_lag_filter - nrow(test_dt)
 
+    test_dt <- restrict_evaluation_window(test_dt)
     scaled <- standardize_train_test(copy(train_dt), copy(test_dt), BASE_COVARIATES)
     train_dt <- scaled$train
     test_dt <- scaled$test
@@ -306,13 +308,16 @@ main <- function() {
     train_pred <- train_fit$summary.fitted.values$mean
     test_pred <- predict_s9_mean(train_fit, test_dt)
 
+    write_evaluation_bundle("S9", train_dt, test_dt, test_pred, full_dt,
+      OUTPUT_DIR, criteria, TRAIN_START_YEAR, TRAIN_END_YEAR)
     train_metrics <- compute_metrics(train_dt$cases, train_pred)
     train_metrics[, split := "train"]
     test_metrics <- compute_metrics(test_dt$cases, test_pred)
     test_metrics[, split := "test"]
     metrics <- rbindlist(list(train_metrics, test_metrics), use.names = TRUE)
     metrics[, model := "S9"]
-    setcolorder(metrics, c("model", "split", "mae", "rmse", "wape", "accuracy_pct", "r2"))
+    metrics <- annotate_model_metrics(metrics, train_dt, test_dt)
+    setcolorder(metrics, c("model", "split", "mae", "rmse", "wape", "r2"))
 
     cat("\nTrain/test evaluation split:\n")
     cat("Train rows:", nrow(train_dt), "\n")

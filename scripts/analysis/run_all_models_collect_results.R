@@ -158,7 +158,7 @@ run_model_script <- function(row) {
   start_time <- Sys.time()
   output <- system2(
     RSCRIPT_BIN,
-    args = script_path,
+    args = shQuote(script_path),
     stdout = TRUE,
     stderr = TRUE
   )
@@ -179,133 +179,111 @@ run_model_script <- function(row) {
   )
 }
 
-read_optional_csv <- function(path, model, kind) {
-  if (!file.exists(path)) {
-    return(data.table(model = model, missing_file = basename(path), result_type = kind))
-  }
-  dt <- fread(path)
-  if (nrow(dt) == 0) {
-    return(data.table(model = model, missing_file = basename(path), result_type = kind))
-  }
-  if (!("model" %in% names(dt))) {
-    dt[, model := model]
-    setcolorder(dt, c("model", setdiff(names(dt), "model")))
-  }
-  dt[, result_type := kind]
-  dt[, source_file := basename(path)]
-  dt
+source(file.path(BASE_DIR, "scripts", "analysis", "common_evaluation.R"))
+
+input_fingerprints <- function() {
+  files <- sort(unique(c(model_registry$script_path,
+    file.path(BASE_DIR, "scripts", "analysis", c("common_evaluation.R", "run_all_models_collect_results.R")),
+    list.files(file.path(BASE_DIR, "data"), recursive = TRUE, full.names = TRUE))))
+  files <- files[!dir.exists(files)]
+  data.table(path = files, md5 = unname(tools::md5sum(files)))
 }
 
-collect_results <- function() {
-  criteria <- rbindlist(
-    lapply(seq_len(nrow(model_registry)), function(i) {
-      row <- model_registry[i]
-      read_optional_csv(row$criteria_path, row$model, "criteria")
-    }),
-    fill = TRUE
-  )
-
-  metrics <- rbindlist(
-    lapply(seq_len(nrow(model_registry)), function(i) {
-      row <- model_registry[i]
-      read_optional_csv(row$metrics_path, row$model, "metrics")
-    }),
-    fill = TRUE
-  )
-
-  criteria <- merge(
-    model_registry[, .(model, model_group)],
-    criteria,
-    by = "model",
-    all.y = TRUE,
-    sort = FALSE
-  )
-  metrics <- merge(
-    model_registry[, .(model, model_group)],
-    metrics,
-    by = "model",
-    all.y = TRUE,
-    sort = FALSE
-  )
-
-  if (!("split" %in% names(metrics))) {
-    metrics[, split := NA_character_]
+collect_results <- function(run_id) {
+  run_dir <- file.path(OUTPUT_DIR, "evaluation_runs", run_id)
+  provenance_file <- file.path(run_dir, "input_fingerprints.csv")
+  if (!file.exists(provenance_file)) stop("Missing run provenance; rerun all models.")
+  if (!identical(fread(provenance_file), input_fingerprints())) {
+    stop("Code or input data changed since this run began; do not combine stale outputs.")
   }
-  test_metrics <- metrics[split == "test"]
-  needed_criteria_cols <- c("dic", "waic")
-  for (col in needed_criteria_cols) {
-    if (!(col %in% names(criteria))) {
-      criteria[, (col) := NA_real_]
+  manifests <- list()
+  predictions <- list()
+  for (id in model_registry$model) {
+    manifest_file <- file.path(run_dir, paste0(id, "_manifest.csv"))
+    prediction_file <- file.path(run_dir, paste0(id, "_predictions.csv"))
+    if (!file.exists(manifest_file) || !file.exists(prediction_file)) stop("Missing evaluation bundle: ", id)
+    manifest <- fread(manifest_file)
+    if (nrow(manifest) != 1L || manifest$model != id || manifest$run_id != run_id ||
+        manifest$protocol != EVALUATION_PROTOCOL || manifest$train_start_year != 2017 ||
+        manifest$train_end_year != 2022) stop("Incompatible evaluation manifest: ", id)
+    if (manifest$prediction_md5 != unname(tools::md5sum(prediction_file))) stop("Prediction file changed: ", id)
+    pred <- fread(prediction_file, colClasses = list(character = c("municipio", "date")))
+    validate_observations(pred, TRUE)
+    if (nrow(pred) != manifest$eligible_test_n || observation_signature(pred) != manifest$eligible_signature) {
+      stop("Prediction sample does not match manifest: ", id)
     }
-  }
-  needed_metric_cols <- c("mae", "rmse", "wape", "accuracy_pct", "r2")
-  for (col in needed_metric_cols) {
-    if (!(col %in% names(test_metrics))) {
-      test_metrics[, (col) := NA_real_]
+    if (any(as.Date(pred$date) < EVALUATION_START | as.Date(pred$date) > EVALUATION_END)) {
+      stop("Evaluation dates outside common protocol: ", id)
     }
+    manifests[[id]] <- manifest
+    predictions[[id]] <- pred
   }
-
-  table <- merge(
-    criteria[, .(model, model_group, dic, waic)],
-    test_metrics[, .(model, mae, rmse, wape, accuracy_pct, r2)],
-    by = "model",
-    all = TRUE,
-    sort = FALSE
-  )
-  table <- merge(
-    model_registry[, .(model, model_group, script)],
-    table,
-    by = c("model", "model_group"),
-    all.x = TRUE,
-    sort = FALSE
-  )
-
-  if ("waic" %in% names(table)) {
-    table[, waic_rank := frank(waic, ties.method = "min", na.last = "keep")]
-  }
-  if ("wape" %in% names(table)) {
-    table[, wape_rank := frank(wape, ties.method = "min", na.last = "keep")]
-  }
-  if ("rmse" %in% names(table)) {
-    table[, rmse_rank := frank(rmse, ties.method = "min", na.last = "keep")]
-  }
-
+  manifest <- rbindlist(manifests)
+  if (any(!is.finite(manifest$dic)) || any(!is.finite(manifest$waic))) stop("Invalid model criteria.")
+  common <- score_common_predictions(predictions)
+  metrics <- merge(model_registry[, .(model, model_group)], common$metrics, by = "model", sort = FALSE)
+  metrics[, run_id := run_id]
+  criteria <- manifest[, .(model, dic, waic, fit_n, fit_start, fit_end, fit_signature)]
+  # DIC/WAIC may only be ranked within identical fitted-response cohorts.
+  criteria[, criteria_group := paste0("fit_", match(fit_signature, unique(fit_signature)))]
+  criteria[, waic_rank_within_fit_sample := frank(waic, ties.method = "min"), by = fit_signature]
+  criteria[, dic_rank_within_fit_sample := frank(dic, ties.method = "min"), by = fit_signature]
+  table <- merge(metrics, criteria, by = "model", sort = FALSE)
+  table <- table[match(model_registry$model, model)]
+  table[, wape_rank := frank(wape, ties.method = "min", na.last = "keep")]
+  table[, rmse_rank := frank(rmse, ties.method = "min", na.last = "keep")]
+  fwrite(common$sample, file.path(run_dir, "common_test_observations.csv"))
+  fwrite(common$audit, file.path(run_dir, "common_sample_audit.csv"))
+  fwrite(common$predictions, file.path(run_dir, "common_test_predictions.csv"))
   fwrite(criteria, COMBINED_CRITERIA_CSV)
   fwrite(metrics, COMBINED_METRICS_CSV)
   fwrite(table, RESULTS_TABLE_CSV)
-
-  cat("\nCombined outputs written:\n")
-  cat("Criteria:", COMBINED_CRITERIA_CSV, "\n")
-  cat("Metrics:", COMBINED_METRICS_CSV, "\n")
-  cat("Results table:", RESULTS_TABLE_CSV, "\n")
-
-  invisible(list(criteria = criteria, metrics = metrics, table = table))
+  fwrite(table, file.path(run_dir, "results_table.csv"))
+  writeLines(run_id, file.path(OUTPUT_DIR, "current_evaluation_run.txt"))
+  fwrite(data.table(run_id = run_id, status = "complete"), file.path(OUTPUT_DIR, "evaluation_status.csv"))
+  cat("\nCommon held-out observations:", nrow(common$sample), "\n")
+  print(common$audit)
+  print(table[, .(model, test_n, mae, rmse, wape, r2, criteria_group)])
+  cat("\nResults:", RESULTS_TABLE_CSV, "\n")
+  invisible(table)
 }
 
-
-# =========================================================
-# Main
-# =========================================================
 main <- function() {
   cat("Project:", BASE_DIR, "\n")
-  cat("Run model scripts:", RUN_MODEL_SCRIPTS, "\n")
-
   if (RUN_MODEL_SCRIPTS) {
-    run_status <- rbindlist(
-      lapply(seq_len(nrow(model_registry)), function(i) run_model_script(model_registry[i])),
-      fill = TRUE
-    )
-    fwrite(run_status, RUN_STATUS_CSV)
-    cat("\nRun status:", RUN_STATUS_CSV, "\n")
-
-    failed <- run_status[status != "ok"]
-    if (nrow(failed) > 0) {
-      cat("\nSome models failed. Collecting available outputs anyway.\n")
-      print(failed[, .(model, status, exit_status, log_path)])
+    run_id <- paste0(format(Sys.time(), "%Y%m%dT%H%M%S"), "_", Sys.getpid())
+    Sys.setenv(HBM_EVALUATION_RUN = run_id, HBM_PROJECT_DIR = BASE_DIR)
+    run_dir <- file.path(OUTPUT_DIR, "evaluation_runs", run_id)
+    dir.create(run_dir, recursive = TRUE)
+    archive <- file.path(run_dir, "previous_aggregate_outputs")
+    dir.create(archive)
+    old <- c(COMBINED_CRITERIA_CSV, COMBINED_METRICS_CSV, RESULTS_TABLE_CSV, RUN_STATUS_CSV)
+    file.copy(old[file.exists(old)], archive)
+    fwrite(input_fingerprints(), file.path(run_dir, "input_fingerprints.csv"))
+    fwrite(data.table(run_id = run_id, status = "running"), file.path(OUTPUT_DIR, "evaluation_status.csv"))
+    succeeded <- FALSE
+    on.exit({
+      if (!succeeded) fwrite(data.table(run_id = run_id, status = "failed"), file.path(OUTPUT_DIR, "evaluation_status.csv"))
+    })
+    for (i in seq_len(nrow(model_registry))) {
+      status <- run_model_script(model_registry[i])
+      fwrite(status, file.path(run_dir, "run_status.csv"), append = i > 1L)
+      if (status$status != "ok") stop("Model failed: ", status$model, ". See ", status$log_path)
     }
+    file.copy(file.path(run_dir, "run_status.csv"), RUN_STATUS_CSV, overwrite = TRUE)
+    collect_results(run_id)
+    succeeded <- TRUE
+  } else {
+    status_file <- file.path(OUTPUT_DIR, "evaluation_status.csv")
+    if (!file.exists(status_file) || fread(status_file)$status != "complete") {
+      stop("Latest evaluation is incomplete or failed. Run make all-results.")
+    }
+    pointer <- file.path(OUTPUT_DIR, "current_evaluation_run.txt")
+    if (!file.exists(pointer)) stop("No verified common-sample run. Run make all-results first.")
+    run_id <- readLines(pointer, warn = FALSE)[1]
+    if (!grepl("^[A-Za-z0-9_-]+$", run_id)) stop("Invalid saved run ID.")
+    collect_results(run_id)
   }
-
-  collect_results()
 }
 
 main()

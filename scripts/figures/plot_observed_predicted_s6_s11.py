@@ -3,8 +3,9 @@
 Create observed-versus-predicted dengue incidence figures for S6 and S11.
 
 The figure compares the two candidate final models:
-  S6  = best held-out WAPE/RMSE in the current model comparison.
-  S11 = best WAIC/inferential fit in the current model comparison.
+  S6  = regional rainfall effects.
+  S11 = additive municipality and temporal rainfall effects.
+These are full-data fitted values, not held-out predictive validation.
 
 Full-period fitted-prediction CSVs are case-scale, so this script merges municipality population
 from data/complete_combined_datasets.csv and converts observed and predicted
@@ -377,7 +378,9 @@ def plot_observed_predicted(
     else:
         rep_axes[0].axis("off")
 
-    fig.subplots_adjust(left=0.08, right=0.98, top=0.96, bottom=0.08)
+    fig.text(0.5, 0.015, "Full-data fitted values (2017–2023); not held-out forecasts",
+             ha="center", fontsize=8)
+    fig.subplots_adjust(left=0.08, right=0.98, top=0.96, bottom=0.10)
     save_all_formats(fig, output_dir / "observed_predicted_s6_s11")
     plt.close(fig)
 

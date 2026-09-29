@@ -1,3 +1,17 @@
+/Volumes/Temp/tmp/RtmpNlAxpv/R.INSTALL63086217f59c/arrow/tools/cpp/src/arrow/util/cpu_info.cc:242: IOError: sysctlbyname failed for 'hw.l1dcachesize'. Detail: [errno 1] Operation not permitted
+/Volumes/Temp/tmp/RtmpNlAxpv/R.INSTALL63086217f59c/arrow/tools/cpp/src/arrow/util/cpu_info.cc:242: IOError: sysctlbyname failed for 'hw.l2cachesize'. Detail: [errno 1] Operation not permitted
+/Volumes/Temp/tmp/RtmpNlAxpv/R.INSTALL63086217f59c/arrow/tools/cpp/src/arrow/util/cpu_info.cc:242: IOError: sysctlbyname failed for 'hw.l3cachesize'. Detail: [errno 1] Operation not permitted
+/Volumes/Temp/tmp/RtmpNlAxpv/R.INSTALL63086217f59c/arrow/tools/cpp/src/arrow/util/cpu_info.cc:242: IOError: sysctlbyname failed for 'hw.optional.neon'. Detail: [errno 1] Operation not permitted
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
 M5/S2 dataframe built
 Original rows: 76544 
 Model rows: 30302 
@@ -5,47 +19,2660 @@ Dropped missing S2 covariates: 3186
 Municipios: 92 
 Years: 2017, 2018, 2019, 2020, 2021, 2022, 2023 
 Rows with at least one neighbor lag value: 28635 
-INLA graph written: /var/folders/hf/rt97wjy964g2q1trd19ksx0r0000gn/T//Rtmpnk5mbz/rj_municipality_inla_s11.graph 
+INLA graph written: /var/folders/hf/rt97wjy964g2q1trd19ksx0r0000gn/T//RtmplOqVZW/rj_municipality_inla_s11.graph 
 Connected graph nodes: 87 
 Connected graph edges: 511 
 Isolated municipalities: 5 
- *** WARNING *** GMRFLib_2order_approx: rescue NAN/INF values in logl for idx=10042
- *** WARNING *** GMRFLib_2order_approx: reset counter for 5 NAN/INF values in logl
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+ *** WARNING *** GMRFLib_2order_approx: rescue NAN/INF values in logl for idx=3917
+ *** WARNING *** GMRFLib_2order_approx: reset counter for 6 NAN/INF values in logl
+ *** WARNING *** GMRFLib_2order_approx: reset counter for 6 NAN/INF values in logl
 
 S11 full-data fixed effects:
                                 mean         sd  0.025quant    0.5quant
-(Intercept)              -0.18219900 0.15575369 -0.48883164 -0.18274630
-rainfall_lag_z            0.31641573 0.04862179  0.22030879  0.31665545
-humidity_lag_z           -0.05235126 0.01616690 -0.08407943 -0.05234236
-temperature_lag_z         0.01521405 0.02382161 -0.03154070  0.01522815
-idhm_z                    0.54931231 0.09070615  0.37039565  0.54950012
-log_cases_lag_z           0.91978870 0.01059768  0.89900944  0.91978799
-neighbor_log_cases_lag_z  0.25795764 0.02337994  0.21212987  0.25795100
+(Intercept)              -0.17834343 0.15932682 -0.49264687 -0.17875250
+rainfall_lag_z            0.31525966 0.04864680  0.21916016  0.31548188
+humidity_lag_z           -0.05230116 0.01615191 -0.08399890 -0.05229259
+temperature_lag_z         0.01524809 0.02379509 -0.03145449  0.01526214
+idhm_z                    0.54777866 0.09169456  0.36718101  0.54789482
+log_cases_lag_z           0.91963661 0.01059604  0.89886202  0.91963537
+neighbor_log_cases_lag_z  0.25773937 0.02337205  0.21192123  0.25773455
                           0.975quant        mode          kld
-(Intercept)               0.12764666 -0.18275120 4.342485e-06
-rainfall_lag_z            0.41116054  0.31665664 6.970943e-09
-humidity_lag_z           -0.02067377 -0.05234231 1.096252e-10
-temperature_lag_z         0.06188857  0.01522822 1.089438e-10
-idhm_z                    0.72721306  0.54951120 1.624953e-08
-log_cases_lag_z           0.94057202  0.91978798 4.600970e-11
-neighbor_log_cases_lag_z  0.30382335  0.25795098 6.347611e-11
+(Intercept)               0.13790123 -0.17883153 3.312366e-06
+rainfall_lag_z            0.41009745  0.31548309 6.061069e-09
+humidity_lag_z           -0.02065219 -0.05229255 1.051747e-10
+temperature_lag_z         0.06187069  0.01526221 1.089688e-10
+idhm_z                    0.72775680  0.54790297 1.254688e-08
+log_cases_lag_z           0.94041823  0.91963537 4.693947e-11
+neighbor_log_cases_lag_z  0.30358510  0.25773456 4.495003e-11
 
 S11 full-data model criteria:
     model                           rainfall_specification      dic     waic
    <char>                                           <char>    <num>    <num>
-1:    S11 additive municipality + RW1 time rainfall slopes 89767.22 90155.08
+1:    S11 additive municipality + RW1 time rainfall slopes 89767.41 90154.32
 
 S11 spatiotemporal rainfall outputs written:
 Municipality CSV: /Users/ethanmassey/VS_Code_Test/Hierarchical-Bayesian-Model/outputs/s11_rainfall_spacetime_municipality_effects.csv 
 Time CSV: /Users/ethanmassey/VS_Code_Test/Hierarchical-Bayesian-Model/outputs/s11_rainfall_spacetime_time_effects.csv 
 Combined municipality-week CSV: /Users/ethanmassey/VS_Code_Test/Hierarchical-Bayesian-Model/outputs/s11_rainfall_spacetime_combined_effects.csv 
+Fixed effects: /Users/ethanmassey/VS_Code_Test/Hierarchical-Bayesian-Model/outputs/s11_rainfall_spacetime_fixed_effects.csv 
+Average rainfall effect: /Users/ethanmassey/VS_Code_Test/Hierarchical-Bayesian-Model/outputs/s11_rainfall_spacetime_average_rainfall_effect.csv 
 Criteria: /Users/ethanmassey/VS_Code_Test/Hierarchical-Bayesian-Model/outputs/s11_rainfall_spacetime_model_criteria.csv 
+Full-data fitted predictions: /Users/ethanmassey/VS_Code_Test/Hierarchical-Bayesian-Model/outputs/s11_rainfall_spacetime_full_predictions.csv 
 Municipality map: /Users/ethanmassey/VS_Code_Test/Hierarchical-Bayesian-Model/outputs/s11_rainfall_spacetime_municipality_effect_map.png 
 Time plot: /Users/ethanmassey/VS_Code_Test/Hierarchical-Bayesian-Model/outputs/s11_rainfall_spacetime_time_effect_plot.png 
- *** WARNING *** GMRFLib_2order_approx: rescue NAN/INF values in logl for idx=15394
- *** WARNING *** GMRFLib_2order_approx: reset counter for 2 NAN/INF values in logl
- *** WARNING *** GMRFLib_2order_approx: rescue NAN/INF values in logl for idx=4149
- *** WARNING *** GMRFLib_2order_approx: reset counter for 4 NAN/INF values in logl
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+ *** WARNING *** GMRFLib_2order_approx: rescue NAN/INF values in logl for idx=917
+ *** WARNING *** GMRFLib_2order_approx: reset counter for 3 NAN/INF values in logl
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+ *** WARNING *** GMRFLib_2order_approx: rescue NAN/INF values in logl for idx=6386
  *** WARNING *** GMRFLib_2order_approx: reset counter for 4 NAN/INF values in logl
 
 Train/test evaluation split:
@@ -56,11 +2683,21 @@ No-leakage policy: scaler fit on training data only.
 No-leakage policy: test own-case and neighbor-case lags must come from before test start.
 
 S11 train/test metrics:
-    model  split      mae     rmse      wape accuracy_pct        r2
-   <char> <char>    <num>    <num>     <num>        <num>     <num>
-1:    S11  train 2.712603 14.93860 0.5986351     40.13649 0.8118423
-2:    S11   test 4.282815 11.38441 0.4957905     50.42095 0.8487368
+Index: <split>
+    model  split      mae     rmse      wape        r2
+   <char> <char>    <num>    <num>     <num>     <num>
+1:    S11  train 2.712269 14.93308 0.5985614 0.8119813
+2:    S11   test 4.281230 11.37866 0.4956070 0.8488898
+                 evaluation_scope n_observations sample_start sample_end
+                           <char>          <int>       <char>     <char>
+1:                   training_fit          25644   2017-03-27 2022-12-26
+2: model_eligible_not_cross_model            365   2023-01-02 2023-01-23
+                   sample_signature
+                             <char>
+1: 5c97f3bd668c3a5290a95f97af5a1888
+2: 9fe0b6127a3135ce3e25d8318581900f
 Metrics: /Users/ethanmassey/VS_Code_Test/Hierarchical-Bayesian-Model/outputs/s11_rainfall_spacetime_train_test_metrics.csv 
+Test predictions: /Users/ethanmassey/VS_Code_Test/Hierarchical-Bayesian-Model/outputs/s11_rainfall_spacetime_test_predictions.csv 
 
 S11 spatiotemporal rainfall effects:
 Key: <rainfall_municipality_slope_idx>
@@ -162,342 +2799,342 @@ Key: <rainfall_municipality_slope_idx>
                            <char>     <int>                           <int>
     rainfall_effect_mean rainfall_effect_sd rainfall_effect_q025
                    <num>              <num>                <num>
- 1:          0.266922829         0.07684982          0.116297172
- 2:          0.536071972         0.11139771          0.317732460
- 3:         -0.153822983         0.11524972         -0.379712432
- 4:          0.370877787         0.14517984          0.086325291
- 5:          0.364334397         0.14949853          0.071317275
- 6:          0.200152824         0.12403483         -0.042955450
- 7:          0.396617234         0.08465175          0.230699802
- 8:          0.394895835         0.08324030          0.231744846
- 9:         -0.020080014         0.10334767         -0.222641451
-10:          0.424391597         0.14026423          0.149473702
-11:          0.331070046         0.09653185          0.141867627
-12:          0.220222700         0.11650095         -0.008119164
-13:          0.237808461         0.09809706          0.045538216
-14:          0.826596655         0.13957154          0.553036443
-15:          0.039016789         0.10437442         -0.165557079
-16:          0.376666115         0.13000769          0.121851041
-17:          0.739926053         0.13966480          0.466183043
-18:          0.388947032         0.12961608          0.134899506
-19:          0.314447972         0.10377633          0.111046371
-20:          0.072011356         0.09113320         -0.106609707
-21:         -0.165983292         0.16565051         -0.490658289
-22:          0.860371042         0.14377875          0.578564691
-23:          0.455912173         0.10347366          0.253103790
-24:          0.725190611         0.18310234          0.366310018
-25:          0.013379281         0.08330044         -0.149889583
-26:          0.524903739         0.11515881          0.299192465
-27:          0.238043210         0.09868914          0.044612497
-28:          0.001655818         0.10954666         -0.213055627
-29:          0.122118881         0.09876558         -0.071461661
-30:          0.178998067         0.09670035         -0.010534615
-31:          0.131409469         0.10554223         -0.075453308
-32:          0.642692550         0.10859709          0.429842256
-33:         -0.055044570         0.08650415         -0.224592700
-34:          0.109648899         0.07774668         -0.042734599
-35:          0.480924323         0.10618348          0.272804705
-36:          0.460215637         0.13187668          0.201737346
-37:          0.087909324         0.08816819         -0.084900334
-38:          0.732868374         0.13300936          0.472170035
-39:          0.160344783         0.09292761         -0.021793329
-40:          0.215463217         0.09022589          0.038620473
-41:          0.123291563         0.10854060         -0.089448020
-42:          0.901042878         0.15254369          0.602057254
-43:          0.177469532         0.27921721         -0.369796192
-44:          0.637651106         0.11211786          0.417900100
-45:          0.651058441         0.10250066          0.450157144
-46:          0.281208902         0.09076237          0.103314648
-47:          0.225174424         0.15519890         -0.079015417
-48:          0.144008232         0.10367974         -0.059204067
-49:          0.046160161         0.07215163         -0.095257038
-50:         -0.014394235         0.08815511         -0.187178249
-51:          0.098776363         0.11566652         -0.127930012
-52:          0.513656871         0.11415931          0.289904616
-53:          0.262195933         0.07661438          0.112031743
-54:          0.512051236         0.09989931          0.316248587
-55:          0.111704080         0.07904815         -0.043230291
-56:          0.451327865         0.09509160          0.264948333
-57:          0.035685413         0.08398528         -0.128925726
-58:          0.210028167         0.08831001          0.036940547
-59:          0.137681855         0.09120417         -0.041078319
-60:          0.316023117         0.09203657          0.135631441
-61:          0.687432275         0.13512489          0.422587481
-62:          0.085959526         0.13783310         -0.184193346
-63:          0.044052577         0.07142825         -0.095946795
-64:          0.138824931         0.11691589         -0.090330211
-65:          0.185865011         0.14600247         -0.100299822
-66:          0.595239082         0.14483860          0.311355427
-67:          0.112572874         0.09410398         -0.071870922
-68:          0.054683265         0.08997934         -0.121676245
-69:          0.497341654         0.22721576          0.051998755
-70:          0.424308700         0.09245067          0.243105383
-71:          0.807580245         0.13764749          0.537791161
-72:          0.601313184         0.13861607          0.329625688
-73:          0.050126443         0.10382051         -0.153361755
-74:          0.744460391         0.18607867          0.379746194
-75:          0.261606454         0.09865211          0.068248309
-76:          0.154567623         0.11089518         -0.062786935
-77:          0.356398755         0.16049069          0.041836993
-78:          0.391556179         0.12606986          0.144459251
-79:         -0.081563426         0.18411476         -0.442428351
-80:          0.396333116         0.09330096          0.213463231
-81:         -0.128820832         0.10065346         -0.326101614
-82:          0.451160532         0.10670723          0.242014371
-83:          0.402742379         0.18115573          0.047677141
-84:          0.557281967         0.10934783          0.342960222
-85:          0.929819217         0.14727568          0.641158887
-86:          0.257161183         0.09858172          0.063941013
-87:          0.183794633         0.17637709         -0.161904469
-88:         -0.106876992         0.08784400         -0.279051242
-89:          0.399399354         0.16948180          0.067215031
-90:          0.998963004         0.12372410          0.756463773
-91:          0.288597518         0.09047723          0.111262147
-92:          0.222758784         0.07879727          0.068316134
+ 1:         0.2655836713         0.07689124          0.114876841
+ 2:         0.5351788699         0.11144191          0.316752723
+ 3:        -0.1553606258         0.11529352         -0.381335920
+ 4:         0.3692858261         0.14518212          0.084728866
+ 5:         0.3630397145         0.14957990          0.069863120
+ 6:         0.1991210472         0.12409020         -0.044095739
+ 7:         0.3956540401         0.08469390          0.229653999
+ 8:         0.3940135717         0.08328171          0.230781414
+ 9:        -0.0215160822         0.10338254         -0.224145854
+10:         0.4220466023         0.14024180          0.147172684
+11:         0.3301830543         0.09657200          0.140901925
+12:         0.2190263341         0.11655486         -0.009421184
+13:         0.2367232399         0.09813845          0.044371881
+14:         0.8262992504         0.13966142          0.552562871
+15:         0.0381848009         0.10442846         -0.166494987
+16:         0.3755388141         0.13005932          0.120622543
+17:         0.7390517555         0.13973273          0.465175595
+18:         0.3880534771         0.12967543          0.133889627
+19:         0.3135333198         0.10381703          0.110051934
+20:         0.0706395658         0.09117473         -0.108062907
+21:        -0.1674140810         0.16567179         -0.492130799
+22:         0.8598058733         0.14387778          0.577805425
+23:         0.4551717738         0.10352708          0.252258689
+24:         0.7220168310         0.18285349          0.363623992
+25:         0.0120812380         0.08334363         -0.151272273
+26:         0.5237875471         0.11520488          0.297985988
+27:         0.2367419008         0.09872923          0.043232617
+28:         0.0001100606         0.10959385         -0.214693879
+29:         0.1209037522         0.09880578         -0.072755580
+30:         0.1776576739         0.09674371         -0.011959993
+31:         0.1305027194         0.10558502         -0.076443929
+32:         0.6420031228         0.10864118          0.429066418
+33:        -0.0559632127         0.08654629         -0.225593935
+34:         0.1086017285         0.07778798         -0.043862706
+35:         0.4799074463         0.10623079          0.271695097
+36:         0.4595440021         0.13195985          0.200902695
+37:         0.0865936090         0.08821055         -0.086299075
+38:         0.7329415490         0.13312272          0.472021014
+39:         0.1590770348         0.09296718         -0.023138636
+40:         0.2143079817         0.09026717          0.037384331
+41:         0.1218245885         0.10858677         -0.091005484
+42:         0.9007722924         0.15266437          0.601550132
+43:         0.1677773743         0.27851046         -0.378103132
+44:         0.6364014223         0.11214735          0.416592615
+45:         0.6503009625         0.10254482          0.449313109
+46:         0.2803134540         0.09079976          0.102345925
+47:         0.2239240892         0.15527800         -0.080420787
+48:         0.1428313795         0.10372076         -0.060461310
+49:         0.0449583300         0.07219696         -0.096547721
+50:        -0.0157368435         0.08819983         -0.188608515
+51:         0.0975572583         0.11571635         -0.129246780
+52:         0.5128865480         0.11420908          0.289036757
+53:         0.2609681213         0.07665562          0.110723112
+54:         0.5112223028         0.09994439          0.315331300
+55:         0.1105255828         0.07909039         -0.044491581
+56:         0.4504536695         0.09513252          0.263993924
+57:         0.0345775666         0.08402758         -0.130116494
+58:         0.2091510990         0.08834921          0.035986653
+59:         0.1367112102         0.09124313         -0.042125329
+60:         0.3150995338         0.09207341          0.134635642
+61:         0.6866093877         0.13519512          0.421626958
+62:         0.0848495591         0.13789879         -0.185432062
+63:         0.0429809561         0.07147395         -0.097107981
+64:         0.1375017123         0.11696891         -0.091757344
+65:         0.1851636905         0.14613090         -0.101252879
+66:         0.5939861435         0.14485129          0.310077613
+67:         0.1112285467         0.09414856         -0.073302622
+68:         0.0532385820         0.09003099         -0.123222153
+69:         0.4985580020         0.22780175          0.052066575
+70:         0.4235019072         0.09249202          0.242217543
+71:         0.8071375529         0.13773101          0.537184776
+72:         0.6002848349         0.13867659          0.328478715
+73:         0.0487854468         0.10387355         -0.154806705
+74:         0.7442253952         0.18621133          0.379251179
+75:         0.2604210317         0.09869320          0.066982355
+76:         0.1535875341         0.11093882         -0.063852555
+77:         0.3540305634         0.16038064          0.039684505
+78:         0.3903856951         0.12613100          0.143168929
+79:        -0.0832729309         0.18427066         -0.444443418
+80:         0.3955162317         0.09334037          0.212569101
+81:        -0.1302562855         0.10069416         -0.327616835
+82:         0.4501069419         0.10675348          0.240870117
+83:         0.4010821863         0.18122214          0.045886791
+84:         0.5564480163         0.10938232          0.342058675
+85:         0.9292016464         0.14735550          0.640384871
+86:         0.2565149018         0.09864297          0.063174690
+87:         0.1824709639         0.17651402         -0.163496508
+88:        -0.1079235992         0.08788366         -0.280175575
+89:         0.3983739492         0.16958646          0.065984497
+90:         0.9985079616         0.12376273          0.755933003
+91:         0.2877001139         0.09052087          0.110279205
+92:         0.2218097009         0.07883991          0.067283486
     rainfall_effect_mean rainfall_effect_sd rainfall_effect_q025
                    <num>              <num>                <num>
     rainfall_effect_q975 rainfall_relative_risk rainfall_relative_risk_q025
                    <num>                  <num>                       <num>
- 1:           0.41754849              1.3059397                   1.1233296
- 2:           0.75441149              1.7092796                   1.3740086
- 3:           0.07206647              0.8574238                   0.6840581
- 4:           0.65543028              1.4490060                   1.0901609
- 5:           0.65735152              1.4395555                   1.0739219
- 6:           0.44326110              1.2215894                   0.9579541
- 7:           0.56253467              1.4867867                   1.2594811
- 8:           0.55804682              1.4842296                   1.2607980
- 9:           0.18248142              0.9801202                   0.8004018
-10:           0.69930949              1.5286601                   1.1612229
-11:           0.52027246              1.3924573                   1.1524241
-12:           0.44856456              1.2463543                   0.9919137
-13:           0.43007871              1.2684662                   1.0465910
-14:           1.10015687              2.2855271                   1.7385239
-15:           0.24359066              1.0397879                   0.8474215
-16:           0.63148119              1.4574176                   1.1295858
-17:           1.01366906              2.0957805                   1.5938987
-18:           0.64299456              1.4754264                   1.1444218
-19:           0.51784957              1.3695031                   1.1174467
-20:           0.25063242              1.0746675                   0.8988764
-21:           0.15869171              0.8470604                   0.6122232
-22:           1.14217739              2.3640377                   1.7834768
-23:           0.65872056              1.5776118                   1.2880170
-24:           1.08407120              2.0651247                   1.4424023
-25:           0.17664814              1.0134692                   0.8608030
-26:           0.75061501              1.6902961                   1.3487692
-27:           0.43147392              1.2687640                   1.0456226
-28:           0.21636726              1.0016572                   0.8081112
-29:           0.31569942              1.1298884                   0.9310320
-30:           0.36853075              1.1960184                   0.9895207
-31:           0.33827224              1.1404347                   0.9273230
-32:           0.85554284              1.9015941                   1.5370150
-33:           0.11450356              0.9464430                   0.7988415
-34:           0.26203240              1.1158862                   0.9581657
-35:           0.68904394              1.6175689                   1.3136437
-36:           0.71869393              1.5844156                   1.2235266
-37:           0.26071898              1.0918891                   0.9186038
-38:           0.99356671              2.0810413                   1.6034700
-39:           0.34248290              1.1739155                   0.9784424
-40:           0.39230596              1.2404364                   1.0393759
-41:           0.33603115              1.1312142                   0.9144358
-42:           1.20002850              2.4621695                   1.8258712
-43:           0.72473526              1.1941917                   0.6908751
-44:           0.85740211              1.8920315                   1.5187689
-45:           0.85195974              1.9175694                   1.5685587
-46:           0.45910316              1.3247303                   1.1088402
-47:           0.52936426              1.2525412                   0.9240257
-48:           0.34722053              1.1548936                   0.9425144
-49:           0.18757736              1.0472421                   0.9091392
-50:           0.15838978              0.9857089                   0.8292959
-51:           0.32548274              1.1038194                   0.8799150
-52:           0.73740913              1.6713921                   1.3363000
-53:           0.41236012              1.2997812                   1.1185484
-54:           0.70785388              1.6687106                   1.3719713
-55:           0.26663845              1.1181819                   0.9576908
-56:           0.63770740              1.5703961                   1.3033636
-57:           0.20029655              1.0363298                   0.8790393
-58:           0.38311579              1.2337128                   1.0376313
-59:           0.31644203              1.1476104                   0.9597540
-60:           0.49641479              1.3716620                   1.1452597
-61:           0.95227707              1.9886028                   1.5259047
-62:           0.35611240              1.0897622                   0.8317750
-63:           0.18405195              1.0450373                   0.9085124
-64:           0.36798007              1.1489229                   0.9136294
-65:           0.47202984              1.2042597                   0.9045662
-66:           0.87912274              1.8134645                   1.3652744
-67:           0.29701667              1.1191538                   0.9306510
-68:           0.23104278              1.0562060                   0.8854350
-69:           0.94268455              1.6443442                   1.0533744
-70:           0.60551202              1.5285334                   1.2752030
-71:           1.07736933              2.2424752                   1.7122207
-72:           0.87300068              1.8245131                   1.3904476
-73:           0.25361464              1.0514040                   0.8578193
-74:           1.10917459              2.1053051                   1.4619135
-75:           0.45496460              1.2990152                   1.0706311
-76:           0.37192218              1.1671532                   0.9391436
-77:           0.67096052              1.4281769                   1.0427245
-78:           0.63865311              1.4792810                   1.1554146
-79:           0.27930150              0.9216743                   0.6424744
-80:           0.57920300              1.4863644                   1.2379580
-81:           0.06845995              0.8791315                   0.7217318
-82:           0.66030669              1.5701333                   1.2738125
-83:           0.75780762              1.4959215                   1.0488320
-84:           0.77160371              1.7459206                   1.4091127
-85:           1.21847955              2.5340510                   1.8986800
-86:           0.45038135              1.2932536                   1.0660295
-87:           0.52949373              1.2017690                   0.8505225
-88:           0.06529726              0.8986362                   0.7565011
-89:           0.73158368              1.4909289                   1.0695254
-90:           1.24146224              2.7154644                   2.1307281
-91:           0.46593289              1.3345545                   1.1176879
-92:           0.37720143              1.2495191                   1.0707037
+ 1:           0.41629050              1.3041920                   1.1217353
+ 2:           0.75360502              1.7077537                   1.3726631
+ 3:           0.07061467              0.8561064                   0.6829484
+ 4:           0.65384279              1.4467010                   1.0884219
+ 5:           0.65621631              1.4376930                   1.0723614
+ 6:           0.44233783              1.2203297                   0.9568623
+ 7:           0.56165408              1.4853554                   1.2581646
+ 8:           0.55724573              1.4829207                   1.2595839
+ 9:           0.18111369              0.9787137                   0.7991986
+10:           0.69692052              1.5250796                   1.1585540
+11:           0.51946418              1.3912228                   1.1513117
+12:           0.44747385              1.2448641                   0.9906231
+13:           0.42907460              1.2670904                   1.0453710
+14:           1.10003563              2.2848474                   1.7377008
+15:           0.24286459              1.0389232                   0.8466271
+16:           0.63045509              1.4557756                   1.1281990
+17:           1.01292792              2.0939490                   1.5922938
+18:           0.64221733              1.4741086                   1.1432666
+19:           0.51701471              1.3682511                   1.1163360
+20:           0.24934204              1.0731943                   0.8975711
+21:           0.15730264              0.8458493                   0.6113224
+22:           1.14180632              2.3627020                   1.7821231
+23:           0.65808486              1.5764442                   1.2869289
+24:           1.08040967              2.0585808                   1.4385332
+25:           0.17543475              1.0121545                   0.8596136
+26:           0.74958911              1.6884105                   1.3471429
+27:           0.43025118              1.2671140                   1.0441808
+28:           0.21491400              1.0001101                   0.8067884
+29:           0.31456308              1.1285163                   0.9298281
+30:           0.36727534              1.1944164                   0.9881112
+31:           0.33744937              1.1394010                   0.9264049
+32:           0.85493983              1.9002836                   1.5358230
+33:           0.11366751              0.9455739                   0.7980421
+34:           0.26106616              1.1147183                   0.9570854
+35:           0.68811980              1.6159248                   1.3121869
+36:           0.71818531              1.5833518                   1.2225058
+37:           0.25948629              1.0904534                   0.9173198
+38:           0.99386208              2.0811935                   1.6032311
+39:           0.34129271              1.1724283                   0.9771270
+40:           0.39123163              1.2390042                   1.0380919
+41:           0.33465466              1.1295559                   0.9130127
+42:           1.19999445              2.4615034                   1.8249455
+43:           0.71365788              1.1826733                   0.6851598
+44:           0.85621023              1.8896685                   1.5167845
+45:           0.85128882              1.9161174                   1.5672353
+46:           0.45828098              1.3235446                   1.1077666
+47:           0.52826897              1.2509761                   0.9227280
+48:           0.34612407              1.1535353                   0.9413302
+49:           0.18646438              1.0459843                   0.9079666
+50:           0.15713483              0.9843863                   0.8281106
+51:           0.32436130              1.1024746                   0.8787571
+52:           0.73673634              1.6701051                   1.3351408
+53:           0.41121313              1.2981863                   1.1170856
+54:           0.70711331              1.6673279                   1.3707134
+55:           0.26554275              1.1168649                   0.9564837
+56:           0.63691341              1.5690238                   1.3021203
+57:           0.19927163              1.0351823                   0.8779931
+58:           0.38231554              1.2326312                   1.0366420
+59:           0.31554775              1.1464970                   0.9587496
+60:           0.49556343              1.3703957                   1.1441198
+61:           0.95159182              1.9869671                   1.5244397
+62:           0.35513118              1.0885533                   0.8307453
+63:           0.18306989              1.0439180                   0.9074580
+64:           0.36676077              1.1474037                   0.9123265
+65:           0.47158026              1.2034154                   0.9037045
+66:           0.87789467              1.8111937                   1.3635309
+67:           0.29575972              1.1176503                   0.9293196
+68:           0.22969932              1.0546812                   0.8840672
+69:           0.94504943              1.6463455                   1.0534459
+70:           0.60478627              1.5273007                   1.2740713
+71:           1.07709033              2.2414827                   1.7111827
+72:           0.87209095              1.8226379                   1.3888537
+73:           0.25237760              1.0499950                   0.8565807
+74:           1.10919961              2.1048104                   1.4611900
+75:           0.45385971              1.2974763                   1.0692766
+76:           0.37102762              1.1660098                   0.9381433
+77:           0.66837662              1.4247987                   1.0404825
+78:           0.63760246              1.4775506                   1.1539247
+79:           0.27789756              0.9201000                   0.6411810
+80:           0.57846336              1.4851507                   1.2368516
+81:           0.06710426              0.8778704                   0.7206391
+82:           0.65934377              1.5684799                   1.2723558
+83:           0.75627758              1.4934400                   1.0469559
+84:           0.77083736              1.7444652                   1.4078429
+85:           1.21801842              2.5324866                   1.8972109
+86:           0.44985511              1.2924180                   1.0652129
+87:           0.52843844              1.2001793                   0.8491695
+88:           0.06432838              0.8976962                   0.7556511
+89:           0.73076340              1.4894009                   1.0682102
+90:           1.24108292              2.7142291                   2.1295975
+91:           0.46512102              1.3333574                   1.1165898
+92:           0.37633592              1.2483338                   1.0695987
     rainfall_effect_q975 rainfall_relative_risk rainfall_relative_risk_q025
                    <num>                  <num>                       <num>
     rainfall_relative_risk_q975
                           <num>
- 1:                    1.518235
- 2:                    2.126360
- 3:                    1.074727
- 4:                    1.925971
- 5:                    1.929675
- 6:                    1.557779
- 7:                    1.755115
- 8:                    1.747256
- 9:                    1.200192
-10:                    2.012363
-11:                    1.682486
-12:                    1.566063
-13:                    1.537379
-14:                    3.004637
-15:                    1.275822
-16:                    1.880394
-17:                    2.755693
-18:                    1.902169
-19:                    1.678414
-20:                    1.284838
-21:                    1.171977
-22:                    3.133584
-23:                    1.932318
-24:                    2.956692
-25:                    1.193211
-26:                    2.118302
-27:                    1.539525
-28:                    1.241558
-29:                    1.371218
-30:                    1.445609
-31:                    1.402522
-32:                    2.352651
-33:                    1.121317
-34:                    1.299569
-35:                    1.991810
-36:                    2.051752
-37:                    1.297863
-38:                    2.700850
-39:                    1.408440
-40:                    1.480391
-41:                    1.399383
-42:                    3.320212
-43:                    2.064185
-44:                    2.357029
-45:                    2.344236
-46:                    1.582654
-47:                    1.697853
-48:                    1.415129
-49:                    1.206324
-50:                    1.171623
-51:                    1.384699
-52:                    2.090512
-53:                    1.510378
-54:                    2.029631
-55:                    1.305568
-56:                    1.892138
-57:                    1.221765
-58:                    1.466848
-59:                    1.372237
-60:                    1.642821
-61:                    2.591604
-62:                    1.427768
-63:                    1.202078
-64:                    1.444813
-65:                    1.603245
-66:                    2.408786
-67:                    1.345838
-68:                    1.259913
-69:                    2.566863
-70:                    1.832190
-71:                    2.936943
-72:                    2.394084
-73:                    1.288675
-74:                    3.031855
-75:                    1.576118
-76:                    1.450520
-77:                    1.956115
-78:                    1.893928
-79:                    1.322206
-80:                    1.784616
-81:                    1.070858
-82:                    1.935386
-83:                    2.133593
-84:                    2.163233
-85:                    3.382042
-86:                    1.568910
-87:                    1.698072
-88:                    1.067476
-89:                    2.078369
-90:                    3.460670
-91:                    1.593500
-92:                    1.458198
+ 1:                    1.516326
+ 2:                    2.124646
+ 3:                    1.073168
+ 4:                    1.922916
+ 5:                    1.927486
+ 6:                    1.556341
+ 7:                    1.753571
+ 8:                    1.745857
+ 9:                    1.198551
+10:                    2.007561
+11:                    1.681127
+12:                    1.564355
+13:                    1.535836
+14:                    3.004273
+15:                    1.274896
+16:                    1.878465
+17:                    2.753652
+18:                    1.900691
+19:                    1.677014
+20:                    1.283181
+21:                    1.170350
+22:                    3.132421
+23:                    1.931090
+24:                    2.945886
+25:                    1.191764
+26:                    2.116130
+27:                    1.537644
+28:                    1.239755
+29:                    1.369661
+30:                    1.443795
+31:                    1.401369
+32:                    2.351233
+33:                    1.120380
+34:                    1.298314
+35:                    1.989970
+36:                    2.050708
+37:                    1.296264
+38:                    2.701648
+39:                    1.406765
+40:                    1.478801
+41:                    1.397458
+42:                    3.320099
+43:                    2.041445
+44:                    2.354222
+45:                    2.342664
+46:                    1.581353
+47:                    1.695994
+48:                    1.413578
+49:                    1.204982
+50:                    1.170153
+51:                    1.383147
+52:                    2.089106
+53:                    1.508647
+54:                    2.028128
+55:                    1.304139
+56:                    1.890636
+57:                    1.220513
+58:                    1.465674
+59:                    1.371010
+60:                    1.641423
+61:                    2.589829
+62:                    1.426368
+63:                    1.200898
+64:                    1.443053
+65:                    1.602525
+66:                    2.405829
+67:                    1.344147
+68:                    1.258222
+69:                    2.572941
+70:                    1.830861
+71:                    2.936124
+72:                    2.391907
+73:                    1.287082
+74:                    3.031931
+75:                    1.574377
+76:                    1.449223
+77:                    1.951067
+78:                    1.891939
+79:                    1.320351
+80:                    1.783296
+81:                    1.069407
+82:                    1.933523
+83:                    2.130331
+84:                    2.161576
+85:                    3.380482
+86:                    1.568085
+87:                    1.696281
+88:                    1.066443
+89:                    2.076665
+90:                    3.459358
+91:                    1.592207
+92:                    1.456936
     rainfall_relative_risk_q975
                           <num>
 Key: <rainfall_time_idx>
            date  year  week rainfall_time_idx rainfall_effect_mean
          <Date> <int> <int>             <int>                <num>
-  1: 2017-03-27  2017    13                 1           0.05908728
-  2: 2017-04-03  2017    14                 2           0.01355604
-  3: 2017-04-10  2017    15                 3          -0.03197991
-  4: 2017-04-17  2017    16                 4          -0.07768839
-  5: 2017-04-24  2017    17                 5          -0.18712012
+  1: 2017-03-27  2017    13                 1           0.05838614
+  2: 2017-04-03  2017    14                 2           0.01347872
+  3: 2017-04-10  2017    15                 3          -0.03196334
+  4: 2017-04-17  2017    16                 4          -0.07769287
+  5: 2017-04-24  2017    17                 5          -0.18591124
  ---                                                              
-333: 2023-11-27  2023    48               333          -0.65482557
-334: 2023-12-04  2023    49               334          -0.86140489
-335: 2023-12-11  2023    50               335          -1.06939222
-336: 2023-12-18  2023    51               336          -1.02432957
-337: 2023-12-25  2023    52               337          -1.05625629
+333: 2023-11-27  2023    48               333          -0.65411265
+334: 2023-12-04  2023    49               334          -0.86033230
+335: 2023-12-11  2023    50               335          -1.06634249
+336: 2023-12-18  2023    51               336          -1.02309068
+337: 2023-12-25  2023    52               337          -1.05483187
      rainfall_effect_sd rainfall_effect_q025 rainfall_effect_q975
                   <num>                <num>                <num>
-  1:          0.1087612           -0.1540848            0.2722593
-  2:          0.1033126           -0.1889367            0.2160488
-  3:          0.1051594           -0.2380923            0.1741324
-  4:          0.1056831           -0.2848273            0.1294505
-  5:          0.1423505           -0.4661270            0.0918868
+  1:          0.1086124           -0.1544942            0.2712665
+  2:          0.1031174           -0.1886313            0.2155888
+  3:          0.1049460           -0.2376576            0.1737309
+  4:          0.1055051           -0.2844828            0.1290971
+  5:          0.1416752           -0.4635946            0.0917721
  ---                                                             
-333:          0.1547325           -0.9581012           -0.3515499
-334:          0.1605959           -1.1761729           -0.5466369
-335:          0.1797591           -1.4217201           -0.7170643
-336:          0.2037935           -1.4237649           -0.6248943
-337:          0.2279223           -1.5029839           -0.6095286
+333:          0.1541043           -0.9561571           -0.3520683
+334:          0.1600204           -1.1739723           -0.5466923
+335:          0.1790267           -1.4172348           -0.7154502
+336:          0.2029499           -1.4208725           -0.6253088
+337:          0.2270154           -1.4997821           -0.6098816
      rainfall_relative_risk rainfall_relative_risk_q025
                       <num>                       <num>
-  1:              1.0608678                   0.8571994
-  2:              1.0136483                   0.8278389
-  3:              0.9685260                   0.7881300
-  4:              0.9252527                   0.7521441
-  5:              0.8293441                   0.6274276
+  1:              1.0601243                   0.8568485
+  2:              1.0135700                   0.8280917
+  3:              0.9685421                   0.7884726
+  4:              0.9252486                   0.7524033
+  5:              0.8303473                   0.6290185
  ---                                                   
-333:              0.5195327                   0.3836206
-334:              0.4225680                   0.3084570
-335:              0.3432171                   0.2412986
-336:              0.3590371                   0.2408057
-337:              0.3477553                   0.2224653
+333:              0.5199032                   0.3843672
+334:              0.4230215                   0.3091365
+335:              0.3442654                   0.2423833
+336:              0.3594822                   0.2415032
+337:              0.3482510                   0.2231788
      rainfall_relative_risk_q975
                            <num>
-  1:                   1.3129274
-  2:                   1.2411629
-  3:                   1.1902132
-  4:                   1.1382028
-  5:                   1.0962407
+  1:                   1.3116246
+  2:                   1.2405921
+  3:                   1.1897354
+  4:                   1.1378006
+  5:                   1.0961150
  ---                            
-333:                   0.7035967
-334:                   0.5788934
-335:                   0.4881833
-336:                   0.5353180
-337:                   0.5436070
+333:                   0.7032321
+334:                   0.5788613
+335:                   0.4889719
+336:                   0.5350961
+337:                   0.5434152

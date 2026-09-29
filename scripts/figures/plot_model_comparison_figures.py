@@ -130,7 +130,9 @@ def stage_for_model(model: str) -> str:
 
 def load_model_results(results_file: Path) -> pd.DataFrame:
     df = clean_columns(pd.read_csv(results_file))
-    required = {"model", "dic", "waic", "mae", "rmse", "wape", "accuracy_pct", "r2"}
+    required = {"model", "dic", "waic", "mae", "rmse", "wape", "r2",
+                "evaluation_protocol", "evaluation_signature", "test_n", "test_start", "test_end",
+                "fit_signature", "fit_n", "criteria_group", "run_id"}
     missing = sorted(required.difference(df.columns))
     if missing:
         raise ValueError(f"Missing required columns in {results_file}: {missing}")
@@ -140,19 +142,27 @@ def load_model_results(results_file: Path) -> pd.DataFrame:
     if unexpected:
         raise ValueError(f"Unexpected model labels in {results_file}: {unexpected}")
 
-    numeric_cols = ["dic", "waic", "mae", "rmse", "wape", "accuracy_pct", "r2"]
+    numeric_cols = ["dic", "waic", "mae", "rmse", "wape", "r2"]
     for col in numeric_cols:
         df[col] = pd.to_numeric(df[col], errors="coerce")
-    df = df.dropna(subset=["model_label", *numeric_cols]).copy()
+    if df[["model_label", *numeric_cols]].isna().any().any() or not np.isfinite(df[numeric_cols].to_numpy()).all():
+        raise ValueError("Incomplete model results; refusing to silently drop models.")
+    if df["model_label"].duplicated().any() or set(df["model_label"]) != set(MODEL_ORDER):
+        raise ValueError("Expected exactly one row for each of the 17 models.")
+    for col in ["evaluation_protocol", "evaluation_signature", "test_n", "test_start", "test_end", "run_id"]:
+        if df[col].isna().any() or df[col].nunique() != 1:
+            raise ValueError(f"Models do not share the same evaluation contract: {col}")
+    if df["evaluation_protocol"].iloc[0] != "common_observations_2023_january_v1":
+        raise ValueError("Unrecognized evaluation protocol.")
 
     order_lookup = {model: index for index, model in enumerate(MODEL_ORDER)}
     df["model_index"] = df["model_label"].map(order_lookup)
     df = df.sort_values("model_index").reset_index(drop=True)
     df["stage"] = df["model_label"].map(stage_for_model)
     df["wape_percent"] = df["wape"] * 100
-    df["delta_waic"] = df["waic"] - df["waic"].min()
-    df["delta_dic"] = df["dic"] - df["dic"].min()
-    df["waic_rank_recomputed"] = df["waic"].rank(method="min").astype(int)
+    df["delta_waic"] = df["waic"] - df.groupby("fit_signature")["waic"].transform("min")
+    df["delta_dic"] = df["dic"] - df.groupby("fit_signature")["dic"].transform("min")
+    df["waic_rank_recomputed"] = df.groupby("fit_signature")["waic"].rank(method="min").astype(int)
     df["wape_rank_recomputed"] = df["wape"].rank(method="min").astype(int)
     df["rmse_rank_recomputed"] = df["rmse"].rank(method="min").astype(int)
     return df
@@ -227,7 +237,7 @@ def add_stage_guides(ax, models: list[str], y_text: float = -0.29, y_line: float
 def style_model_axis(ax, models: list[str], ylabel: str) -> None:
     ax.set_xlim(-0.6, len(models) - 0.4)
     ax.set_xticks(range(len(models)))
-    ax.set_xticklabels(models)
+    ax.set_xticklabels(models, fontsize=8)
     ax.set_xlabel("")
     ax.set_ylabel(ylabel)
     ax.grid(axis="y", color="#d9d9d9", linewidth=0.6)
@@ -276,7 +286,7 @@ def plot_primary(df: pd.DataFrame, output_dir: Path, show_title: bool) -> None:
     if show_title:
         fig.suptitle("Model Comparison", x=0.02, y=0.99, ha="left", fontsize=12, fontweight="bold")
 
-    plot_line_metric(axes[0], df, "delta_waic", "Delta WAIC", higher_is_better=False)
+    plot_line_metric(axes[0], df, "rmse", "Held-out RMSE", higher_is_better=False)
     axes[0].set_xlabel("")
     axes[0].set_xticklabels([])
     for text in list(axes[0].texts):
@@ -300,6 +310,8 @@ def plot_heldout_metrics(df: pd.DataFrame, output_dir: Path, show_title: bool) -
     for ax, (metric, _, ylabel, higher_is_better) in zip(axes.flat, METRIC_SPECS, strict=True):
         plot_line_metric(ax, df, metric, ylabel, higher_is_better=higher_is_better)
 
+    fig.text(0.5, 0.02, f"Common sample: n={int(df['test_n'].iloc[0])}; "
+             f"{df['test_start'].iloc[0]} to {df['test_end'].iloc[0]}", ha="center", fontsize=9)
     fig.subplots_adjust(left=0.08, right=0.98, top=0.95, bottom=0.20, hspace=0.85, wspace=0.28)
     save_all_formats(fig, output_dir / "model_comparison_heldout_metrics")
     plt.close(fig)
@@ -308,23 +320,20 @@ def plot_heldout_metrics(df: pd.DataFrame, output_dir: Path, show_title: bool) -
 def plot_information_criteria(df: pd.DataFrame, output_dir: Path, show_title: bool) -> None:
     import matplotlib.pyplot as plt
 
-    fig, ax = plt.subplots(figsize=(8.2, 4.2))
-    fig.patch.set_facecolor("white")
-    if show_title:
-        ax.set_title("Information Criteria", loc="left", pad=8)
-
-    models = df["model_label"].tolist()
-    x = np.arange(len(df))
-    colors = model_colors(models)
-
-    ax.plot(x, df["delta_waic"], color="#111111", linewidth=1.4, label="Delta WAIC", zorder=2)
-    ax.plot(x, df["delta_dic"], color="#777777", linewidth=1.1, linestyle="--", label="Delta DIC", zorder=1)
-    ax.scatter(x, df["delta_waic"], s=36, c=colors, edgecolor="white", linewidth=0.8, zorder=3)
-    ax.scatter(x, df["delta_dic"], s=22, c=colors, edgecolor="white", linewidth=0.7, zorder=3, alpha=0.8)
-
-    style_model_axis(ax, models, "Difference from best model")
-    ax.legend(frameon=False, loc="upper right", handlelength=2.2)
-    fig.subplots_adjust(left=0.09, right=0.98, top=0.94, bottom=0.32)
+    groups = [group for _, group in df.groupby("fit_signature", sort=False) if len(group) > 1]
+    if not groups:
+        raise ValueError("No models share fitted observations; DIC/WAIC cannot be compared.")
+    fig, axes = plt.subplots(len(groups), 1, figsize=(8.2, 4.2 * len(groups)), squeeze=False)
+    for ax, group in zip(axes.flat, groups, strict=True):
+        models = group["model_label"].tolist()
+        x = np.arange(len(group))
+        ax.plot(x, group["delta_waic"], marker="o", label="Delta WAIC")
+        ax.plot(x, group["delta_dic"], marker="o", linestyle="--", label="Delta DIC")
+        ax.set_xticks(x, models)
+        ax.set_ylabel("Difference within fitted sample")
+        ax.set_title(f"{int(group['fit_n'].iloc[0]):,} identical fitted observations")
+        ax.legend(frameon=False)
+    fig.tight_layout()
     save_all_formats(fig, output_dir / "model_comparison_information_criteria")
     plt.close(fig)
 
@@ -356,18 +365,25 @@ def main() -> None:
     output_dir.mkdir(parents=True, exist_ok=True)
 
     configure_matplotlib(output_dir)
+    status_file = project_dir / "outputs" / "evaluation_status.csv"
+    if not status_file.exists():
+        raise ValueError("No verified evaluation run. Run make all-results first.")
+    status = pd.read_csv(status_file)
+    if len(status) != 1 or status["status"].iloc[0] != "complete":
+        raise ValueError("Evaluation is incomplete or failed; old figures must not be regenerated.")
     results = load_model_results(results_file)
+    if results["run_id"].iloc[0] != status["run_id"].iloc[0]:
+        raise ValueError("Results do not match the completed evaluation run.")
     results.to_csv(output_dir / "model_comparison_data.csv", index=False)
 
     plot_primary(results, output_dir, args.show_title)
     plot_heldout_metrics(results, output_dir, args.show_title)
     plot_information_criteria(results, output_dir, args.show_title)
 
-    best_waic = results.loc[results["waic"].idxmin(), "model_label"]
     best_wape = results.loc[results["wape"].idxmin(), "model_label"]
     best_rmse = results.loc[results["rmse"].idxmin(), "model_label"]
     print(f"Models plotted: {', '.join(results['model_label'])}")
-    print(f"Best WAIC: {best_waic}")
+    print("DIC/WAIC comparisons are restricted to identical fitted-response samples.")
     print(f"Best held-out WAPE: {best_wape}")
     print(f"Best held-out RMSE: {best_rmse}")
     print(f"Wrote figures to: {output_dir}")

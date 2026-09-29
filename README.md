@@ -1,6 +1,6 @@
 # Hierarchical Bayesian Dengue Modeling in Rio de Janeiro
 
-M5 is the strongest non-spatial benchmark. S2 is the main fixed-rainfall spatial model. S6 and S8 test spatial rainfall variation, while S10 and S11 extend the rainfall effect across time and space-time.
+M5 is the main non-spatial benchmark. S2 is the main fixed-rainfall spatial model. S6 and S8 test spatial rainfall variation, while S10 and S11 extend the rainfall effect across time and space-time.
 
 ## Project Status
 
@@ -220,7 +220,7 @@ These R baseline files save:
 | --- | --- |
 | `r_m*_model_criteria.csv` | DIC, WAIC, LPML, and mean log CPO. |
 | `r_m*_fixed_effects.csv` | INLA fixed-effect summaries and uncertainty intervals. |
-| `r_m*_train_test_metrics.csv` | MAE, RMSE, WAPE, accuracy percentage, and R2. |
+| `r_m*_train_test_metrics.csv` | MAE, RMSE, WAPE, and R2 on model-specific eligible rows (not cross-model comparisons). |
 
 All R-INLA model scripts can be run and summarized with:
 
@@ -228,7 +228,7 @@ All R-INLA model scripts can be run and summarized with:
 make all-results
 ```
 
-This writes one log per model in `outputs/run_logs/`, then combines model criteria and held-out prediction metrics into `outputs/all_model_results_table.csv`. To rebuild the combined result CSVs from existing model outputs without refitting, run:
+This writes one log per model in `outputs/run_logs/`, then recalculates held-out metrics on a verified common sample and writes `outputs/all_model_results_table.csv`. To rebuild the result CSVs from the last verified evaluation run without refitting, run:
 
 ```bash
 make collect-results
@@ -346,7 +346,7 @@ Primary inferential outputs:
 | posterior interval | Uncertainty in the rainfall association. |
 | DIC / WAIC / CPO | Evidence and fit comparison across rainfall specifications. |
 | rainfall maps / time plots | Where and when rainfall sensitivity is stronger or weaker. |
-| MAE / RMSE / WAPE | Secondary held-out predictive validation. |
+| MAE / RMSE / WAPE | Held-out predictive validation on a common sample. |
 
 ### R Diagnostics and Map Scripts
 
@@ -393,7 +393,7 @@ M5 logic -> S1 -> S2 -> S3/S4/S5
 How to think about the models:
 
 - **M0-M6:** build the baseline story.
-- **M5:** best non-spatial benchmark.
+- **M5:** main non-spatial benchmark.
 - **S1:** asks whether spatial random effects help.
 - **S2:** main spatial model.
 - **S3:** checks whether distance weighting beats adjacency.
@@ -436,30 +436,51 @@ How to think about the models:
 
 ### Model Comparison
 
-| Model | Test MAE | Test RMSE | Test WAPE | Accuracy % | Test R2 | DIC | WAIC | Current interpretation |
-| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | --- |
-| M0 | 18.8 | 96.95 | 0.88 | 12.47% | 0.19 | N/A | N/A | True null baseline; very weak prediction by design. |
-| M1 | 19.14 | 97.88 | 0.875 | 12.49% | 0.1864 | N/A | N/A | Same-week covariates barely improved over M0. |
-| M2 | 19.07 | 97.18 | 0.8692 | 13.07% | 0.2 | N/A | N/A | Lagged weather model; useful comparison but not yet saved in outputs. |
-| M3 | 18.95 | 96.78 | 0.869 | 13.03% | 0.199 | N/A | N/A | Interpolation sensitivity model; interpolation did not clearly help in later models. |
-| M4 | 4.7 | 12.94 | 0.5 | 49.5% | 0.825 | N/A | N/A | Lagged cases substantially improved prediction compared with weather-only models. |
-| M5 | 4.3 | 11.7 | 0.49 | 50.53% | 0.84 | N/A | N/A | Strongest non-spatial model; main non-spatial comparison point. |
-| M6 | 4.5 | 12.5 | 0.52 | 48% | 0.818 | N/A | N/A | Interpolation did not improve the M5 structure in the latest run. |
-| S1 | 4.1906 | 11.3094 | 0.4839 | 51.6059% | 0.8511 | 93995.47 | 94367.80 | BYM2 spatial structure improved over M5. |
-| S2 | 4.0437 | 10.6163 | 0.4670 | 53.3025% | 0.8688 | 93818.78 | 93989.47 | Main spatial model. |
-| S3 | 4.1939 | 11.3304 | 0.4843 | 51.5682% | 0.8506 | 93835.93 | 94015.49 | Distance-weighted spatial lag did not beat adjacency-based S2. |
-| S4-road | 4.0625 | 10.6889 | 0.4692 | 53.0849% | 0.8670 | 93819.11 | 93979.10 | Road effect was small; interval crossed zero. |
-| S5-air | 4.0314 | 10.5433 | 0.4656 | 53.4441% | 0.8706 | 93818.31 | 93980.68 | Air effect was small; not a major improvement over S2. |
-| S6 | 4.0198 | 10.5809 | 0.4642 | 53.5787% | 0.8697 | 93722.40 | 93880.28 | Rainfall effect varies by region; important for the research question. |
-| S7 | 4.1713 | 11.0831 | 0.4817 | 51.8289% | 0.8570 | 93729.90 | 93914.20 | Temperature effect varies in some regions, but this is a secondary sensitivity model. |
-| S10 | 4.1318 | 10.7383 | 0.4771 | 52.2855% | 0.8658 | 93057.94 | 93434.95 | Time-varying rainfall effect improves information criteria but not held-out prediction over S2/S6. |
-| S11 | 4.6196 | 12.3057 | 0.5335 | 46.6514% | 0.8237 | 92566.65 | 92906.11 | Best information criteria among rainfall-effect models, but weaker held-out prediction; interpret as inferential rather than predictive evidence. |
+The authoritative comparison is `outputs/all_model_results_table.csv`, generated
+by `make all-results`. Historical numbers from unequal held-out samples have been
+removed; do not copy them into the manuscript.
 
-WAPE-based accuracy:
+All 17 R-INLA models train on available 2017–2022 observations. Each exports
+held-out predictions for January 2–23, 2023. The collector intersects municipality
+and date keys across **all** models, verifies identical observed counts, and
+recalculates MAE, RMSE, WAPE, and R2 on exactly that common sample. Model-specific
+missingness can still affect training samples; the run manifests record those
+samples separately. This comparison describes each fitted pipeline, not an
+isolated causal contribution of an added feature.
 
-```text
-accuracy_pct = 100 * (1 - sum(abs(actual - predicted)) / sum(actual))
-```
+This is a four-week, conditional held-out evaluation, not validation over all of
+2023 or 2022–2023. Models using contemporaneous weather condition on observed
+weather; they are not operational forecasts made before that weather is known.
+The case-lag rule requires source counts to precede January 2, 2023. Whole-year
+forecasting needs a separately specified rolling-origin evaluation.
+
+Full-data fits over 2017–2023 produce descriptive rainfall effects and DIC/WAIC.
+The collector assigns a `criteria_group` based on identical fitted municipality,
+date, and observed-count records. DIC/WAIC ranks and figure comparisons are only
+computed within those groups, never across different fitted samples. Even within
+a group, lower information criteria do not establish superior scientific inference.
+
+Every successful run records:
+
+- `outputs/evaluation_runs/<run_id>/common_test_observations.csv`: exact evaluation cohort.
+- `common_test_predictions.csv`: aligned predictions from every model.
+- `common_sample_audit.csv`: eligible, retained, and excluded row counts by model.
+- `<model>_manifest.csv`: training/full-fit signatures, sample sizes, and prediction checksum.
+- `input_fingerprints.csv`: code and data checksums for reproducibility.
+- `results_table.csv`: immutable run-specific copy of the aggregate result table.
+
+The collector stops on missing/failed models, stale or altered files, invalid
+predictions, duplicate keys, or disagreements in observed counts. Publication
+figures require a completed matching run. Individual `*_train_test_metrics.csv`
+files describe each model's own eligible sample and must **not** be used for
+cross-model rankings; use the common-sample aggregate table instead.
+
+Run `make check` for syntax and evaluation regression checks (Python requires NumPy, pandas, and Matplotlib; select your environment with `PYTHON=/path/to/python`). Run
+`make all-results` to refit and compare, then
+`python3 scripts/figures/plot_model_comparison_figures.py` to regenerate figures.
+`make evaluation-report` writes the replacement metric table and manuscript implications to `outputs/common_evaluation_report.md`.
+`make collect-results` only re-scores a previously completed run whose code and
+data checksums still match; it cannot mix legacy outputs from separate runs.
 
 ### Main S2 Fixed Effects
 
@@ -648,7 +669,7 @@ Key checks:
 | `outputs/s11_rainfall_spacetime_model_criteria.csv` | `spatial_R/spatial_inla_model_s11_rainfall_spacetime.R` | DIC and WAIC for S11. |
 | `outputs/s11_rainfall_spacetime_train_test_metrics.csv` | `spatial_R/spatial_inla_model_s11_rainfall_spacetime.R` | Train/test metrics for S11. |
 | `outputs/all_model_criteria.csv` | `run_all_models_collect_results.R` | Combined DIC, WAIC, LPML, and related criteria from all R-INLA models. |
-| `outputs/all_model_train_test_metrics.csv` | `run_all_models_collect_results.R` | Combined train/test MAE, RMSE, WAPE, accuracy percentage, and R2 from all R-INLA models. |
+| `outputs/all_model_train_test_metrics.csv` | `run_all_models_collect_results.R` | Common-sample held-out MAE, RMSE, WAPE, and R2 for all R-INLA models, with sample metadata. |
 | `outputs/all_model_results_table.csv` | `run_all_models_collect_results.R` | Compact model-comparison table combining WAIC/DIC with held-out test metrics and ranks. |
 | `outputs/all_model_run_status.csv` | `run_all_models_collect_results.R` | Status file showing which model scripts completed or failed during a full run. |
 | `outputs/correlation_matrix_*` | `correlation_matrix.py` and prior correlation-matrix runs | Covariate correlation matrices, heatmaps, and metadata. |
@@ -794,7 +815,7 @@ Rscript -e 'install.packages(c("gganimate", "gifski", "scales"), repos="https://
 
 A good current paper structure for publication is:
 
-1. Start with **M0-M5** to show that lagged cases are essential and that weather-only covariates are not enough.
+1. Compare **M0-M5** on identical held-out observations to assess the contribution of lagged cases.
 2. Use **M5** as the main non-spatial benchmark.
 3. Use **S2** as the main spatial model because it combines BYM2 residual spatial risk with observed neighboring dengue pressure.
 4. Use **S6** to answer the spatial rainfall question: rainfall effects vary across IBGE mesoregions.
@@ -804,7 +825,7 @@ A good current paper structure for publication is:
 
 Suggested tables and figures:
 
-- Model comparison table for M0-M6 and S1-S11, with WAPE accuracy and R2 where available.
+- Model comparison table for R-M0–R-M5 and S1–S11 with MAE, RMSE, WAPE, R2, and common-sample dates and size.
 - Posterior coefficient table for S2.
 - Region-specific rainfall table from S6.
 - Rainfall-by-region map from S6.
@@ -822,7 +843,7 @@ Suggested tables and figures:
 - Exact MCMC results may vary slightly across runs and package versions.
 - INLA results may vary slightly across R-INLA versions.
 - Models may use different row sets if interpolation fills rows that non-interpolation models drop.
-- When comparing predictive performance, confirm whether the held-out test rows are identical.
+- The R-INLA collector enforces identical held-out rows; do not compare legacy or model-specific metrics directly.
 - Several scripts default to `SAVE_OUTPUTS = FALSE`, so not every run leaves a CSV behind.
 - Before journal submission or public archival, confirm the redistribution status of all files under `data/`; `DATA_AVAILABILITY.md` currently flags `data/RJ.json` as still needing confirmed provenance.
 - Use `references.bib` for source citations and add a repository-level software citation or DOI if the code is archived on Zenodo, OSF, or another preservation service.

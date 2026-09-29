@@ -1,55 +1,239 @@
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
 R_M1 dataframe built
 Original rows: 76544 
 Model rows: 31588 
 Dropped missing model covariates: 1900 
 Municipios: 92 
 Years: 2017, 2018, 2019, 2020, 2021, 2022, 2023 
- *** WARNING *** GMRFLib_2order_approx: rescue NAN/INF values in logl for idx=1498
- *** WARNING *** GMRFLib_2order_approx: reset counter for 5 NAN/INF values in logl
- *** WARNING *** GMRFLib_2order_approx: reset counter for 5 NAN/INF values in logl
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+ *** WARNING *** GMRFLib_2order_approx: rescue NAN/INF values in logl for idx=6940
 
 R_M1 full-data fixed effects:
             term        mean         sd  0.025quant    0.5quant 0.975quant
           <char>       <num>      <num>       <num>       <num>      <num>
-1:   (Intercept) -0.05604289 0.36818211 -0.78889939 -0.05598769 0.67649916
-2:    rainfall_z  0.04779766 0.03000031 -0.01099652  0.04778521 0.10666260
-3:    humidity_z  0.06129502 0.01695469  0.02804625  0.06129570 0.09453989
-4: temperature_z  0.17801566 0.02299721  0.13291382  0.17801780 0.22310534
-5:        idhm_z  0.97690972 0.14494259  0.69213984  0.97686879 1.26191659
+1:   (Intercept) -0.05611981 0.36331527 -0.77895703 -0.05606367 0.66639930
+2:    rainfall_z  0.04774238 0.02999527 -0.01104211  0.04773000 0.10659731
+3:    humidity_z  0.06137977 0.01695854  0.02812316  0.06138056 0.09463189
+4: temperature_z  0.17814229 0.02299988  0.13303482  0.17814456 0.22323685
+5:        idhm_z  0.97695683 0.14595948  0.69020288  0.97691725 1.26393782
           mode          kld
          <num>        <num>
-1: -0.05598952 3.514203e-09
-2:  0.04778512 7.743277e-11
-3:  0.06129571 4.789348e-11
-4:  0.17801782 4.913524e-11
-5:  0.97686986 1.156690e-08
+1: -0.05606527 2.938133e-08
+2:  0.04772991 7.689649e-11
+3:  0.06138057 4.810453e-11
+4:  0.17814457 4.930948e-11
+5:  0.97691774 1.036187e-08
 
 R_M1 full-data criteria:
     model                 description      dic     waic      lpml mean_log_cpo
    <char>                      <char>    <num>    <num>     <num>        <num>
-1:   R_M1 base + same-week covariates 104129.2 104221.6 -52111.73    -1.649732
- *** WARNING *** GMRFLib_2order_approx: rescue NAN/INF values in logl for idx=11344
+1:   R_M1 base + same-week covariates 104129.1 104221.5 -52111.69    -1.649731
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+ *** WARNING *** GMRFLib_2order_approx: rescue NAN/INF values in logl for idx=5787
  *** WARNING *** GMRFLib_2order_approx: reset counter for 4 NAN/INF values in logl
  *** WARNING *** GMRFLib_2order_approx: reset counter for 4 NAN/INF values in logl
  *** WARNING *** GMRFLib_2order_approx: reset counter for 4 NAN/INF values in logl
  *** WARNING *** GMRFLib_2order_approx: reset counter for 4 NAN/INF values in logl
- *** WARNING *** GMRFLib_2order_approx: rescue NAN/INF values in logl for idx=11816
- *** WARNING *** GMRFLib_2order_approx: reset counter for 5 NAN/INF values in logl
- *** WARNING *** GMRFLib_2order_approx: reset counter for 5 NAN/INF values in logl
- *** WARNING *** GMRFLib_2order_approx: reset counter for 5 NAN/INF values in logl
- *** WARNING *** GMRFLib_2order_approx: reset counter for 5 NAN/INF values in logl
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+ *** WARNING *** GMRFLib_2order_approx: rescue NAN/INF values in logl for idx=26197
 
 Train/test evaluation split:
 Train rows: 26909 
-Test rows: 4679 
+Test rows: 324 
 Dropped test rows with lagged cases inside test period: 0 
 No-leakage policy: scaler fit on training data only.
 
 R_M1 train/test metrics:
-    model  split       mae     rmse      wape accuracy_pct        r2
-   <char> <char>     <num>    <num>     <num>        <num>     <num>
-1:   R_M1  train  4.118599 22.05357 0.8790591     12.09409 0.5802500
-2:   R_M1   test 18.715191 95.03995 0.8556446     14.43554 0.2330406
+Index: <split>
+    model  split      mae     rmse      wape        r2
+   <char> <char>    <num>    <num>     <num>     <num>
+1:   R_M1  train 4.118508 22.05421 0.8790396 0.5802258
+2:   R_M1   test 6.592193 17.84082 0.7077106 0.6667479
+                 evaluation_scope n_observations sample_start sample_end
+                           <char>          <int>       <char>     <char>
+1:                   training_fit          26909   2017-01-02 2022-12-26
+2: model_eligible_not_cross_model            324   2023-01-02 2023-01-23
+                   sample_signature
+                             <char>
+1: d9f1e834896d9b541f35a80b5ac3e1bd
+2: 9621dfb7dc9a4a451dbee246ecd8a2b6
 
 Saved outputs:
 Criteria: /Users/ethanmassey/VS_Code_Test/Hierarchical-Bayesian-Model/outputs/r_m1_model_criteria.csv 

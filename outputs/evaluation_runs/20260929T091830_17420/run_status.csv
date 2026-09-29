@@ -1,0 +1,9 @@
+model,script,status,exit_status,started_at,finished_at,log_path
+R_M0,models/r_inla/baseline/base_model_r_m0.R,ok,0,2026-09-29 09:18:30.568788,2026-09-29 09:18:59.965795,/Users/ethanmassey/VS_Code_Test/Hierarchical-Bayesian-Model/outputs/run_logs/R_M0.log
+R_M1,models/r_inla/baseline/base_model_r_m1_covariates.R,ok,0,2026-09-29 09:18:59.966372,2026-09-29 09:19:24.087484,/Users/ethanmassey/VS_Code_Test/Hierarchical-Bayesian-Model/outputs/run_logs/R_M1.log
+R_M2,models/r_inla/baseline/base_model_r_m2_lag_weather.R,ok,0,2026-09-29 09:19:24.087985,2026-09-29 09:19:50.277473,/Users/ethanmassey/VS_Code_Test/Hierarchical-Bayesian-Model/outputs/run_logs/R_M2.log
+R_M3,models/r_inla/baseline/base_model_r_m3_interpolation.R,ok,0,2026-09-29 09:19:50.277957,2026-09-29 09:20:16.317349,/Users/ethanmassey/VS_Code_Test/Hierarchical-Bayesian-Model/outputs/run_logs/R_M3.log
+R_M4,models/r_inla/baseline/base_model_r_m4_lag_cases.R,ok,0,2026-09-29 09:20:16.317878,2026-09-29 09:20:39.443036,/Users/ethanmassey/VS_Code_Test/Hierarchical-Bayesian-Model/outputs/run_logs/R_M4.log
+R_M5,models/r_inla/baseline/base_model_r_m5_lag_weather_cases.R,ok,0,2026-09-29 09:20:39.443527,2026-09-29 09:21:05.586477,/Users/ethanmassey/VS_Code_Test/Hierarchical-Bayesian-Model/outputs/run_logs/R_M5.log
+S1,models/r_inla/spatial/spatial_inla_model_s1.R,ok,0,2026-09-29 09:21:05.586971,2026-09-29 09:22:34.361301,/Users/ethanmassey/VS_Code_Test/Hierarchical-Bayesian-Model/outputs/run_logs/S1.log
+S2,models/r_inla/spatial/spatial_inla_model_s2.R,failed,1,2026-09-29 09:22:34.362143,2026-09-29 09:23:58.789105,/Users/ethanmassey/VS_Code_Test/Hierarchical-Bayesian-Model/outputs/run_logs/S2.log

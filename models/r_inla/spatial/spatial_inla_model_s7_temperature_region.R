@@ -136,7 +136,6 @@ compute_metrics <- function(y_true, y_pred) {
   mae <- mean(abs(y_true - y_pred))
   rmse <- sqrt(mean((y_true - y_pred)^2))
   wape <- sum(abs(y_true - y_pred)) / max(sum(abs(y_true)), 1e-9)
-  accuracy_pct <- max(0, 100 * (1 - wape))
 
   sst <- sum((y_true - mean(y_true))^2)
   sse <- sum((y_true - y_pred)^2)
@@ -146,7 +145,6 @@ compute_metrics <- function(y_true, y_pred) {
     mae = mae,
     rmse = rmse,
     wape = wape,
-    accuracy_pct = accuracy_pct,
     r2 = r2
   )
 }
@@ -690,6 +688,7 @@ summarize_region_temperature_effects <- function(fit) {
 # Main
 # =========================================================
 main <- function() {
+  source(file.path(BASE_DIR, "scripts", "analysis", "common_evaluation.R"))
   df <- build_model_dataframe()
 
   week_levels <- sort(unique(df$week))
@@ -754,6 +753,7 @@ main <- function() {
     ]
     dropped_test_lag_rows <- test_rows_before_lag_filter - nrow(test_dt)
 
+    test_dt <- restrict_evaluation_window(test_dt)
     scaled <- standardize_train_test(copy(train_dt), copy(test_dt), BASE_COVARIATES)
     train_dt <- scaled$train
     test_dt <- scaled$test
@@ -767,13 +767,16 @@ main <- function() {
     train_pred <- train_fit$summary.fitted.values$mean
     test_pred <- predict_inla_mean(train_fit, test_dt)
 
+    write_evaluation_bundle("S7", train_dt, test_dt, test_pred, full_dt,
+      OUTPUT_DIR, criteria, TRAIN_START_YEAR, TRAIN_END_YEAR)
     train_metrics <- compute_metrics(train_dt$cases, train_pred)
     train_metrics[, split := "train"]
     test_metrics <- compute_metrics(test_dt$cases, test_pred)
     test_metrics[, split := "test"]
     metrics <- rbindlist(list(train_metrics, test_metrics), use.names = TRUE)
     metrics[, model := "S7"]
-    setcolorder(metrics, c("model", "split", "mae", "rmse", "wape", "accuracy_pct", "r2"))
+    metrics <- annotate_model_metrics(metrics, train_dt, test_dt)
+    setcolorder(metrics, c("model", "split", "mae", "rmse", "wape", "r2"))
 
     cat("\nTrain/test evaluation split:\n")
     cat("Train rows:", nrow(train_dt), "\n")
